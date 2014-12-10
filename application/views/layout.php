@@ -64,7 +64,19 @@
     <!-- Placed at the end of the document so the pages load faster -->
 	  <!-- <script src="static/js/jquery-1.9.1.js"></script> -->
     <!-- Kendo init -->
-  <link rel="stylesheet" href="http://cdn.kendostatic.com/2014.3.1119/styles/kendo.common.min.css" />
+<!--   <link rel="stylesheet" href="static/js/kendo/kendo.common.min.css" />
+    <link rel="stylesheet" href="static/js/kendo/kendo.default.min.css" />
+    <link rel="stylesheet" href="static/js/kendo/kendo.dataviz.min.css" />
+    <link rel="stylesheet" href="static/js/kendo/kendo.dataviz.default.min.css" />
+
+    <script src="static/js/jquery-1.9.1.js"></script>
+    <script src="static/js/kendo/kendo.all.min.js"></script>
+ -->
+
+    <base href="http://demos.telerik.com/kendo-ui/grid/index">
+    <style>html { font-size: 12px; font-family: Arial, Helvetica, sans-serif; }</style>
+    <title></title>
+    <link rel="stylesheet" href="http://cdn.kendostatic.com/2014.3.1119/styles/kendo.common.min.css" />
     <link rel="stylesheet" href="http://cdn.kendostatic.com/2014.3.1119/styles/kendo.default.min.css" />
     <link rel="stylesheet" href="http://cdn.kendostatic.com/2014.3.1119/styles/kendo.dataviz.min.css" />
     <link rel="stylesheet" href="http://cdn.kendostatic.com/2014.3.1119/styles/kendo.dataviz.default.min.css" />

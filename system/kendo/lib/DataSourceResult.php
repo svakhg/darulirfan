@@ -30,7 +30,7 @@ class DataSourceResult {
     );
 
     function __construct($dsn, $username=null, $password=null, $driver_options=null) {
-        $this->db = new PDO('mysql:host=localhost;dbname=samplebd;charset=utf8', 'root', '');
+        $this->db = new PDO('mysql:host=localhost;dbname=sampledb;charset=utf8', 'root', '');
     }
 
     private function total($tableName, $properties, $request) {

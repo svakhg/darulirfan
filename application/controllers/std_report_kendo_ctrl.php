@@ -151,7 +151,10 @@ echo $grid->render();
             ->scrollable(false);
 
         echo $detailGrid->renderInTemplate();
-    ?>
+
+}
+}
+?>
 </script>
 
 <script>
@@ -159,5 +162,3 @@ echo $grid->render();
         this.expandRow(this.tbody.find("tr.k-master-row").first());
     }
 </script>           
-
-}
