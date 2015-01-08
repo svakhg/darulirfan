@@ -5,7 +5,7 @@ function FeesCtrl($scope, $http){
 	
 	//Grid,dropdown data loading
 	loadGridData($scope.pagingOptions.pageSize,1);
-			loadData('get_fee_category_list',{}).success(function(data){$scope.fee_categoryList=data;});
+			loadData('get_acc_ledger_list',{}).success(function(data){$scope.acc_ledgerList=data;});
 		loadData('get_class_list',{}).success(function(data){$scope.classList=data;});
 		loadData('get_status_list',{}).success(function(data){$scope.statusList=data;});
 
@@ -14,7 +14,7 @@ function FeesCtrl($scope, $http){
 	$scope.saveItem=function(){	
 		var record={};
 		angular.extend(record,$scope.item);
-				record.fee_category_name=undefined;
+				record.acc_ledger_name=undefined;
 		record.class_class_name=undefined;
 		record.status_yesno=undefined;
 
@@ -113,7 +113,7 @@ FeesCtrl.prototype.configureGrid=function($scope){
         columnDefs: [
 				{field:'', displayName:'Action', width:actionWidth,	cellTemplate:'<div style="position:relative;top:4px;padding-left:2px"><button ng-show="auth.update"  ng-click="editItem(row)" class="btn btn-primary btn-mini" ><i class="icon-edit icon-white"></i> Edit</button>&nbsp;<button ng-show="auth.delete" ng-click="deleteItem(row)" class="btn btn-danger btn-mini"><i class="icon-trash icon-white"></i> Delete</button> </div>'
 				}
-								,{field: 'fee_category_name', displayName: 'fee_category'}
+								,{field: 'acc_ledger_name', displayName: 'acc_ledger'}
 				,{field: 'class_class_name', displayName: 'class'}
 				,{field: 'amount', displayName: 'amount'}
 				,{field: 'status_yesno', displayName: 'status'}

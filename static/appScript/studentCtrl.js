@@ -118,7 +118,7 @@ studentCtrl.prototype.configureGrid=function($scope){
 				,{field: 'class_class_name', displayName: 'class'}
 				,{field: 'roll_no', displayName: 'roll_no'}
 				,{field: 'father_mobile_no', displayName: 'father_mobile_no'}
-				,{field: 'mather_mobile_no', displayName: 'mather_mobile_no'}
+				,{field: 'mother_mobile_no', displayName: 'mother_mobile_no'}
 				,{field: 'address', displayName: 'address'}
 
 			],

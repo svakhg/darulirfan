@@ -4,8 +4,8 @@ class Fees_model extends CI_Model
 {
     public $table = 'Fees';
 
-	public function get_fee_category_list(){
-		return $this->db->select('id, name')->get('fee_category')->result();
+	public function get_acc_ledger_list(){
+		return $this->db->select('id, name')->get('acc_ledger')->result();
 	}public function get_class_list(){
 		return $this->db->select('id, class_name')->get('class')->result();
 	}public function get_status_list(){
@@ -18,9 +18,9 @@ class Fees_model extends CI_Model
 	public function get_page($size, $pageno){
 		$this->db
 			->limit($size, $pageno)
-			->select('Fees.id,fee_category.name as fee_category_name,Fees.fee_category_id,class.class_name as class_class_name,Fees.class_id,Fees.amount,status.yesno as status_yesno,Fees.is_current,Fees.created,Fees.modified,Fees.user_id')
+			->select('Fees.id,acc_ledger.name as acc_ledger_name,Fees.fee_category_id,class.class_name as class_class_name,Fees.class_id,Fees.amount,status.yesno as status_yesno,Fees.is_current,Fees.created,Fees.modified,Fees.user_id')
 			
-->join('fee_category', 'Fees.fee_category_id = fee_category.id', 'left outer')
+->join('acc_ledger', 'Fees.fee_category_id = acc_ledger.id', 'left outer')
 ->join('class', 'Fees.class_id = class.id', 'left outer')
 ->join('status', 'Fees.is_current = status.id', 'left outer');
 			
@@ -30,9 +30,9 @@ class Fees_model extends CI_Model
 	}
 	public function get_page_where($size, $pageno, $params){
 		$this->db->limit($size, $pageno)
-		->select('Fees.id,fee_category.name as fee_category_name,Fees.fee_category_id,class.class_name as class_class_name,Fees.class_id,Fees.amount,status.yesno as status_yesno,Fees.is_current,Fees.created,Fees.modified,Fees.user_id')
+		->select('Fees.id,acc_ledger.name as acc_ledger_name,Fees.fee_category_id,class.class_name as class_class_name,Fees.class_id,Fees.amount,status.yesno as status_yesno,Fees.is_current,Fees.created,Fees.modified,Fees.user_id')
 		
-->join('fee_category', 'Fees.fee_category_id = fee_category.id', 'left outer')
+->join('acc_ledger', 'Fees.fee_category_id = acc_ledger.id', 'left outer')
 ->join('class', 'Fees.class_id = class.id', 'left outer')
 ->join('status', 'Fees.is_current = status.id', 'left outer');
 
@@ -56,7 +56,7 @@ if(isset($params->is_current) && !empty($params->is_current)){
 	public function count_where($params)
 	{	
 		$this->db
-->join('fee_category', 'Fees.fee_category_id = fee_category.id', 'left outer')
+->join('acc_ledger', 'Fees.fee_category_id = acc_ledger.id', 'left outer')
 ->join('class', 'Fees.class_id = class.id', 'left outer')
 ->join('status', 'Fees.is_current = status.id', 'left outer');
 

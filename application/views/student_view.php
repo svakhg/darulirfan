@@ -58,9 +58,9 @@
 		<div class="controls">
 		  <input class="input-xlarge" type="text" name="father_mobile_no" id="father_mobile_no" ng-model="item.father_mobile_no" />		  
 		</div></div>
-<div class="control-group" ><label class="control-label" for="mather_mobile_no">mather_mobile_no</label>
+<div class="control-group" ><label class="control-label" for="mather_mobile_no">mother_mobile_no</label>
 		<div class="controls">
-		  <input class="input-xlarge" type="text" name="mather_mobile_no" id="mather_mobile_no" ng-model="item.mather_mobile_no" />		  
+		  <input class="input-xlarge" type="text" name="mother_mobile_no" id="mother_mobile_no" ng-model="item.mother_mobile_no" />		  
 		</div></div>
 <div class="control-group" ><label class="control-label" for="address">address</label>
 		<div class="controls">
@@ -111,9 +111,9 @@
 		<div class="controls">
 		  <input class="input-xlarge" type="text"  ng-model="search.father_mobile_no" />		  
 		</div></div>
-<div class="control-group" ><label class="control-label" for="mather_mobile_no">mather_mobile_no</label>
+<div class="control-group" ><label class="control-label" for="mother_mobile_no">mother_mobile_no</label>
 		<div class="controls">
-		  <input class="input-xlarge" type="text"  ng-model="search.mather_mobile_no" />		  
+		  <input class="input-xlarge" type="text"  ng-model="search.mother_mobile_no" />		  
 		</div></div>
 <div class="control-group" ><label class="control-label" for="address">address</label>
 		<div class="controls">

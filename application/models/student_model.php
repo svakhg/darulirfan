@@ -16,7 +16,7 @@ class student_model extends CI_Model
 	public function get_page($size, $pageno){
 		$this->db
 			->limit($size, $pageno)
-			->select('student.id,status.name as status_name,student.status,student.std_name,student.father_name,student.mother_name,class.class_name as class_class_name,student.class,student.roll_no,student.father_mobile_no,student.mather_mobile_no,student.address,student.create_date')
+			->select('student.id,status.name as status_name,student.status,student.std_name,student.father_name,student.mother_name,class.class_name as class_class_name,student.class,student.roll_no,student.father_mobile_no,student.mother_mobile_no,student.address,student.create_date')
 			
 ->join('status', 'student.status = status.id', 'left outer')
 ->join('class', 'student.class = class.id', 'left outer');
@@ -27,7 +27,7 @@ class student_model extends CI_Model
 	}
 	public function get_page_where($size, $pageno, $params){
 		$this->db->limit($size, $pageno)
-		->select('student.id,status.name as status_name,student.status,student.std_name,student.father_name,student.mother_name,class.class_name as class_class_name,student.class,student.roll_no,student.father_mobile_no,student.mather_mobile_no,student.address,student.create_date')
+		->select('student.id,status.name as status_name,student.status,student.std_name,student.father_name,student.mother_name,class.class_name as class_class_name,student.class,student.roll_no,student.father_mobile_no,student.mother_mobile_no,student.address,student.create_date')
 		
 ->join('status', 'student.status = status.id', 'left outer')
 ->join('class', 'student.class = class.id', 'left outer');

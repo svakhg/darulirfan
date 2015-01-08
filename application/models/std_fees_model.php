@@ -6,8 +6,8 @@ class std_fees_model extends CI_Model
 
 	public function get_student_list(){
 		return $this->db->select('id, std_name')->get('student')->result();
-	}public function get_fee_category_list(){
-		return $this->db->select('id, name')->get('fee_category')->result();
+	}public function get_acc_ledger_list(){
+		return $this->db->select('id, name')->get('acc_ledger')->result();
 	}public function get_status_list(){
 		return $this->db->select('id, name')->get('status')->result();
 	}
@@ -18,10 +18,10 @@ class std_fees_model extends CI_Model
 	public function get_page($size, $pageno){
 		$this->db
 			->limit($size, $pageno)
-			->select('std_fees.id,student.std_name as student_std_name,std_fees.std_id,fee_category.name as fee_category_name,std_fees.fees_id,status.name as status_name,std_fees.status,std_fees.created,std_fees.user_id,std_fees.modified')
+			->select('std_fees.id,student.std_name as student_std_name,std_fees.std_id,acc_ledger.name as acc_ledger_name,std_fees.fees_id,status.name as status_name,std_fees.status,std_fees.created,std_fees.user_id,std_fees.modified')
 			
 ->join('student', 'std_fees.std_id = student.id', 'left outer')
-->join('fee_category', 'std_fees.fees_id = fee_category.id', 'left outer')
+->join('acc_ledger', 'std_fees.fees_id = acc_ledger.id', 'left outer')
 ->join('status', 'std_fees.status = status.id', 'left outer');
 			
 		$data=$this->db->get($this->table)->result();
@@ -30,10 +30,10 @@ class std_fees_model extends CI_Model
 	}
 	public function get_page_where($size, $pageno, $params){
 		$this->db->limit($size, $pageno)
-		->select('std_fees.id,student.std_name as student_std_name,std_fees.std_id,fee_category.name as fee_category_name,std_fees.fees_id,status.name as status_name,std_fees.status,std_fees.created,std_fees.user_id,std_fees.modified')
+		->select('std_fees.id,student.std_name as student_std_name,std_fees.std_id,acc_ledger.name as acc_ledger_name,std_fees.fees_id,status.name as status_name,std_fees.status,std_fees.created,std_fees.user_id,std_fees.modified')
 		
 ->join('student', 'std_fees.std_id = student.id', 'left outer')
-->join('fee_category', 'std_fees.fees_id = fee_category.id', 'left outer')
+->join('acc_ledger', 'std_fees.fees_id = acc_ledger.id', 'left outer')
 ->join('status', 'std_fees.status = status.id', 'left outer');
 
 		if(isset($params->std_id) && !empty($params->std_id)){
@@ -54,7 +54,7 @@ if(isset($params->status) && !empty($params->status)){
 	{	
 		$this->db
 ->join('student', 'std_fees.std_id = student.id', 'left outer')
-->join('fee_category', 'std_fees.fees_id = fee_category.id', 'left outer')
+->join('acc_ledger', 'std_fees.fees_id = acc_ledger.id', 'left outer')
 ->join('status', 'std_fees.status = status.id', 'left outer');
 
 		if(isset($params->std_id) && !empty($params->std_id)){

@@ -17,7 +17,7 @@
 		  <div class="control-group" ng-class="{error: myForm.fee_category_id.$invalid}">
 		<label class="control-label" for="fee_category_id">fee_category_id</label>
 		<div class="controls">
-		  <select ng-options="s.id as s.name for s in fee_categoryList"  name="fee_category_id" id="fee_category_id" ng-model="item.fee_category_id" required ></select>
+		  <select ng-options="s.id as s.name for s in acc_ledgerList"  name="fee_category_id" id="fee_category_id" ng-model="item.fee_category_id" required ></select>
 		  <span ng-show="myForm.fee_category_id.$error.required" class="help-inline">Required</span>
 		</div>
 	  </div>
@@ -57,7 +57,7 @@
            <form name="myForm" class="form-horizontal">
   			 <div class="control-group" ><label class="control-label" for="fee_category_id">fee_category_id</label>
 		<div class="controls">
-		  <select ng-options="s.id as s.name for s in fee_categoryList"   ng-model="search.fee_category_id" ></select>		  
+		  <select ng-options="s.id as s.name for s in acc_ledgerList"   ng-model="search.fee_category_id" ></select>		  
 		</div></div>
 <div class="control-group" ><label class="control-label" for="class_id">class_id</label>
 		<div class="controls">

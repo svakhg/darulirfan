@@ -54,8 +54,8 @@ class Fees_ctrl extends base_ctrl {
 			print json_encode( array("success"=>FALSE,"msg"=>"You are not permitted"));
 		}
 	}
-	public function get_fee_category_list(){
-		print  json_encode($this->model->get_fee_category_list());
+	public function get_acc_ledger_list(){
+		print  json_encode($this->model->get_acc_ledger_list());
 	}
 public function get_class_list(){
 		print  json_encode($this->model->get_class_list());

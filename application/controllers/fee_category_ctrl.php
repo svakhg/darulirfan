@@ -54,7 +54,10 @@ class fee_category_ctrl extends base_ctrl {
 			print json_encode( array("success"=>FALSE,"msg"=>"You are not permitted"));
 		}
 	}
-	public function get_status_list(){
+	public function get_acc_ledger_list(){
+		print  json_encode($this->model->get_acc_ledger_list());
+	}
+public function get_status_list(){
 		print  json_encode($this->model->get_status_list());
 	}
 	

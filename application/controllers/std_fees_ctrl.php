@@ -57,8 +57,8 @@ class std_fees_ctrl extends base_ctrl {
 	public function get_student_list(){
 		print  json_encode($this->model->get_student_list());
 	}
-public function get_fee_category_list(){
-		print  json_encode($this->model->get_fee_category_list());
+public function get_acc_ledger_list(){
+		print  json_encode($this->model->get_acc_ledger_list());
 	}
 public function get_status_list(){
 		print  json_encode($this->model->get_status_list());
