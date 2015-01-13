@@ -18,5 +18,20 @@ class Generate extends CI_Controller {
         $voucher_no = $id + 1;
         return $voucher_no;
     }
+    
+    
+    function student_id() {
+        $query = $this->db->select('id')
+                ->order_by('id', 'desc')
+                ->limit(1, 0)
+                ->get('student');
+        $id = (int) $query->row()->id + 1;
+        $s = 's'; 
+        $year = 15; 
+        $student = $s . $year . $id;
+        var_dump($student); exit;
+        $student_id = $student + 1; 
+        return $student_id;
+    }
 
 }
