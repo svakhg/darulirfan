@@ -9,7 +9,7 @@ class base_ctrl extends CI_Controller {
         $this->load->database();
         $this->load->helper('url');
         require_once 'system/kendo/lib/DataSourceResult.php';
-        require_once 'system/kendo/lib/Kendo/Autoload.php';
+        require_once 'system/kendo/lib/kendo/Autoload.php';
         if ($this->session->userdata('login_state') == FALSE) {
             redirect("login");
         } else {
@@ -24,7 +24,7 @@ class base_ctrl extends CI_Controller {
 
     protected function is_authentic($roleId, $userId, $action) {
         $query = $this->db->query("SELECT NavigationId, NavName, NavOrder,ParentNavId,ActionPath
-From navigations where NavigationId in(SELECT a.Navigations FROM NavigViewRight a 
+From navigations where NavigationId in(SELECT a.Navigations FROM navigviewright a 
 WHERE a.Roles=" . $this->db->escape($roleId) . " or a.Users=" . $this->db->escape($userId) . ") AND ActionPath =" . $this->db->escape($action) . " order by NavOrder");
         return $query->num_rows() > 0;
     }

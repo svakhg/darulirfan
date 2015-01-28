@@ -11,7 +11,7 @@ class MY_Controller extends CI_Controller {
         $this->CI = & get_instance();
         
         require_once 'system/kendo/lib/DataSourceResult.php';
-        require_once 'system/kendo/lib/Kendo/Autoload.php';
+        require_once 'system/kendo/lib/kendo/Autoload.php';
     }
 
     /**

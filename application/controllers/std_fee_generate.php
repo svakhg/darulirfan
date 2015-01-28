@@ -18,9 +18,9 @@ class Std_Fee_Generate extends MY_Controller {
             $students = $this->model->get_active_std();
 //            $students = $this->model->get_active_std_class();
 
-            echo "<pre>";
-            print_r($students);
-            exit;
+            // echo "<pre>";
+            // print_r($students);
+            // exit;
             foreach ($students as $student) {
                 $data['std_id'] = $student->std_id;
                 $data['fee_category_id'] = $student->fees_id;
