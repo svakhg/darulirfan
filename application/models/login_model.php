@@ -31,7 +31,7 @@ class login_model extends CI_Model
 	}
 	 public function get_role($roleId)
     {
-        return $this->db->where('RoleId', $roleId)->get('Roles')->row();
+        return $this->db->where('RoleId', $roleId)->get('roles')->row();
     }
 }
 
