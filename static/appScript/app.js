@@ -24,6 +24,7 @@ angular.module('project', ['ui.bootstrap', 'ngGrid', 'jQuery-ui']).
                     when('/transaction', {templateUrl: BASE_URL + 'transaction_ctrl'}).
                     when('/Users', {templateUrl: BASE_URL + 'Users_ctrl'}).
                     when('/std_report', {templateUrl: BASE_URL + 'std_report_ctrl'}).
+                    when('/std_report_kendo', {templateUrl: BASE_URL + 'std_report_kendo_ctrl'}).
                     when('/std_report/single/:page', {
                         templateUrl: function ($routeParams) {
                             return BASE_URL + 'std_report_ctrl/single/' + $routeParams.page + '';
