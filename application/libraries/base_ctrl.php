@@ -8,8 +8,10 @@ class base_ctrl extends CI_Controller {
         parent::__construct();
         $this->load->database();
         $this->load->helper('url');
-        require_once 'system/kendo/lib/DataSourceResult.php';
-        require_once 'system/kendo/lib/kendo/Autoload.php';
+        
+        require_once 'application/third_party/kendo/lib/DataSourceResult.php';
+        require_once 'application/third_party/kendo/lib/kendo/Autoload.php';
+        
         if ($this->session->userdata('login_state') == FALSE) {
             redirect("login");
         } else {
@@ -31,8 +33,8 @@ WHERE a.Roles=" . $this->db->escape($roleId) . " or a.Users=" . $this->db->escap
 
     protected $auth;
     protected $user;
-    protected function do_check_request($ar_call_type)
-    {
+
+    protected function do_check_request($ar_call_type) {
         foreach ($ar_call_type as $str_call_type) {
             switch (strtolower($str_call_type)) {
                 case 'ajax':
@@ -71,6 +73,7 @@ WHERE a.Roles=" . $this->db->escape($roleId) . " or a.Users=" . $this->db->escap
             }
         }
     }
+
 }
 
 ?>
