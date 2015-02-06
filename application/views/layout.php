@@ -15,6 +15,9 @@
                 padding-top: 50px; /* 60px to make the container go all the way to the bottom of the topbar */
             }
         </style>
+         <script type="text/javascript">
+                    var baseurl = "<?php print base_url(); ?>index.php/";
+        </script>
         <link href="static/css/bootstrap-responsive.css" rel="stylesheet">
         <link href="static/css/ng-grid.min.css" rel="stylesheet">
         <link href="static/css/site.css" rel="stylesheet">
@@ -91,7 +94,7 @@
         <script src="static/js/select.js"></script>
         <link rel="stylesheet" href="static/css/select.css">
 
-        <script src="demo.js"></script>
+        <!-- <script src="demo.js"></script> 
 
         <!-- Select2 theme -->
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.css">
@@ -139,5 +142,7 @@
                     //     })
                     // });
                     // </script>
+
+                    <script src="static/js/custom.js"></script>
     </body>
 </html>
