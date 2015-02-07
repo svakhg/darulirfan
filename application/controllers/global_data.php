@@ -17,4 +17,13 @@ public function __construct() {
     	echo json_encode($data);
     }
 
+    function voucher_type() {
+        $data = $this->db->select('id, name')->get('voucher_type')->result();
+    	echo json_encode($data);
+    }
+
+    function acc_ledger() {
+    	echo json_encode($this->db->select('id, name')->get('acc_ledger')->result());
+    }
+
 }

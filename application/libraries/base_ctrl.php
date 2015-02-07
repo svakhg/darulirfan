@@ -11,7 +11,7 @@ class base_ctrl extends CI_Controller {
         
         require_once 'application/third_party/kendo/lib/DataSourceResult.php';
         require_once 'application/third_party/kendo/lib/kendo/Autoload.php';
-        
+        require_once 'application/third_party/gump.class.php';
         if ($this->session->userdata('login_state') == FALSE) {
             redirect("login");
         } else {

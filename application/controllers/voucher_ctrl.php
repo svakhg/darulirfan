@@ -11,43 +11,38 @@ public function __construct() {
         $this->load->helper('url');
     }
 
-    public function savepdf() {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $type = $_GET['type'];
-            if ($type == 'save') {
-                $fileName = $_POST['fileName'];
-                $contentType = $_POST['contentType'];
-                $base64 = $_POST['base64'];
-
-                $data = base64_decode($base64);
-                header('Content-Type:' . $contentType);
-                header('Content-Length:' . strlen($data));
-                header('Content-Disposition: attachment; filename=' . $fileName);
-
-                echo $data;
-            }
-        }
+    public function save() {
+      header('Content-Type: application/json');
+      $data = json_decode(file_get_contents('php://input'));
+      $result = (array) $data; 
+      $is_valid = GUMP::is_valid($result, array(
+          'voucher_type' => 'required',
+          'ledger_id' => 'required',
+          'amount' => 'required'
+      ));
+//      [{"id":"1","name":"Cash Payment"},
+      // {"id":"2","name":"Cash Receipt"},
+      // {"id":"3","name":"Bank Payment"},
+      // {"id":"4","name":"Bank Receipt"},
+      // {"id":"5","name":"Journal Voucher"}]
+      if($is_valid === true) {
+          if ($result['voucher_type'] === 1) {
+            # Cash Payment
+            
+          } elseif ($result['voucher_type'] === 2) {
+            # Cash Receipt
+          } elseif ($result['voucher_type'] === 3) {
+            # Bank Payment
+          } elseif ($result['voucher_type'] === 4) {
+            # Bank Receipt
+          } elseif ($result['voucher_type'] === 5) {
+            # Journal Voucher
+          }
+           
+      } else {
+          print_r($is_valid);
+      }
     }
-
-    public function saveexcel() {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $type = $_GET['type'];
-            if ($type == 'save') {
-                $fileName = $_POST['fileName'];
-                $contentType = $_POST['contentType'];
-                $base64 = $_POST['base64'];
-
-                $data = base64_decode($base64);
-
-                header('Content-Type:' . $contentType);
-                header('Content-Length:' . strlen($data));
-                header('Content-Disposition: attachment; filename=' . $fileName);
-
-                echo $data;
-            }
-        }
-    }
-
     public function index() {
 //        var_dump($this->oisacl->check_hasRole('administrator')); exit; 
 //        var_dump($this->oisacl->check_has('student')); exit; 

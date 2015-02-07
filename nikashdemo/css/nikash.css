@@ -1,0 +1,25 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jun 19, 2014, 1:52:28 PM
+    Author     : Server-1
+*/
+
+@font-face
+{
+    font-family: Chapen;
+    src: url(css/font/Chapenettoer_8_THIN.ttf);
+}
+.nikash{
+    font-size: 30px;
+    font-weight: bold;
+}
+.cloud{
+    font-size: 32px;
+    /*font-family: 'Raleway', monospace;*/
+    font-family: 'Tangerine', monospace;
+    
+}

@@ -1,0 +1,63 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jun 28, 2014, 11:58:05 AM
+    Author     : Tcl4
+*/
+
+
+
+            .navbar{
+                /*background: url(<?php echo base_url(); ?>img/nikash_cloud_white.png) left #36A9E1;*/ 
+            }
+
+            .form-signin
+            {
+                max-width: 340px;
+                padding: 19px 29px 29px;
+                margin: 5% auto 20px;
+                background-color: #FFF;
+                /*border: 1px solid #bbb;*/
+                -webkit-border-radius: 5px;
+                -moz-border-radius: 5px;
+                border-radius: 10px;
+                box-shadow: 0 1px 10px #a7a7a7, inset 0 1px 0 #fff;
+            }
+
+            .form-signin .form-signin-heading,
+            .form-signin .checkbox
+            {
+                margin-bottom: 10px;
+            }
+
+            .form-signin input[type="text"],
+            .form-signin input[type="number"]
+            {
+                font-size: 16px;
+                height: auto;
+                margin-bottom: 15px;
+                padding: 4px 9px;
+            }
+            .form-signin input[type="email"],
+            .form-signin input[type="password"]{
+                font-size: 16px;
+                height: auto;
+                margin-bottom: 15px;
+                padding: 4px 7px;
+            }
+            #login-form{
+                display: none;
+            }
+            .form-signin a{
+                color: #2C265E;
+            }
+            .add-on{
+                width: 30px;
+                background: red
+            }
+            .myButton{
+                text-align: center; 
+            }

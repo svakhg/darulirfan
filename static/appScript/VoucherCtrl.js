@@ -1,14 +1,47 @@
 
-function VoucherCtrl($scope, $http){	
+function VoucherCtrl($scope, $http){
 
-	 $scope.productsDataSource = {
-            serverFiltering: true,
+        $scope.VoucherTypeDataSource = {
+        	// serverFiltering: true,
             transport: {
                 read: {
-                    url: "http://demos.telerik.com/kendo-ui/service/Northwind.svc/Products",
-                },
-                dataType : 'json'
+                    dataType: "json",
+                    url: baseurl + "global_data/voucher_type",
+                }
             }
         };
-        console.log($scope.productsDataSource);
+
+        $scope.AccLedgerDataSource = {
+        	// serverFiltering: true,
+            transport: {
+                read: {
+                    dataType: "json",
+                    url: baseurl + "global_data/acc_ledger",
+                }
+            }
+        };
+         $scope.LedgerOptions = {
+            dataSource: $scope.AccLedgerDataSource,
+          	filter: "startswith",
+            dataTextField: "name",
+            dataValueField: "id"
+            // optionLevel: "--Select Account Ledger--"
+        }
+
+        $scope.saveVoucher = function(voucher) {
+                    if ($scope.validator.validate()) {
+                    	$http.post(baseurl + "voucher_ctrl/save", voucher)
+                        .success(function (data){
+                        	console.log(data); 
+                        	$scope.validationMessage = "Hooray! Your voucher has been saved!";
+                        	$scope.validationClass = "valid";
+                        }).error(function (data){
+                        	console.log(data);
+                        }); 
+                        
+                    } else {
+                        $scope.validationMessage = "Oops! There is invalid data in the form.";
+                        $scope.validationClass = "invalid";
+                    }
+        }
 };

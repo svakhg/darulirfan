@@ -1,0 +1,11 @@
+[11-Sep-2014 04:10:53 America/Chicago] PHP Fatal error:  Uncaught exception 'DOMPDF_Exception' with message 'Requested HTML document contains no data.' in /home/wwwtclbd/public_html/nikashdemo/application/helpers/dompdf/include/frame_tree.cls.php:114
+Stack trace:
+#0 /home/wwwtclbd/public_html/nikashdemo/application/helpers/dompdf/include/dompdf.cls.php(533): Frame_Tree->build_tree()
+#1 /home/wwwtclbd/public_html/nikashdemo/application/helpers/dompdf/include/dompdf.cls.php(696): DOMPDF->_process_html()
+#2 /home/wwwtclbd/public_html/nikashdemo/application/helpers/dompdf_helper.php(19): DOMPDF->render()
+#3 /home/wwwtclbd/public_html/nikashdemo/application/controllers/reports.php(176): pdf_create(NULL, 'balanceSheetAll...')
+#4 [internal function]: Reports->printAsPDF('balanceSheetAll...')
+#5 /home/wwwtclbd/public_html/nikashdemo/system/core/CodeIgniter.php(359): call_user_func_array(Array, Array)
+#6 /home/wwwtclbd/public_html/nikashdemo/index.php(188): require_once('/home/wwwtclbd/...')
+#7 {main}
+  thrown in /home/wwwtclbd/public_html/nikashdemo/application/helpers/dompdf/include/frame_tree.cls.php on line 114

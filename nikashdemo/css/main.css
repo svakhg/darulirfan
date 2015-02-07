@@ -1,0 +1,92 @@
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+
+body
+{
+    padding: 10px;
+    padding-top: 60px;
+    padding-bottom: 40px;
+}
+
+.sidebar-nav
+{
+    padding: 0;
+    border: none;
+    width: 230px;
+}
+
+a.nounderline
+{
+    text-decoration: none;
+}
+
+.table td.center
+{
+    text-align: center;
+}
+
+.dropdown-menu
+{
+    max-height: 600px;
+    /*overflow-y: auto;*/
+}
+.account_table{
+    width: 100%; 
+    border: 1px solid #039;
+}
+.account_table tr{
+    border: 1px solid #D4D4D4;
+}
+.account_table td{
+    text-align: center;
+}
+.account_table input{
+    border: none;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border-right: 1px solid #039;
+}
+
+.credit, .debit{
+    text-align: right;
+    width: 25%;
+}
+#load_td .level3{
+    /*width: 40%;*/
+    text-align: left;
+}
+#load_td input{
+    background: white;
+    mn-width: 100px;
+    border: none;
+    text-align: right;
+    box-shadow: none;
+    cursor: text;
+}
+.table .text-right
+{
+    text-align: right !important;
+}
+ins{
+    border-bottom: 1px solid;
+}
+.bold{
+    font-weight: bold;
+}
+.italic{
+    font-style: italic;
+}
+/*.border-buttom{
+    border-bottom: 
+}*/
+.width5{
+    width: 5%;
+}
+.borderTop{
+    border-top: 2px solid #D0D0D0;
+}
+.underline{
+    border-bottom: 1px solid black;
+}

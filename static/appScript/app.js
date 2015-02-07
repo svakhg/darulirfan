@@ -1,4 +1,4 @@
-angular.module('project', ['ui.bootstrap', 'ngGrid', 'jQuery-ui']).
+angular.module('project', ['ui.bootstrap', 'ngGrid', 'jQuery-ui', 'kendo.directives']).
         config(function ($routeProvider) {
             $routeProvider.
                     when('/', {templateUrl: BASE_URL + 'home_ctrl'}).

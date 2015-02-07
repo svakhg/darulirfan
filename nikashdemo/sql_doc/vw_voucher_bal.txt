@@ -1,0 +1,42 @@
+-- phpMyAdmin SQL Dump
+-- version 4.1.6
+-- http://www.phpmyadmin.net
+--
+-- Host: 127.0.0.1
+-- Generation Time: May 07, 2014 at 09:21 AM
+-- Server version: 5.5.36
+-- PHP Version: 5.4.25
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+--
+-- Database: `db_nikash`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `vw_voucher_bal`
+--
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_voucher_bal` AS select `ac`.`type` AS `type`,`lvl1`.`level1_name` AS `level1_name`,`lvl2`.`level2_name` AS `level2_name`,`lvl3`.`level3_name` AS `level3_name`,(sum(`ch`.`debit`) - sum(`ch`.`credit`)) AS `balance` from ((((`tbl_voucherchild` `ch` join `tbl_level3` `lvl3` on((`ch`.`level3_id` = `lvl3`.`id`))) join `tbl_level2` `lvl2` on((`lvl3`.`level2_id` = `lvl2`.`id`))) join `tbl_level1` `lvl1` on((`lvl2`.`level1_id` = `lvl1`.`id`))) join `tbl_account_type` `ac` on((`lvl1`.`account_id` = `ac`.`account_id`))) group by `ch`.`level3_id`;
+
+--
+-- VIEW  `vw_voucher_bal`
+-- Data: None
+--
+
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
+CREATE OR REPLACE VIEW `vw_voucher_bal` AS select `ac`.`type` AS `type`,`lvl1`.`level1_name` AS `level1_name`,`lvl2`.`level2_name` AS `level2_name`,`lvl3`.`level3_name` AS `level3_name`,(sum(`ch`.`debit`) - sum(`ch`.`credit`)) AS `balance` from ((((`tbl_voucherchild` `ch` join `tbl_level3` `lvl3` on((`ch`.`level3_id` = `lvl3`.`id`))) join `tbl_level2` `lvl2` on((`lvl3`.`level2_id` = `lvl2`.`id`))) join `tbl_level1` `lvl1` on((`lvl2`.`level1_id` = `lvl1`.`id`))) join `tbl_account_type` `ac` on((`lvl1`.`account_id` = `ac`.`account_id`))) group by `ch`.`level3_id`;

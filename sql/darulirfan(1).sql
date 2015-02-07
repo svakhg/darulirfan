@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 30, 2015 at 12:05 PM
+-- Generation Time: Feb 06, 2015 at 10:28 PM
 -- Server version: 5.5.41-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.5
 
@@ -561,18 +561,18 @@ CREATE TABLE IF NOT EXISTS `std_fee_report` (
 --
 
 INSERT INTO `std_fee_report` (`id`, `std_id`, `fees_id`, `fee_category_id`, `month`, `year`, `amount`, `created`, `modified`, `user_id`, `is_active`) VALUES
-(139, 3, 0, 2, 'December', 2014, 5000, '2014-12-02 01:56:01', '0000-00-00 00:00:00', 0, 1),
+(139, 3, 0, 2, 'December', 2014, 5000, '2014-12-02 01:56:01', '0000-00-00 00:00:00', 0, 0),
 (140, 1, 0, 5, 'December', 2014, 900, '2014-12-02 01:56:01', '0000-00-00 00:00:00', 0, 1),
-(141, 1, 0, 1, 'December', 2014, 100, '2014-12-02 01:56:01', '0000-00-00 00:00:00', 0, 1),
+(141, 1, 0, 1, 'December', 2014, 100, '2014-12-02 01:56:01', '0000-00-00 00:00:00', 0, 0),
 (142, 2, 0, 1, 'December', 2014, 200, '2014-12-02 01:56:01', '0000-00-00 00:00:00', 0, 0),
-(143, 3, 0, 1, 'December', 2014, 300, '2014-12-02 01:56:01', '0000-00-00 00:00:00', 0, 1),
-(144, 4, 0, 1, 'December', 2014, 400, '2014-12-02 01:56:01', '0000-00-00 00:00:00', 0, 1),
-(145, 3, 0, 2, 'February', 2015, 5000, '2015-01-28 05:11:50', '0000-00-00 00:00:00', 0, 1),
+(143, 3, 0, 1, 'December', 2014, 300, '2014-12-02 01:56:01', '0000-00-00 00:00:00', 0, 0),
+(144, 4, 0, 1, 'December', 2014, 400, '2014-12-02 01:56:01', '0000-00-00 00:00:00', 0, 0),
+(145, 3, 0, 2, 'February', 2015, 5000, '2015-01-28 05:11:50', '0000-00-00 00:00:00', 0, 0),
 (146, 1, 0, 5, 'February', 2015, 900, '2015-01-28 05:11:50', '0000-00-00 00:00:00', 0, 1),
-(147, 1, 0, 1, 'February', 2015, 100, '2015-01-28 05:11:50', '0000-00-00 00:00:00', 0, 1),
+(147, 1, 0, 1, 'February', 2015, 100, '2015-01-28 05:11:50', '0000-00-00 00:00:00', 0, 0),
 (148, 2, 0, 1, 'February', 2015, 200, '2015-01-28 05:11:50', '0000-00-00 00:00:00', 0, 0),
-(149, 3, 0, 1, 'February', 2015, 300, '2015-01-28 05:11:50', '0000-00-00 00:00:00', 0, 1),
-(150, 4, 0, 1, 'February', 2015, 400, '2015-01-28 05:11:50', '0000-00-00 00:00:00', 0, 1);
+(149, 3, 0, 1, 'February', 2015, 300, '2015-01-28 05:11:50', '0000-00-00 00:00:00', 0, 0),
+(150, 4, 0, 1, 'February', 2015, 400, '2015-01-28 05:11:50', '0000-00-00 00:00:00', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -593,7 +593,7 @@ CREATE TABLE IF NOT EXISTS `student` (
   `create_date` datetime NOT NULL,
   `status` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 --
 -- Dumping data for table `student`
@@ -603,7 +603,13 @@ INSERT INTO `student` (`id`, `std_name`, `father_name`, `mother_name`, `class`, 
 (1, 'Mehdi Hasan', 'Babul Ahmed', 'Rokeya Begum', 2, 2, '01686489638', '01684896853', 'Feni, Bd', '0000-00-00 00:00:00', 1),
 (2, 'Rabia Basary', 'Unknown', 'Rokeya Begum', 1, 1, '01686489638', '0125689956', 'Coxbazar, Ctg', '0000-00-00 00:00:00', 1),
 (3, 'Raihan Ahmed', 'Babul Ahmed', 'Rokeya Begum', 3, 1, '5645', '541650145', 'Feni, BD', '0000-00-00 00:00:00', 1),
-(4, 'Imran Ahmed', 'unknown', '', 4, 4, '4522', '45254', 'feni.bd', '0000-00-00 00:00:00', 1);
+(4, 'Imran Ahmed', 'unknown', '', 4, 4, '4522', '45254', 'feni.bd', '0000-00-00 00:00:00', 1),
+(5, 'sdf', 'sdf', 'sd', 0, 0, '', '', '', '0000-00-00 00:00:00', 0),
+(6, 'sd', 'sdf', 'sdf', 0, 0, '', '', '', '0000-00-00 00:00:00', 0),
+(7, 'sdf', 'sdfs', 'df', 0, 0, '', '', '', '0000-00-00 00:00:00', 0),
+(8, 'sdf', 'sdf', 'sdf', 0, 0, '', '', '', '0000-00-00 00:00:00', 0),
+(9, 'sdf', 'sdf', 'sdf', 0, 0, '', '', '', '0000-00-00 00:00:00', 0),
+(10, 'sdf', 'sdf', 'sdf', 0, 0, '', '', '', '0000-00-00 00:00:00', 0);
 
 -- --------------------------------------------------------
 
@@ -703,7 +709,7 @@ CREATE TABLE IF NOT EXISTS `transaction` (
   `voucher_name` int(11) NOT NULL,
   `total` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
 --
 -- Dumping data for table `transaction`
@@ -712,7 +718,38 @@ CREATE TABLE IF NOT EXISTS `transaction` (
 INSERT INTO `transaction` (`id`, `payment_type`, `modified_date`, `status`, `create_date`, `user_id`, `customer_id`, `cr_amount`, `dr_amount`, `acc_to`, `acc_from`, `description`, `approved_by`, `approval`, `voucher_name`, `total`) VALUES
 (1, 1, '0000-00-00 00:00:00', 1, NULL, 0, 0, 0, 0, 0, 0, 'sdfs', 0, 1, 1234, 0),
 (2, 0, '0000-00-00 00:00:00', 0, NULL, 2, 2, 200, 0, 8, 1, 'Rabia Basary, December', 0, 0, 0, 200),
-(3, 0, '0000-00-00 00:00:00', 0, NULL, 2, 2, 200, 0, 8, 1, 'Rabia Basary, February', 0, 0, 0, 200);
+(3, 0, '0000-00-00 00:00:00', 0, NULL, 2, 2, 200, 0, 8, 1, 'Rabia Basary, February', 0, 0, 0, 200),
+(4, 0, '0000-00-00 00:00:00', 0, NULL, 2, 1, 100, 0, 8, 1, 'Rabia Basary, December', 0, 0, 0, 100),
+(5, 0, '0000-00-00 00:00:00', 0, NULL, 2, 1, 100, 0, 8, 1, 'Rabia Basary, February', 0, 0, 0, 100),
+(6, 0, '0000-00-00 00:00:00', 0, NULL, 2, 3, 5000, 0, 8, 2, 'Office Entertainment, December', 0, 0, 0, 5000),
+(7, 0, '0000-00-00 00:00:00', 0, NULL, 2, 3, 300, 0, 8, 1, 'Rabia Basary, December', 0, 0, 0, 300),
+(8, 0, '0000-00-00 00:00:00', 0, NULL, 2, 3, 5000, 0, 8, 2, 'Office Entertainment, February', 0, 0, 0, 5000),
+(9, 0, '0000-00-00 00:00:00', 0, NULL, 2, 3, 300, 0, 8, 1, 'Rabia Basary, February', 0, 0, 0, 300),
+(10, 0, '0000-00-00 00:00:00', 0, NULL, 2, 4, 400, 0, 8, 1, 'Rabia Basary, December', 0, 0, 0, 400),
+(11, 0, '0000-00-00 00:00:00', 0, NULL, 2, 4, 400, 0, 8, 1, 'Rabia Basary, February', 0, 0, 0, 400);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `transaction_new`
+--
+
+CREATE TABLE IF NOT EXISTS `transaction_new` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `student_id` int(11) NOT NULL,
+  `acc_group_id` int(11) NOT NULL,
+  `ledger_id` int(11) NOT NULL,
+  `debit` float NOT NULL,
+  `credit` float NOT NULL,
+  `description` text NOT NULL,
+  `voucher_type` int(11) NOT NULL,
+  `voucher_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified_by` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -740,6 +777,31 @@ CREATE TABLE IF NOT EXISTS `users` (
 INSERT INTO `users` (`UserName`, `Password`, `FirstName`, `LastName`, `Email`, `Role`, `NavigationId`, `IsActive`, `UserId`) VALUES
 ('admin', 'admin', 'jasim', 'jasimff', 'jasim@email.com', 1, NULL, 1, 2),
 ('user', 'user', 'user', 'user', 'user@gmail.com', 2, NULL, 1, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `voucher_type`
+--
+
+CREATE TABLE IF NOT EXISTS `voucher_type` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(150) NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+
+--
+-- Dumping data for table `voucher_type`
+--
+
+INSERT INTO `voucher_type` (`id`, `name`, `created`, `user_id`) VALUES
+(1, 'Cash Payment', '2015-02-05 17:36:45', 1),
+(2, 'Cash Receipt', '2015-02-05 17:36:56', 1),
+(3, 'Bank Payment', '2015-02-05 17:37:11', 1),
+(4, 'Bank Receipt', '2015-02-05 17:37:11', 1),
+(5, 'Journal Voucher', '2015-02-05 17:37:22', 1);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
