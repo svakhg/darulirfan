@@ -1,11 +1,11 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Navigations_model extends CI_Model
+class navigations_model extends CI_Model
 {
-    public $table = 'Navigations';
+    public $table = 'navigations';
 
-	public function get_Navigations_list(){
-		return $this->db->select('NavigationId, NavName')->get('Navigations')->result();
+	public function get_navigations_list(){
+		return $this->db->select('NavigationId, NavName')->get('navigations')->result();
 	}
     public function get_all()
     {
@@ -14,9 +14,9 @@ class Navigations_model extends CI_Model
 	public function get_page($size, $pageno){
 		$this->db
 			->limit($size, $pageno)
-			->select('Navigations.NavigationId,Navigations.NavName,Navigations.NavOrder,Navigations.ActionPath,x.NavName as Navigations_NavName,Navigations.ParentNavId')
+			->select('navigations.NavigationId,navigations.NavName,navigations.NavOrder,navigations.ActionPath,x.NavName as navigations_NavName,navigations.ParentNavId')
 			
-->join('Navigations as x', 'Navigations.ParentNavId = x.NavigationId', 'left outer');
+->join('navigations as x', 'navigations.ParentNavId = x.NavigationId', 'left outer');
 			
 		$data=$this->db->get($this->table)->result();
 		$total=$this->count_all();
@@ -24,15 +24,15 @@ class Navigations_model extends CI_Model
 	}
 	public function get_page_where($size, $pageno, $params){
 		$this->db->limit($size, $pageno)
-		->select('Navigations.NavigationId,Navigations.NavName,Navigations.NavOrder,Navigations.ActionPath,x.NavName as Navigations_NavName,Navigations.ParentNavId')
+		->select('navigations.NavigationId,navigations.NavName,navigations.NavOrder,navigations.ActionPath,x.NavName as navigations_NavName,navigations.ParentNavId')
 		
-->join('Navigations as x', 'Navigations.ParentNavId = x.NavigationId', 'left outer');
+->join('navigations as x', 'navigations.ParentNavId = x.NavigationId', 'left outer');
 
 		if(isset($params->NavName) && !empty($params->NavName)){
-				$this->db->like("Navigations.NavName",$params->NavName);
+				$this->db->like("navigations.NavName",$params->NavName);
 			}	
 if(isset($params->ParentNavId) && !empty($params->ParentNavId)){
-				$this->db->where("Navigations.ParentNavId",$params->ParentNavId);
+				$this->db->where("navigations.ParentNavId",$params->ParentNavId);
 			}	
 
 		$data=$this->db->get($this->table)->result();
@@ -42,13 +42,13 @@ if(isset($params->ParentNavId) && !empty($params->ParentNavId)){
 	public function count_where($params)
 	{	
 		$this->db
-->join('Navigations as x', 'Navigations.ParentNavId = x.NavigationId', 'left outer');
+->join('navigations as x', 'navigations.ParentNavId = x.NavigationId', 'left outer');
 
 		if(isset($params->NavName) && !empty($params->NavName)){
-				$this->db->like("Navigations.NavName",$params->NavName);
+				$this->db->like("navigations.NavName",$params->NavName);
 			}	
 if(isset($params->ParentNavId) && !empty($params->ParentNavId)){
-				$this->db->where("Navigations.ParentNavId",$params->ParentNavId);
+				$this->db->where("navigations.ParentNavId",$params->ParentNavId);
 			}	
 
 		return $this->db->count_all_results($this->table);

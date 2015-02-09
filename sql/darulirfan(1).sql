@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 06, 2015 at 10:28 PM
+-- Generation Time: Feb 09, 2015 at 08:15 AM
 -- Server version: 5.5.41-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.5
 
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `acc_group` (
 INSERT INTO `acc_group` (`id`, `Group_Name`, `Group_Type`, `Group_Status`, `create_date`, `modified_date`) VALUES
 (1, 'Asset: Current (AC)', 4, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (2, 'Cash at Bank', 4, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(3, 'Utility Bill / Charge', 2, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(3, 'Cash in Hand', 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (4, 'Labour Charge', 2, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (5, 'Salary/ Bonus', 2, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (6, 'Entertainment', 2, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
@@ -83,20 +83,26 @@ CREATE TABLE IF NOT EXISTS `acc_ledger` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(500) NOT NULL,
   `group_id` int(11) NOT NULL,
+  `acc_group_type_id` int(11) NOT NULL,
   `status` tinyint(1) NOT NULL,
+  `is_student` tinyint(1) NOT NULL,
+  `is_employee` int(11) NOT NULL,
   `create_date` datetime NOT NULL,
   `modified_date` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `acc_ledger`
 --
 
-INSERT INTO `acc_ledger` (`id`, `name`, `group_id`, `status`, `create_date`, `modified_date`) VALUES
-(1, 'Rabia Basary', 5, 1, '2014-11-30 00:00:00', '0000-00-00 00:00:00'),
-(2, 'Office Entertainment', 6, 1, '2014-11-30 00:00:00', '0000-00-00 00:00:00'),
-(3, 'Student Fees', 7, 1, '2014-11-30 00:00:00', '0000-00-00 00:00:00');
+INSERT INTO `acc_ledger` (`id`, `name`, `group_id`, `acc_group_type_id`, `status`, `is_student`, `is_employee`, `create_date`, `modified_date`) VALUES
+(1, 'Cash in Hand', 3, 0, 1, 0, 0, '2014-11-30 00:00:00', '0000-00-00 00:00:00'),
+(2, 'Islamic Bank (54165564)', 2, 0, 1, 0, 0, '2014-11-30 00:00:00', '0000-00-00 00:00:00'),
+(3, 'Student Fees', 7, 2, 1, 0, 0, '2014-11-30 00:00:00', '0000-00-00 00:00:00'),
+(4, 'Donation', 8, 2, 1, 0, 0, '2015-02-03 00:00:00', '0000-00-00 00:00:00'),
+(5, 'Office Entertainment', 6, 1, 1, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(6, 'Eastern Bank (65645644)', 2, 0, 1, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -369,7 +375,7 @@ CREATE TABLE IF NOT EXISTS `navigations` (
   `ActionPath` varchar(100) NOT NULL,
   `ParentNavId` int(11) DEFAULT NULL,
   PRIMARY KEY (`NavigationId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=27 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=30 ;
 
 --
 -- Dumping data for table `navigations`
@@ -396,8 +402,11 @@ INSERT INTO `navigations` (`NavigationId`, `NavName`, `NavOrder`, `ActionPath`, 
 (22, 'Cash Payment', 17, 'Cash_Payment', 17),
 (23, 'Fees Category', 17, 'fee_category', 17),
 (24, 'Fees', 18, 'Fees', 17),
-(25, 'Student Fees', 18, 'std_fees', NULL),
-(26, 'Student Report', 19, 'std_report', NULL);
+(25, 'Student Fees', 18, 'std_fees', 9),
+(26, 'Student Report', 19, 'std_report', NULL),
+(27, 'Voucher', 1, 'voucher', NULL),
+(28, 'Ledger Book', 2, 'ledger_book', NULL),
+(29, 'Student Info', 19, 'student', 9);
 
 -- --------------------------------------------------------
 
@@ -411,7 +420,7 @@ CREATE TABLE IF NOT EXISTS `navigviewright` (
   `Roles` int(11) DEFAULT NULL,
   `Users` int(11) DEFAULT NULL,
   PRIMARY KEY (`NavgViewId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=27 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=30 ;
 
 --
 -- Dumping data for table `navigviewright`
@@ -439,7 +448,10 @@ INSERT INTO `navigviewright` (`NavgViewId`, `Navigations`, `Roles`, `Users`) VAL
 (23, 23, 1, NULL),
 (24, 24, 1, NULL),
 (25, 25, 1, NULL),
-(26, 26, 1, NULL);
+(26, 26, 1, NULL),
+(27, 27, 1, 2),
+(28, 28, 1, 2),
+(29, 29, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -532,8 +544,8 @@ CREATE TABLE IF NOT EXISTS `std_fees` (
 INSERT INTO `std_fees` (`std_id`, `id`, `fees_id`, `status`, `created`, `user_id`, `modified`) VALUES
 (3, 8, 2, 1, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
 (3, 15, 3, 1, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
-(1, 16, 5, 1, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
-(4, 17, 5, 2, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
+(1, 16, 5, 2, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
+(4, 17, 5, 1, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -693,6 +705,41 @@ INSERT INTO `tables` (`tableId`, `tableName`) VALUES
 
 CREATE TABLE IF NOT EXISTS `transaction` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `student_id` int(11) NOT NULL,
+  `acc_group_id` int(11) NOT NULL,
+  `ledger_id` int(11) NOT NULL,
+  `debit` float NOT NULL,
+  `credit` float NOT NULL,
+  `description` text NOT NULL,
+  `voucher_type` int(11) NOT NULL,
+  `voucher_id` int(11) NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `date` date NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `user_ip` varchar(100) NOT NULL,
+  `modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified_by` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+
+--
+-- Dumping data for table `transaction`
+--
+
+INSERT INTO `transaction` (`id`, `student_id`, `acc_group_id`, `ledger_id`, `debit`, `credit`, `description`, `voucher_type`, `voucher_id`, `created_by`, `date`, `created`, `user_ip`, `modified`, `modified_by`) VALUES
+(1, 0, 7, 3, 5000, 0, 'Mehdi', 1, 9010234, 2, '2015-02-09', '2015-02-08 19:07:34', '127.0.0.1', '0000-00-00 00:00:00', 0),
+(2, 0, 7, 1, 0, 5000, 'Mehdi', 1, 9010234, 2, '2015-02-09', '2015-02-08 19:07:34', '127.0.0.1', '0000-00-00 00:00:00', 0),
+(3, 0, 8, 4, 400, 0, 'hg', 1, 9010257, 2, '2015-02-09', '2015-02-08 19:12:57', '127.0.0.1', '0000-00-00 00:00:00', 0),
+(4, 0, 8, 1, 0, 400, 'hg', 1, 9010257, 2, '2015-02-09', '2015-02-08 19:12:57', '127.0.0.1', '0000-00-00 00:00:00', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `transaction_old`
+--
+
+CREATE TABLE IF NOT EXISTS `transaction_old` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `payment_type` int(11) NOT NULL,
   `modified_date` datetime NOT NULL,
   `status` int(11) NOT NULL,
@@ -712,10 +759,10 @@ CREATE TABLE IF NOT EXISTS `transaction` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
 --
--- Dumping data for table `transaction`
+-- Dumping data for table `transaction_old`
 --
 
-INSERT INTO `transaction` (`id`, `payment_type`, `modified_date`, `status`, `create_date`, `user_id`, `customer_id`, `cr_amount`, `dr_amount`, `acc_to`, `acc_from`, `description`, `approved_by`, `approval`, `voucher_name`, `total`) VALUES
+INSERT INTO `transaction_old` (`id`, `payment_type`, `modified_date`, `status`, `create_date`, `user_id`, `customer_id`, `cr_amount`, `dr_amount`, `acc_to`, `acc_from`, `description`, `approved_by`, `approval`, `voucher_name`, `total`) VALUES
 (1, 1, '0000-00-00 00:00:00', 1, NULL, 0, 0, 0, 0, 0, 0, 'sdfs', 0, 1, 1234, 0),
 (2, 0, '0000-00-00 00:00:00', 0, NULL, 2, 2, 200, 0, 8, 1, 'Rabia Basary, December', 0, 0, 0, 200),
 (3, 0, '0000-00-00 00:00:00', 0, NULL, 2, 2, 200, 0, 8, 1, 'Rabia Basary, February', 0, 0, 0, 200),
@@ -727,29 +774,6 @@ INSERT INTO `transaction` (`id`, `payment_type`, `modified_date`, `status`, `cre
 (9, 0, '0000-00-00 00:00:00', 0, NULL, 2, 3, 300, 0, 8, 1, 'Rabia Basary, February', 0, 0, 0, 300),
 (10, 0, '0000-00-00 00:00:00', 0, NULL, 2, 4, 400, 0, 8, 1, 'Rabia Basary, December', 0, 0, 0, 400),
 (11, 0, '0000-00-00 00:00:00', 0, NULL, 2, 4, 400, 0, 8, 1, 'Rabia Basary, February', 0, 0, 0, 400);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `transaction_new`
---
-
-CREATE TABLE IF NOT EXISTS `transaction_new` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `student_id` int(11) NOT NULL,
-  `acc_group_id` int(11) NOT NULL,
-  `ledger_id` int(11) NOT NULL,
-  `debit` float NOT NULL,
-  `credit` float NOT NULL,
-  `description` text NOT NULL,
-  `voucher_type` int(11) NOT NULL,
-  `voucher_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `modified_by` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -787,6 +811,7 @@ INSERT INTO `users` (`UserName`, `Password`, `FirstName`, `LastName`, `Email`, `
 CREATE TABLE IF NOT EXISTS `voucher_type` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(150) NOT NULL,
+  `acc_group_type_id` int(11) NOT NULL,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
@@ -796,12 +821,12 @@ CREATE TABLE IF NOT EXISTS `voucher_type` (
 -- Dumping data for table `voucher_type`
 --
 
-INSERT INTO `voucher_type` (`id`, `name`, `created`, `user_id`) VALUES
-(1, 'Cash Payment', '2015-02-05 17:36:45', 1),
-(2, 'Cash Receipt', '2015-02-05 17:36:56', 1),
-(3, 'Bank Payment', '2015-02-05 17:37:11', 1),
-(4, 'Bank Receipt', '2015-02-05 17:37:11', 1),
-(5, 'Journal Voucher', '2015-02-05 17:37:22', 1);
+INSERT INTO `voucher_type` (`id`, `name`, `acc_group_type_id`, `created`, `user_id`) VALUES
+(1, 'Cash Payment', 2, '2015-02-05 17:36:45', 1),
+(2, 'Cash Receipt', 1, '2015-02-05 17:36:56', 1),
+(3, 'Bank Payment', 2, '2015-02-05 17:37:11', 1),
+(4, 'Bank Receipt', 1, '2015-02-05 17:37:11', 1),
+(5, 'Journal Voucher', 0, '2015-02-05 17:37:22', 1);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -19,3 +19,32 @@ $msg = '<script type="text/javascript"> toastr.'
 echo $msg;
 }
 
+function acc_group_type_id($voucher_type_id = null) {
+	$CI = get_instance();
+    $CI->load->database();
+	if ($voucher_type_id !== null) {
+		return $CI->db->select('acc_group_type_id')->get_where('voucher_type', ['id' => $voucher_type_id])->row();
+	}
+}
+
+function acc_group_id($ledger_id = null) {
+    $CI = get_instance();
+    $CI->load->database();
+    if ($ledger_id !== null) {
+        return $CI->db->select('group_id as acc_group_id')->get_where('acc_ledger', ['id' => $ledger_id])->row();
+    }
+}
+
+function check_is_voucher_duplicate($voucher_id = null) {
+    $CI = get_instance();
+    $CI->load->database();
+    if ($voucher_id !== null) {
+        $result = $CI->db->select('id')->get_where('transaction', ['voucher_id' => $voucher_id]);
+        if ($result->num_rows() > 0) {
+            return true; 
+        } else {
+            return false; 
+        }
+    }
+}
+

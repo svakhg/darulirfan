@@ -26,6 +26,7 @@ angular.module('project', ['ui.bootstrap', 'ngGrid', 'jQuery-ui', 'kendo.directi
                     when('/std_report', {templateUrl: BASE_URL + 'std_report_ctrl'}).
                     when('/std_report_kendo', {templateUrl: BASE_URL + 'std_report_kendo_ctrl'}).
                     when('/voucher', {templateUrl: BASE_URL + 'voucher_ctrl'}).
+                    when('/ledger_book', {templateUrl: BASE_URL + 'ledger_book_ctrl'}).
                     when('/std_report/single/:page', {
                         templateUrl: function ($routeParams) {
                             return BASE_URL + 'std_report_ctrl/single/' + $routeParams.page + '';

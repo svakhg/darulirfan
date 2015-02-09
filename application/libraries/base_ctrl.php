@@ -6,9 +6,10 @@ class base_ctrl extends CI_Controller {
 
     function __construct() {
         parent::__construct();
-        $this->load->database();
+        $this->
+        load->database();
         $this->load->helper('url');
-        
+       
         require_once 'application/third_party/kendo/lib/DataSourceResult.php';
         require_once 'application/third_party/kendo/lib/kendo/Autoload.php';
         require_once 'application/third_party/gump.class.php';
@@ -26,8 +27,8 @@ class base_ctrl extends CI_Controller {
 
     protected function is_authentic($roleId, $userId, $action) {
         $query = $this->db->query("SELECT NavigationId, NavName, NavOrder,ParentNavId,ActionPath
-From navigations where NavigationId in(SELECT a.Navigations FROM navigviewright a 
-WHERE a.Roles=" . $this->db->escape($roleId) . " or a.Users=" . $this->db->escape($userId) . ") AND ActionPath =" . $this->db->escape($action) . " order by NavOrder");
+            From navigations where NavigationId in(SELECT a.Navigations FROM navigviewright a 
+                WHERE a.Roles=" . $this->db->escape($roleId) . " or a.Users=" . $this->db->escape($userId) . ") AND ActionPath =" . $this->db->escape($action) . " order by NavOrder");
         return $query->num_rows() > 0;
     }
 
@@ -38,38 +39,38 @@ WHERE a.Roles=" . $this->db->escape($roleId) . " or a.Users=" . $this->db->escap
         foreach ($ar_call_type as $str_call_type) {
             switch (strtolower($str_call_type)) {
                 case 'ajax':
-                    if (!$this->CI->input->is_ajax_request()) {
-                        die('Not a valid AJAX request');
-                    }
-                    break;
+                if (!$this->CI->input->is_ajax_request()) {
+                    die('Not a valid AJAX request');
+                }
+                break;
                 case 'cli':
-                    if (!$this->CI->input->is_cli_request()) {
-                        die('Not a valid CLI request');
-                    }
-                    break;
+                if (!$this->CI->input->is_cli_request()) {
+                    die('Not a valid CLI request');
+                }
+                break;
                 case 'get':
-                    if ($this->CI->input->server('REQUEST_METHOD') !== 'GET') {
-                        die('This is not a valid GET request');
-                    }
-                    break;
+                if ($this->CI->input->server('REQUEST_METHOD') !== 'GET') {
+                    die('This is not a valid GET request');
+                }
+                break;
                 case 'post':
-                    if ($this->CI->input->server('REQUEST_METHOD') !== 'POST') {
-                        die('This is not a valid POST request');
-                    }
-                    break;
+                if ($this->CI->input->server('REQUEST_METHOD') !== 'POST') {
+                    die('This is not a valid POST request');
+                }
+                break;
                 case 'json':
-                    if ($this->CI->input->server('REQUEST_METHOD') !== 'JSON') {
-                        die('This is not a valid JSON request');
-                    }
-                    break;
+                if ($this->CI->input->server('REQUEST_METHOD') !== 'JSON') {
+                    die('This is not a valid JSON request');
+                }
+                break;
                 case 'jsonp':
-                    if ($this->CI->input->server('REQUEST_METHOD') !== 'JSONP') {
-                        die('This is not a valid JSONP request');
-                    }
-                    break;
+                if ($this->CI->input->server('REQUEST_METHOD') !== 'JSONP') {
+                    die('This is not a valid JSONP request');
+                }
+                break;
                 default:
-                    die('Un authorised access detected');
-                    break;
+                die('Un authorised access detected');
+                break;
             }
         }
     }

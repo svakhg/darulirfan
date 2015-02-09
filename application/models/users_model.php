@@ -1,13 +1,13 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Users_model extends CI_Model
+class users_model extends CI_Model
 {
-    public $table = 'Users';
+    public $table = 'users';
 
-	public function get_Roles_list(){
-		return $this->db->select('RoleId, RoleName')->get('Roles')->result();
-	}public function get_Navigations_list(){
-		return $this->db->select('NavigationId, NavName')->get('Navigations')->result();
+	public function get_roles_list(){
+		return $this->db->select('RoleId, RoleName')->get('roles')->result();
+	}public function get_navigations_list(){
+		return $this->db->select('NavigationId, NavName')->get('navigations')->result();
 	}
     public function get_all()
     {
@@ -16,10 +16,10 @@ class Users_model extends CI_Model
 	public function get_page($size, $pageno){
 		$this->db
 			->limit($size, $pageno)
-			->select('Users.UserId,Users.UserName,Users.Password,Users.FirstName,Users.LastName,Users.Email,Roles.RoleName as Roles_RoleName,Users.Role,Navigations.NavName as Navigations_NavName,Users.NavigationId,Users.IsActive')
+			->select('users.UserId,users.UserName,users.Password,users.FirstName,users.LastName,users.Email,roles.RoleName as roles_RoleName,users.Role,navigations.NavName as navigations_NavName,users.NavigationId,users.IsActive')
 			
-->join('Roles', 'Users.Role = Roles.RoleId', 'left outer')
-->join('Navigations', 'Users.NavigationId = Navigations.NavigationId', 'left outer');
+->join('roles', 'users.Role = roles.RoleId', 'left outer')
+->join('navigations', 'users.NavigationId = navigations.NavigationId', 'left outer');
 			
 		$data=$this->db->get($this->table)->result();
 		$total=$this->count_all();
@@ -27,31 +27,31 @@ class Users_model extends CI_Model
 	}
 	public function get_page_where($size, $pageno, $params){
 		$this->db->limit($size, $pageno)
-		->select('Users.UserId,Users.UserName,Users.Password,Users.FirstName,Users.LastName,Users.Email,Roles.RoleName as Roles_RoleName,Users.Role,Navigations.NavName as Navigations_NavName,Users.NavigationId,Users.IsActive')
+		->select('users.UserId,users.UserName,users.Password,users.FirstName,users.LastName,users.Email,roles.RoleName as roles_RoleName,users.Role,navigations.NavName as navigations_NavName,users.NavigationId,users.IsActive')
 		
-->join('Roles', 'Users.Role = Roles.RoleId', 'left outer')
-->join('Navigations', 'Users.NavigationId = Navigations.NavigationId', 'left outer');
+->join('roles', 'users.Role = roles.RoleId', 'left outer')
+->join('navigations', 'users.NavigationId = navigations.NavigationId', 'left outer');
 
 		if(isset($params->UserName) && !empty($params->UserName)){
-				$this->db->like("Users.UserName",$params->UserName);
+				$this->db->like("users.UserName",$params->UserName);
 			}	
 if(isset($params->FirstName) && !empty($params->FirstName)){
-				$this->db->like("Users.FirstName",$params->FirstName);
+				$this->db->like("users.FirstName",$params->FirstName);
 			}	
 if(isset($params->LastName) && !empty($params->LastName)){
-				$this->db->like("Users.LastName",$params->LastName);
+				$this->db->like("users.LastName",$params->LastName);
 			}	
 if(isset($params->Email) && !empty($params->Email)){
-				$this->db->like("Users.Email",$params->Email);
+				$this->db->like("users.Email",$params->Email);
 			}	
 if(isset($params->Role) && !empty($params->Role)){
-				$this->db->where("Users.Role",$params->Role);
+				$this->db->where("users.Role",$params->Role);
 			}	
 if(isset($params->NavigationId) && !empty($params->NavigationId)){
-				$this->db->where("Users.NavigationId",$params->NavigationId);
+				$this->db->where("users.NavigationId",$params->NavigationId);
 			}	
 if(isset($params->IsActive) && !empty($params->IsActive)){
-				$this->db->where("Users.IsActive",$params->IsActive);
+				$this->db->where("users.IsActive",$params->IsActive);
 			}	
 
 		$data=$this->db->get($this->table)->result();
@@ -61,29 +61,29 @@ if(isset($params->IsActive) && !empty($params->IsActive)){
 	public function count_where($params)
 	{	
 		$this->db
-->join('Roles', 'Users.Role = Roles.RoleId', 'left outer')
-->join('Navigations', 'Users.NavigationId = Navigations.NavigationId', 'left outer');
+->join('roles', 'users.Role = roles.RoleId', 'left outer')
+->join('navigations', 'users.NavigationId = navigations.NavigationId', 'left outer');
 
 		if(isset($params->UserName) && !empty($params->UserName)){
-				$this->db->like("Users.UserName",$params->UserName);
+				$this->db->like("users.UserName",$params->UserName);
 			}	
 if(isset($params->FirstName) && !empty($params->FirstName)){
-				$this->db->like("Users.FirstName",$params->FirstName);
+				$this->db->like("users.FirstName",$params->FirstName);
 			}	
 if(isset($params->LastName) && !empty($params->LastName)){
-				$this->db->like("Users.LastName",$params->LastName);
+				$this->db->like("users.LastName",$params->LastName);
 			}	
 if(isset($params->Email) && !empty($params->Email)){
-				$this->db->like("Users.Email",$params->Email);
+				$this->db->like("users.Email",$params->Email);
 			}	
 if(isset($params->Role) && !empty($params->Role)){
-				$this->db->where("Users.Role",$params->Role);
+				$this->db->where("users.Role",$params->Role);
 			}	
 if(isset($params->NavigationId) && !empty($params->NavigationId)){
-				$this->db->where("Users.NavigationId",$params->NavigationId);
+				$this->db->where("users.NavigationId",$params->NavigationId);
 			}	
 if(isset($params->IsActive) && !empty($params->IsActive)){
-				$this->db->where("Users.IsActive",$params->IsActive);
+				$this->db->where("users.IsActive",$params->IsActive);
 			}	
 
 		return $this->db->count_all_results($this->table);
