@@ -23,26 +23,32 @@ public function __construct() {
     	echo json_encode($data);
     }
 
+    function acc_group() {
+        $data = $this->db->select('id, group_name as name')->get_where('acc_group', ['group_status' => 1])->result();
+        echo json_encode($data);
+    }
+
     function acc_ledger() {
         $post = $this->input->post();
         if ($post) {
-            $voucher_type_id = (int) $post['filter']['filters'][0]['value'];
+            $acc_group_id = (int) $post['filter']['filters'][0]['value'];
             //3 and 4 should come from config item ; 
-
-            if ($voucher_type_id === $this->config->item('bank_payment') OR $voucher_type_id === $this->config->item('bank_receipt')) {
+            //if ($acc_group_id === $this->config->item('bank_payment') OR $acc_group_id === $this->config->item('bank_receipt')) {
                 //it should be ledger of bank account of which bank 
                 //example islamic bank account 1546654
                 //example estern bank account 45455456
                 echo json_encode($this->db->select('id, name')->get_where('acc_ledger', ['group_id' => 2])->result()); 
                 //here 2 must come from config item;
                 //2 = cash at bank in account group table ; 
-            } else {
-                $acc_group_type_id = acc_group_type_id($voucher_type_id)->acc_group_type_id;
+            //} else {
+                // $acc_group_type_id = acc_group_type_id($voucher_type_id)->acc_group_type_id;
+                    // var_dump($acc_group_id); 
+                    
                     echo json_encode($this->db->select('id, name')
-                    ->like('acc_group_type_id', $acc_group_type_id)
+                    ->where('group_id', $acc_group_id)
                     ->get('acc_ledger')
                     ->result());
-            }
+            //}
         } else {
             echo json_encode($this->db->select('id, name, acc_group_type_id')->get('acc_ledger')->result());
         }

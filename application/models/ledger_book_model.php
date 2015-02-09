@@ -4,9 +4,9 @@ class Ledger_book_model extends CI_Model
 {
     public $table = 'transaction';
 
-    function show_ledger($data) {
+    function show_cash_payment($data) {
     	 $data = $this->db->select('*')
-    	 				->get_where('transaction', ['ledger_id' => $data['cash_in_hand'], 'date >' => $data['startdate'], 'voucher_type' => 1])->result(); 
+    	 				->get_where('transaction', ['ledger_id' => $data['cash_in_hand'], 'date >' => $data['startdate']])->result(); 
     	 return $data; 
     	 //'date <' => $data['enddate'],
     }

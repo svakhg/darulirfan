@@ -33,12 +33,20 @@ public function __construct() {
       $data['cash_in_hand'] = $this->config->item('cash_in_hand');
       $data['cash_payment'] = $this->config->item('cash_payment');
 
-      $info = $this->ledger_book_model->show_ledger($data);
-      // var_dump($info); exit;
-      foreach ($info as $key => $value) {
+      $cash_payment = $this->ledger_book_model->show_cash_payment($data);
+      // var_dump($cash_payment); exit;
+      foreach ($cash_payment as $key => $value) {
               $array[$key]['date'] = $value->date;
-              $array[$key]['ddescription'] = $value->description;
-              $array[$key]['damount'] = $value->credit;
+              
+              if ($value->voucher_type == 1) {
+                $array[$key]['cdescription'] = $value->description;
+                $array[$key]['camount'] = $value->credit;
+              } elseif ($value->voucher_type ==2) {
+                $array[$key]['ddescription'] = $value->voucher_type;
+                $array[$key]['damount'] = $value->credit;
+              }
+              
+
           }
        
       $result = ['status' => 'success', 'data' => $array]; 

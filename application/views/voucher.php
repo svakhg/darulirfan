@@ -15,6 +15,11 @@
                      <span class="k-invalid-msg" data-for="voucher_type"></span>
                  </li>
                  <li>
+                     <label for="acc_group_id" class="required">Account Group</label>
+                     <input ng-model = "voucher.acc_group_id" name="acc_group_id" id="acc_group_id" name="Account Group" required style="width: 200px" /> 
+                     <span class="k-invalid-msg" data-for="acc_group_id"></span>
+                 </li>
+                 <li>
                      <label for="ledger_id" class="required">Account Ledger</label>
                      <input ng-model = "voucher.ledger_id" name="ledger_id" id="ledger_id" name="Account Ledger" required style="width: 200px" /> 
                      <span class="k-invalid-msg" data-for="ledger_id"></span>
