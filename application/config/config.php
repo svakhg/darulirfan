@@ -25,6 +25,8 @@ $config['cash_receipt']	= 2;
 $config['bank_payment']	= 3;
 $config['bank_receipt']	= 4;
 $config['journal_voucher']	= 5;
+$config['contact']	= "Please Contact - 01686489638";
+
 
 /*
 |--------------------------------------------------------------------------

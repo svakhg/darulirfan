@@ -1,5 +1,5 @@
 
-function LedgerBookCtrl($scope, $http){
+function LedgerReportCtrl($scope, $http){
 	$scope.show_ledger_div = false; 
 	function startChange() {
 		var startDate = start.value(),
@@ -64,31 +64,36 @@ function LedgerBookCtrl($scope, $http){
 			start.max(end.value());
 			end.min(start.value());
 
-			$scope.saveLedgerBook = function () {
-				$scope.data = {startdate : start.value(), enddate: end.value()};
-				$http.post(baseurl + "ledger_book_ctrl/show_ledger", $scope.data)
+			var ledger_id = $("#ledger_id").kendoDropDownList({
+            autoBind: false,
+            optionLabel: "Select Ledger...",
+            dataTextField: "name",
+            dataValueField: "id",
+                        filter: "startswith",
+                        dataSource: {
+                            // serverFiltering: true,
+                            transport: {
+                                read: {
+                                    dataType: "json",
+                                    type: "POST",
+                                    url: baseurl + "global_data/acc_ledger",
+                                }
+                            }
+                        }
+                    }).data("kendoDropDownList");
+
+			$scope.showLedger = function () {
+				$scope.data = {startdate : start.value(), enddate: end.value(), ledger_id: ledger_id.value()};
+				$http.post(baseurl + "ledger_report_ctrl/show_ledger", $scope.data)
 				.success(function (response){
 					if (response.status == 'success') {
 						$scope.show_ledger_div = true; 
-						$scope.debits = response.debits; 
-						$scope.credits = response.credits;
-						$scope.debit_total = response.debit_total;
-						$scope.credit_total = response.credit_total;
-						$scope.closing_balance = $scope.debit_total - $scope.credit_total;
-						$scope.credit_final_total = Number ($scope.credit_total) + Number ($scope.closing_balance);
+						$scope.datas = response.data; 
 						toastr.success(response.message);
 					} else {
 						$scope.show_ledger_div = false; 
 						toastr.error(response.message);
 					}
-					$scope.voucher = {
-						voucher_type: '',
-						ledger_id: '',
-						description: '',
-						amount: ''}; 
-
-						$scope.validationMessage = "Hooray! Your voucher has been saved!";
-						$scope.validationClass = "valid";
 					}).error(function (data){
 						console.log(data);
 					});

@@ -1,8 +1,8 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Fees_model extends CI_Model
+class fees_model extends CI_Model
 {
-    public $table = 'Fees';
+    public $table = 'fees';
 
 	public function get_acc_ledger_list(){
 		return $this->db->select('id, name')->get('acc_ledger')->result();
@@ -18,11 +18,11 @@ class Fees_model extends CI_Model
 	public function get_page($size, $pageno){
 		$this->db
 			->limit($size, $pageno)
-			->select('Fees.id,acc_ledger.name as acc_ledger_name,Fees.fee_category_id,class.class_name as class_class_name,Fees.class_id,Fees.amount,status.yesno as status_yesno,Fees.is_current,Fees.created,Fees.modified,Fees.user_id')
+			->select('fees.id,acc_ledger.name as acc_ledger_name,fees.fee_category_id,class.class_name as class_class_name,fees.class_id,fees.amount,status.yesno as status_yesno,fees.is_current,fees.created,fees.modified,fees.user_id')
 			
-->join('acc_ledger', 'Fees.fee_category_id = acc_ledger.id', 'left outer')
-->join('class', 'Fees.class_id = class.id', 'left outer')
-->join('status', 'Fees.is_current = status.id', 'left outer');
+->join('acc_ledger', 'fees.fee_category_id = acc_ledger.id', 'left outer')
+->join('class', 'fees.class_id = class.id', 'left outer')
+->join('status', 'fees.is_current = status.id', 'left outer');
 			
 		$data=$this->db->get($this->table)->result();
 		$total=$this->count_all();
@@ -30,23 +30,23 @@ class Fees_model extends CI_Model
 	}
 	public function get_page_where($size, $pageno, $params){
 		$this->db->limit($size, $pageno)
-		->select('Fees.id,acc_ledger.name as acc_ledger_name,Fees.fee_category_id,class.class_name as class_class_name,Fees.class_id,Fees.amount,status.yesno as status_yesno,Fees.is_current,Fees.created,Fees.modified,Fees.user_id')
+		->select('fees.id,acc_ledger.name as acc_ledger_name,fees.fee_category_id,class.class_name as class_class_name,fees.class_id,fees.amount,status.yesno as status_yesno,fees.is_current,fees.created,fees.modified,fees.user_id')
 		
-->join('acc_ledger', 'Fees.fee_category_id = acc_ledger.id', 'left outer')
-->join('class', 'Fees.class_id = class.id', 'left outer')
-->join('status', 'Fees.is_current = status.id', 'left outer');
+->join('acc_ledger', 'fees.fee_category_id = acc_ledger.id', 'left outer')
+->join('class', 'fees.class_id = class.id', 'left outer')
+->join('status', 'fees.is_current = status.id', 'left outer');
 
 		if(isset($params->fee_category_id) && !empty($params->fee_category_id)){
-				$this->db->where("Fees.fee_category_id",$params->fee_category_id);
+				$this->db->where("fees.fee_category_id",$params->fee_category_id);
 			}	
 if(isset($params->class_id) && !empty($params->class_id)){
-				$this->db->where("Fees.class_id",$params->class_id);
+				$this->db->where("fees.class_id",$params->class_id);
 			}	
 if(isset($params->amount) && !empty($params->amount)){
-				$this->db->where("Fees.amount",$params->amount);
+				$this->db->where("fees.amount",$params->amount);
 			}	
 if(isset($params->is_current) && !empty($params->is_current)){
-				$this->db->where("Fees.is_current",$params->is_current);
+				$this->db->where("fees.is_current",$params->is_current);
 			}	
 
 		$data=$this->db->get($this->table)->result();
@@ -56,21 +56,21 @@ if(isset($params->is_current) && !empty($params->is_current)){
 	public function count_where($params)
 	{	
 		$this->db
-->join('acc_ledger', 'Fees.fee_category_id = acc_ledger.id', 'left outer')
-->join('class', 'Fees.class_id = class.id', 'left outer')
-->join('status', 'Fees.is_current = status.id', 'left outer');
+->join('acc_ledger', 'fees.fee_category_id = acc_ledger.id', 'left outer')
+->join('class', 'fees.class_id = class.id', 'left outer')
+->join('status', 'fees.is_current = status.id', 'left outer');
 
 		if(isset($params->fee_category_id) && !empty($params->fee_category_id)){
-				$this->db->where("Fees.fee_category_id",$params->fee_category_id);
+				$this->db->where("fees.fee_category_id",$params->fee_category_id);
 			}	
 if(isset($params->class_id) && !empty($params->class_id)){
-				$this->db->where("Fees.class_id",$params->class_id);
+				$this->db->where("fees.class_id",$params->class_id);
 			}	
 if(isset($params->amount) && !empty($params->amount)){
-				$this->db->where("Fees.amount",$params->amount);
+				$this->db->where("fees.amount",$params->amount);
 			}	
 if(isset($params->is_current) && !empty($params->is_current)){
-				$this->db->where("Fees.is_current",$params->is_current);
+				$this->db->where("fees.is_current",$params->is_current);
 			}	
 
 		return $this->db->count_all_results($this->table);

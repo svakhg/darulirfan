@@ -1,4 +1,5 @@
 angular.module('project', ['ui.bootstrap', 'ngGrid', 'jQuery-ui', 'kendo.directives']).
+
         config(function ($routeProvider) {
             $routeProvider.
                     when('/', {templateUrl: BASE_URL + 'home_ctrl'}).
@@ -27,6 +28,7 @@ angular.module('project', ['ui.bootstrap', 'ngGrid', 'jQuery-ui', 'kendo.directi
                     when('/std_report_kendo', {templateUrl: BASE_URL + 'std_report_kendo_ctrl'}).
                     when('/voucher', {templateUrl: BASE_URL + 'voucher_ctrl'}).
                     when('/ledger_book', {templateUrl: BASE_URL + 'ledger_book_ctrl'}).
+                    when('/ledger_report', {templateUrl: BASE_URL + 'ledger_report_ctrl'}).
                     when('/std_report/single/:page', {
                         templateUrl: function ($routeParams) {
                             return BASE_URL + 'std_report_ctrl/single/' + $routeParams.page + '';
@@ -55,5 +57,33 @@ angular.module('project', ['ui.bootstrap', 'ngGrid', 'jQuery-ui', 'kendo.directi
                         }
                     }).
                     otherwise({redirectTo: '/'});
-        });
+        })
+.filter('sumOfValue', function () {
+    return function (data, key) {
+        if (typeof (data) === 'undefined' && typeof (key) === 'undefined') {
+            return 0;
+        }
+        var sum = 0;
+        for (var i = 0; i < data.length; i++) {
+            sum = sum + data[i][key];
+        }
+        return sum;
+    }
+})
+.filter('total', function () {
+            return function (input, property) {
+                var i = input instanceof Array ? input.length : 0;
+                if (typeof property === 'undefined' || i === 0) {
+                    return i;
+                } else if (isNaN(input[0][property])) {
+                    throw 'filter total can count only numeric values';
+                } else {
+                    var total = 0;
+                    while (i--)
+                        total += input[i][property];
+                    return total;
+                }
+            };
+        })
+;
         

@@ -37,7 +37,7 @@ public function __construct() {
                 //it should be ledger of bank account of which bank 
                 //example islamic bank account 1546654
                 //example estern bank account 45455456
-                echo json_encode($this->db->select('id, name')->get_where('acc_ledger', ['group_id' => 2])->result()); 
+                // echo json_encode($this->db->select('id, name')->get_where('acc_ledger', ['group_id' => $acc_group_id])->result()); 
                 //here 2 must come from config item;
                 //2 = cash at bank in account group table ; 
             //} else {
@@ -49,7 +49,8 @@ public function __construct() {
                     ->get('acc_ledger')
                     ->result());
             //}
-        } else {
+        } 
+        else {
             echo json_encode($this->db->select('id, name, acc_group_type_id')->get('acc_ledger')->result());
         }
     }
