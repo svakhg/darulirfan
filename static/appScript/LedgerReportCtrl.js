@@ -89,6 +89,8 @@ function LedgerReportCtrl($scope, $http){
 					if (response.status == 'success') {
 						$scope.show_ledger_div = true; 
 						$scope.datas = response.data; 
+						$scope.debit_total = response.debit_total;
+						$scope.credit_total = response.credit_total;
 						toastr.success(response.message);
 					} else {
 						$scope.show_ledger_div = false; 

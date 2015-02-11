@@ -13,8 +13,7 @@ class Std_report_ctrl extends CI_Controller {
 
     public function index() {
         $data['results'] = $this->model->get_all();
-        var_dump($data);
-        //exit; 
+
         $this->load->view('std_fee_report_view', $data);
     }
 
@@ -29,7 +28,35 @@ class Std_report_ctrl extends CI_Controller {
         }
 
         foreach ($data['results'] as $row) {
+            if (!check_is_voucher_duplicate($voucher_id)) {
+              $debit['ledger_id'] = $cash_in_hand; //1 = cash in hand
+              $debit['description'] = (string) $result['description']; 
+              $debit['voucher_type'] = (int) $result['voucher_type']; 
+              $debit['acc_group_id'] = (int) acc_group_id($result['ledger_id'])->acc_group_id; 
+              $debit['voucher_id'] = $voucher_id; 
+              $debit['debit'] = $result['amount'];
+              $debit['date'] = date ("Y-m-d");
+              $debit['user_ip'] = $this->input->ip_address();
+              $debit['created_by'] = $this->session->userdata('user')->UserId; 
+              
+              $this->db->insert('transaction', $debit); 
 
+              $credit['ledger_id'] = (int) $result['ledger_id'];
+              $credit['description'] = (string) $result['description']; 
+              $credit['voucher_type'] = (int) $result['voucher_type']; 
+              $credit['acc_group_id'] = (int) acc_group_id($result['ledger_id'])->acc_group_id; 
+              $credit['voucher_id'] = $voucher_id; 
+              $credit['credit'] = $result['amount'];
+              $credit['date'] = date ("Y-m-d");
+              $credit['user_ip'] = $this->input->ip_address();
+              $credit['created_by'] = $this->session->userdata('user')->UserId;
+
+              $this->db->insert('transaction', $credit); 
+
+              $feedback = ['status' => 'success', 'message' => "Voucher (" . $voucher_id . ") Data Inserted Successfully"];
+            } else {
+                
+            }
             $info['acc_from'] = $row->fee_category_id;
             $info['acc_to'] = 8;
             $info['dr_amount'] = 0;

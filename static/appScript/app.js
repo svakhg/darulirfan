@@ -1,4 +1,4 @@
-angular.module('project', ['ui.bootstrap', 'ngGrid', 'jQuery-ui', 'kendo.directives']).
+angular.module('project', ['ui.bootstrap', 'ngGrid', 'kendo.directives']).
 
         config(function ($routeProvider) {
             $routeProvider.
