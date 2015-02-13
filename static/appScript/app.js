@@ -1,5 +1,5 @@
-angular.module('project', ['ui.bootstrap', 'ngGrid', 'kendo.directives']).
-        config(function ($routeProvider) {
+angular.module('project', ['ui.bootstrap', 'ngGrid', 'kendo.directives'])
+        .config(function ($routeProvider) {
             $routeProvider.
                     when('/', {templateUrl: BASE_URL + 'home_ctrl'}).
                     when('/acc-group', {templateUrl: BASE_URL + 'acc-group_ctrl'}).

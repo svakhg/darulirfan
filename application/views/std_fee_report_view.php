@@ -90,7 +90,7 @@
                                         window.location = "#/student/single/1";
 //                                        window.location = "#/student/details/" + info.student_id;
 //                                        location.replace("#/student/edit/") ;
-//                                        console.log("Details for: " + data.id);
+                                        console.log("Details for: " + data.id);
                                     }
                                 },
                                 {name: "destroy",
