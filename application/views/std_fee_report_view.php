@@ -1,5 +1,6 @@
 <h1>Student List </h1>
 <div class="row well">
+    <a href="#" class="btn btn-success">Add New Student</a>
     <div id="example">
         <div id="grid"></div>
         <script>
