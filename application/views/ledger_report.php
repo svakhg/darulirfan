@@ -49,7 +49,7 @@
          <tr>
            <td colspan="5"><strong>Total</strong></td>
            
-           <td> <strong>{{debit_total}}</strong>
+           <td><strong>{{debit_total}}</strong>
            </td>
            <td>
              <strong>{{credit_total}}</strong>

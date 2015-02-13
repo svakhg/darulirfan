@@ -1,5 +1,6 @@
 
 function LedgerReportCtrl($scope, $http){
+	
 	$scope.show_ledger_div = false; 
 	function startChange() {
 		var startDate = start.value(),

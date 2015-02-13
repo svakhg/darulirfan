@@ -3,14 +3,45 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 require_once('./application/libraries/base_ctrl.php');
 
-class Std_report_ctrl extends CI_Controller {
+class Std_report_ctrl extends base_ctrl {
 
     function __construct() {
         parent::__construct();
         $this->load->helper('utility_helper');
         $this->load->model('std_report_model', 'model');
     }
+    function process() {
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    header('Content-Type: application/json');
 
+    $request = json_decode(file_get_contents('php://input'));
+    // var_dump($request); exit; 
+    $result = new DataSourceResult('');
+
+    $type = $_GET['type'];
+
+    $columns = array('id', 'std_name', 'father_name', 'mother_name', 'class', 'roll_no');
+
+    switch($type) {
+        case 'create':
+            $result = $result->create('student', $columns, $request->models, 'id');
+            break;
+        case 'read':
+            $result = $result->read('student', $columns, $request);
+            break;
+        case 'update':
+            $result = $result->update('student', $columns, $request->models, 'id');
+            break;
+        case 'destroy':
+            $result = $result->destroy('student', $request->models, 'id');
+            break;
+    }
+
+    echo json_encode($result, JSON_NUMERIC_CHECK);
+
+    exit;
+}
+    }
     public function index() {
         $data['results'] = $this->model->get_all();
 
@@ -80,12 +111,14 @@ class Std_report_ctrl extends CI_Controller {
     public function single() {
         $id = $this->uri->segment(3);
         if (!$id) {
-            $msg = '<script type="text/javascript"> toastr.'
+            $msg = '
+<script type="text/javascript"> toastr.'
                     . 'error'
                     . '("'
                     . 'Please Give a Student ID'
                     . '");'
-                    . ' </script>';
+                    . ' </script>
+';
             echo $msg;
         }
         if (!$this->model->get($id)) {

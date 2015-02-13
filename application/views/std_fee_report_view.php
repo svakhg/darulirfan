@@ -1,18 +1,41 @@
+<h1>Student List </h1>
 <div class="row well">
     <div id="example">
-        <!--<div id="grid"></div>-->
+        <div id="grid"></div>
         <script>
             $(document).ready(function () {
                 $("#grid").kendoGrid({
                     dataSource: {
-                        type: "odata",
                         transport: {
-                            read: "http://demos.telerik.com/kendo-ui/service/Northwind.svc/Customers"
+                            read: {
+                                url: baseurl + "std_report_ctrl/process?type=read",
+                                contentType: 'application/json',
+                                type: 'POST',
+                            },
+                            parameterMap: function (data, type) {
+                            return kendo.stringify(data);
+                            }
                         },
-                        pageSize: 20
+                        pageSize: 20,
+                        schema: {
+                        model: {
+                            id: "id",
+                            fields: {
+                                id: {editable: false, nullable: true},
+                                father_name: {validation: {required: true}},
+                            }
+                        },
+                        data: function (response) {
+                            return response.data;
+                        },
+                        total: "total",
+                        errors: "error"
+                    }
+
                     },
                     height: 550,
                     groupable: true,
+                    filterable: {extra: false},
                     sortable: true,
                     pageable: {
                         refresh: true,
@@ -20,19 +43,22 @@
                         buttonCount: 5
                     },
                     columns: [{
-                            field: "ContactName",
-                            title: "Contact Name",
+                            field: "std_name",
+                            title: "Student Name",
                             width: 200
                         }, {
-                            field: "ContactTitle",
-                            title: "Contact Title"
+                            field: "father_name",
+                            title: "Father Name"
                         }, {
-                            field: "CompanyName",
-                            title: "Company Name"
+                            field: "class",
+                            title: "Class"
                         }, {
-                            field: "Country",
+                            field: "roll_no",
+                            title: "Roll No",
                             width: 150
-                        }]
+                        },
+                        {command: [{name: "edit", text: "Edit Student"}, {name: "destroy", text: "Student Details"}], title: "&nbsp;", width: "300px"}]
+
                 });
             });
         </script>
@@ -44,36 +70,46 @@
                 <td>Student ID</td>
                 <td>Student Name</td>
                 <td>Student Class</td>
-    <!--            <td>Fees Category</td>
-                <td>Month</td>-->
-                <td>Amount</td>
-                <!--<td>Date</td>-->
-                <td>Action</td>
-            </tr>
-        </thead>
-        <tbody>
-            <?php if (!isset($results)): ?>
-            <p>There are currently no active data</p>
-            <?php
+                <!--            <td>Fees Category</td>
+            <td>Month</td>
+            -->
+            <td>Amount</td>
+            <!--<td>Date</td>
+        -->
+        <td>Action</td>
+    </tr>
+</thead>
+<tbody>
+    <?php if (!isset($results)): ?>
+    <p>There are currently no active data</p>
+    <?php
         else:
             foreach ($results as $data) {
                 ?>
-                <tr>
-                    <td><?php echo $data->std_id; ?></td>
-                    <td><?php echo $data->std_name; ?></td>
-                    <td><?php echo $data->class; ?></td>
-        <!--                <td><?php //echo $data->name;  ?></td>
-                    <td><?php //echo $data->month;  ?></td>-->
-                    <td><?php echo $data->amount; ?></td>
-                    <!--<td><?php //echo $data->created;  ?></td>-->
-                    <td><a href="#/std_report/single/<?php echo $data->std_id; ?>" class="btn btn-primary">Details</a></td>
-                </tr>
+    <tr>
+        <td>
+            <?php echo $data->std_id; ?></td>
+        <td>
+            <?php echo $data->std_name; ?></td>
+        <td>
+            <?php echo $data->class; ?></td>
+        <!--                <td>
+        <?php //echo $data->name;  ?></td>
+    <td>
+        <?php //echo $data->month;  ?></td>
+    -->
+    <td>
+        <?php echo $data->amount; ?></td>
+    <!--<td>
+    <?php //echo $data->created;  ?></td>
+-->
+<td>
+    <a href="#/std_report/single/<?php echo $data->std_id; ?>" class="btn btn-primary">Details</a>
+</td>
+</tr>
 
-            <?php } endif; ?>
+<?php } endif; ?></tbody>
 
-        </tbody>
-
-    </table>
+</table>
 
 </div>
-
