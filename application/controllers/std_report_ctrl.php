@@ -10,37 +10,41 @@ class Std_report_ctrl extends base_ctrl {
         $this->load->helper('utility_helper');
         $this->load->model('std_report_model', 'model');
     }
+
     function process() {
-            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    header('Content-Type: application/json');
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            header('Content-Type: application/json');
 
-    $request = json_decode(file_get_contents('php://input'));
-    // var_dump($request); exit; 
-    $result = new DataSourceResult('');
+            $request = json_decode(file_get_contents('php://input'));
+            // var_dump($request); exit; 
+            $result = new DataSourceResult('');
 
-    $type = $_GET['type'];
+            $type = $_GET['type'];
 
-    $columns = array('id', 'std_name', 'father_name', 'mother_name', 'class', 'roll_no');
+            $columns = array('id', 'std_name', 'father_name', 'mother_name', 'class', 'roll_no');
 
-    switch($type) {
-        case 'create':
-            $result = $result->create('student', $columns, $request->models, 'id');
-            break;
-        case 'read':
-            $result = $result->read('student', $columns, $request);
-            break;
-        case 'update':
-            $result = $result->update('student', $columns, $request->models, 'id');
-            break;
-        case 'destroy':
-            $result = $result->destroy('student', $request->models, 'id');
-            break;
+            switch ($type) {
+                case 'create':
+                    $result = $result->create('student', $columns, $request->models, 'id');
+                    break;
+                case 'read':
+                    $result = $result->read('student', $columns, $request);
+                    break;
+                case 'update':
+                    $result = $result->update('student', $columns, $request->models, 'id');
+                    break;
+                case 'destroy':
+                    $result = $result->destroy('student', $request->models, 'id');
+                    break;
+            }
+
+            echo json_encode($result, JSON_NUMERIC_CHECK);
+
+            exit;
+        }
     }
-
-    echo json_encode($result, JSON_NUMERIC_CHECK);
-
-    exit;
-}
+    public function edit() {
+        echo "edit";
     }
     public function index() {
         $data['results'] = $this->model->get_all();
@@ -60,31 +64,31 @@ class Std_report_ctrl extends base_ctrl {
 
         foreach ($data['results'] as $row) {
             if (!check_is_voucher_duplicate($voucher_id)) {
-              $debit['ledger_id'] = $cash_in_hand; //1 = cash in hand
-              $debit['description'] = (string) $result['description']; 
-              $debit['voucher_type'] = (int) $result['voucher_type']; 
-              $debit['acc_group_id'] = (int) acc_group_id($result['ledger_id'])->acc_group_id; 
-              $debit['voucher_id'] = $voucher_id; 
-              $debit['debit'] = $result['amount'];
-              $debit['date'] = date ("Y-m-d");
-              $debit['user_ip'] = $this->input->ip_address();
-              $debit['created_by'] = $this->session->userdata('user')->UserId; 
-              
-              $this->db->insert('transaction', $debit); 
+                $debit['ledger_id'] = $cash_in_hand; //1 = cash in hand
+                $debit['description'] = (string) $result['description'];
+                $debit['voucher_type'] = (int) $result['voucher_type'];
+                $debit['acc_group_id'] = (int) acc_group_id($result['ledger_id'])->acc_group_id;
+                $debit['voucher_id'] = $voucher_id;
+                $debit['debit'] = $result['amount'];
+                $debit['date'] = date("Y-m-d");
+                $debit['user_ip'] = $this->input->ip_address();
+                $debit['created_by'] = $this->session->userdata('user')->UserId;
 
-              $credit['ledger_id'] = (int) $result['ledger_id'];
-              $credit['description'] = (string) $result['description']; 
-              $credit['voucher_type'] = (int) $result['voucher_type']; 
-              $credit['acc_group_id'] = (int) acc_group_id($result['ledger_id'])->acc_group_id; 
-              $credit['voucher_id'] = $voucher_id; 
-              $credit['credit'] = $result['amount'];
-              $credit['date'] = date ("Y-m-d");
-              $credit['user_ip'] = $this->input->ip_address();
-              $credit['created_by'] = $this->session->userdata('user')->UserId;
+                $this->db->insert('transaction', $debit);
 
-              $this->db->insert('transaction', $credit); 
+                $credit['ledger_id'] = (int) $result['ledger_id'];
+                $credit['description'] = (string) $result['description'];
+                $credit['voucher_type'] = (int) $result['voucher_type'];
+                $credit['acc_group_id'] = (int) acc_group_id($result['ledger_id'])->acc_group_id;
+                $credit['voucher_id'] = $voucher_id;
+                $credit['credit'] = $result['amount'];
+                $credit['date'] = date("Y-m-d");
+                $credit['user_ip'] = $this->input->ip_address();
+                $credit['created_by'] = $this->session->userdata('user')->UserId;
 
-              $feedback = ['status' => 'success', 'message' => "Voucher (" . $voucher_id . ") Data Inserted Successfully"];
+                $this->db->insert('transaction', $credit);
+
+                $feedback = ['status' => 'success', 'message' => "Voucher (" . $voucher_id . ") Data Inserted Successfully"];
             } else {
                 
             }
@@ -96,11 +100,11 @@ class Std_report_ctrl extends base_ctrl {
             $info['customer_id'] = $row->std_id;
             $info['user_id'] = $session->UserId;
             $info['description'] = $row->name . ', ' . $row->month;
-            
-            
+
+
             $this->db->insert('transaction', $info);
-            
-            $arr->is_active = 0; 
+
+            $arr->is_active = 0;
             $this->db->where('id', $row->id);
             $this->db->update('std_fee_report', $arr);
         }
