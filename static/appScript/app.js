@@ -1,5 +1,6 @@
-angular.module('project', ['ui.bootstrap', 'ngGrid', 'kendo.directives'])
-        .config(function ($routeProvider) {
+angular.module('project', ['ui.bootstrap', 'ngGrid', 'kendo.directives']).
+
+        config(function ($routeProvider) {
             $routeProvider.
                     when('/', {templateUrl: BASE_URL + 'home_ctrl'}).
                     when('/acc-group', {templateUrl: BASE_URL + 'acc-group_ctrl'}).
@@ -49,7 +50,7 @@ angular.module('project', ['ui.bootstrap', 'ngGrid', 'kendo.directives'])
                             return BASE_URL + 'cash_payment_ctrl/' + $routeParams.page + '';
                         }
                     }).
-                    when('/Report/:page', {
+                     when('/Report/:page', {
                         templateUrl: function ($routeParams) {
                             return BASE_URL + 'report/' + $routeParams.page + '';
                         }
@@ -62,19 +63,19 @@ angular.module('project', ['ui.bootstrap', 'ngGrid', 'kendo.directives'])
                     }).
                     otherwise({redirectTo: '/'});
         })
-        .filter('sumOfValue', function () {
-            return function (data, key) {
-                if (typeof (data) === 'undefined' && typeof (key) === 'undefined') {
-                    return 0;
-                }
-                var sum = 0;
-                for (var i = 0; i < data.length; i++) {
-                    sum = sum + data[i][key];
-                }
-                return sum;
-            }
-        })
-        .filter('total', function () {
+.filter('sumOfValue', function () {
+    return function (data, key) {
+        if (typeof (data) === 'undefined' && typeof (key) === 'undefined') {
+            return 0;
+        }
+        var sum = 0;
+        for (var i = 0; i < data.length; i++) {
+            sum = sum + data[i][key];
+        }
+        return sum;
+    }
+})
+.filter('total', function () {
             return function (input, property) {
                 var i = input instanceof Array ? input.length : 0;
                 if (typeof property === 'undefined' || i === 0) {
@@ -89,5 +90,5 @@ angular.module('project', ['ui.bootstrap', 'ngGrid', 'kendo.directives'])
                 }
             };
         })
-        ;
+;
         

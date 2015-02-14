@@ -44,7 +44,15 @@ class Std_report_ctrl extends base_ctrl {
         }
     }
     public function edit() {
-        echo "edit";
+        $id = $this->input->get('id'); 
+        
+        $data = $this->model->get_single_student($id); 
+        var_dump($data); 
+        $this->load->view('student_edit'); 
+        // echo "edit";
+    }
+    public function add() {
+        echo "add";
     }
     public function index() {
         $data['results'] = $this->model->get_all();
