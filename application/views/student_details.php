@@ -46,6 +46,9 @@
             foreach ($results as $data) {
                 ?>
                 <tr>
+                <td>
+                    <td><input type="checkbox" ng-model="person.isSelected" /></td>
+                </td>
                     <td>
                         <?php echo $data->name; ?> (<?php echo $data->month; ?>)
                     </td>
