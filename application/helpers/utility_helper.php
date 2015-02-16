@@ -8,6 +8,12 @@ if (!defined('BASEPATH'))
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+function error_process($is_valid) {
+    foreach ($is_valid as $key => $value) {
+        $data[$key] = strip_tags($value);
+    }
+    return $data;
+}
 
 function msg_display($msg = false, $type = false) {
 $msg = '<script type="text/javascript"> toastr.'

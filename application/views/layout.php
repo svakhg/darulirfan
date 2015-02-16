@@ -53,7 +53,10 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <?php echo $menu; ?></ul>
+
+                    <?php echo $menu; ?>
+<li><a href="<?php echo site_url(); ?>/login/logout">Logout</a></li>
+                    </ul>
             </div><!--/.nav-collapse -->
           </div>
     </nav>
@@ -62,11 +65,6 @@
 <div class="container">
 
 <div class="darulirfan" ng-app="project">
-
-    <div>
-        <span></span>
-        <a class="btn btn-danger pull-right" href="<?php echo site_url(); ?>/login/logout">Logout</a>
-    </div>
 
     <div ng-view></div>
 

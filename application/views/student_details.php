@@ -3,15 +3,21 @@
     <?php if ($student === false) { ?>
         <p>There are currently no active data</p>
     <?php } else { ?>
-        <h1><?php echo $student->std_name; ?></h1>
+        <h1><?php echo $student->std_name; ?>, <?php echo $student->std_id; ?></h1>
         <div class="col-lg-4">
-            <h5>Class : <?php echo $student->class; ?></h5>
+            <h5>Class : <?php echo $student->class_id; ?></h5>
             <h5>Roll No. : <?php echo $student->roll_no; ?></h5>
+            <?php $gender = ($student->gender == 1) ? 'Male' : 'Female'; ?> 
+            <h5>Gender : <?php echo $gender; ?></h5>
+            
+            <h5>Present Address : <?php echo $student->present_address; ?></h5>
         </div>
         <div class="col-lg-4">
             <h5>Father Name : <?php echo $student->father_name; ?>, <?php echo $student->father_mobile_no; ?></h5>
             <h5>Mother Name : <?php echo $student->mother_name; ?>, <?php echo $student->mother_mobile_no; ?></h5>
-            <h5>Address : <?php echo $student->address; ?></h5>
+            <h5>Guardian Name : <?php echo $student->guardian_name; ?>, <?php echo $student->guardian_mobile_no; ?></h5>
+            
+            <?php (!empty($student->guardian_name)) ? $student->guardian_name . 'd' : 'sdf'; ?> 
         </div>
     <?php } ?>    
 </div>

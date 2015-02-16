@@ -5,8 +5,6 @@ if (!defined('BASEPATH'))
 
 class std_report_model extends CI_Model {
 
-    public $table = 'std_fee_report';
-
     public function get_all() {
         $query = $this->db->select('*')
                 ->from('std_fee_report')
@@ -21,6 +19,18 @@ class std_report_model extends CI_Model {
         return $query->result();
     }
 
+    public function add($data){
+            unset($data['duty_type']);
+        $this->db->insert('student', $data); 
+        return $this->db->insert_id(); 
+    }
+
+    public function update($data){
+            unset($data['duty_type']);
+        $this->db->where(['id' => $data['id']])
+            ->update('student', $data); 
+        return $this->db->insert_id(); 
+    }
     public function get($id) {
         $query = $this->db->select('student.id as student_id, std_fee_report.*, acc_ledger.id as acc_ledger_id, acc_ledger.name')
                 ->from('std_fee_report')
@@ -38,7 +48,7 @@ class std_report_model extends CI_Model {
 
     public function get_single_student($id) {
         $query = $this->db->select('*')
-                ->get_where('student', ['id' => $id]);
+                ->get_where('student', ['std_id' => $id]);
         if (!$query->num_rows() > 0) {
             return false;
         } else {

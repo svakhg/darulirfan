@@ -21,45 +21,78 @@ class Std_report_ctrl extends base_ctrl {
 
             $type = $_GET['type'];
 
-            $columns = array('id', 'std_name', 'father_name', 'mother_name', 'class', 'roll_no');
+            $columns = array('id', 'std_id', 'std_name', 'father_name', 'mother_name', 'class_id', 'roll_no', 'status');
 
             switch ($type) {
-                case 'create':
-                    $result = $result->create('student', $columns, $request->models, 'id');
-                    break;
                 case 'read':
-                    $result = $result->read('student', $columns, $request);
-                    break;
-                case 'update':
-                    $result = $result->update('student', $columns, $request->models, 'id');
-                    break;
-                case 'destroy':
-                    $result = $result->destroy('student', $request->models, 'id');
-                    break;
+                $result = $result->read('student', $columns, $request);
+                break;
             }
-
             echo json_encode($result, JSON_NUMERIC_CHECK);
 
             exit;
         }
     }
+    public function single_student(){
+        $student_id = $this->input->get('id');
+        $data = $this->model->get_single_student($student_id); 
+        echo json_encode($data);
+    }
     public function edit() {
-        $id = $this->input->get('id'); 
-        
-        $data = $this->model->get_single_student($id); 
-        var_dump($data); 
+        // $id = $this->input->get('id');
+        // $data = $this->model->get_single_student($id); 
         $this->load->view('student_edit'); 
         // echo "edit";
     }
     public function add() {
-        echo "add";
+        $this->load->view('student_edit'); 
     }
+
+    // public function details() {
+    //     $this->load->view('student_details'); 
+    // }
+
     public function index() {
-        $data['results'] = $this->model->get_all();
-
-        $this->load->view('std_fee_report_view', $data);
+        // $data['results'] = $this->model->get_all();
+        $this->load->view('std_fee_report_view');
     }
-
+    public function process_student() {
+        $result = json_decode(file_get_contents('php://input'));
+        $info = (array) $result;
+        // var_dump($info['duty_type']); exit;
+        $is_valid = GUMP::is_valid($info, array(
+          'gender' => 'required'
+          ));
+        if($is_valid === true) {
+            $status = 'error';
+            $msg = 'You are not permitted.';
+            $id = 0;
+            if ($info['duty_type'] === 'save') {
+                if ($this->auth->IsInsert) {
+                    $this->load->library('generate'); 
+                    $student_id = $this->generate->student_id($info['gender']); 
+                    $info['std_id'] = $student_id; 
+                    $id = $this->model->add($info);
+                    $msg = 'Data inserted successfully';
+                    $status = 'success';
+                }
+            } elseif ($info['duty_type'] === 'update') {
+                if ($this->auth->IsUpdate) {
+                    $id = $this->model->update($info);
+                    $status = 'success';
+                    $msg = 'Data updated successfully';
+                }
+            }
+        echo json_encode(array('status' => $status, 'message' => $msg, 'id' => $id));
+        } else {
+            $err = error_process($is_valid);
+            foreach ($err as $value) {
+                $row['message'] = $value;
+            }
+            $row['status'] = 'error';
+            echo json_encode($row);
+        }        
+    }
     public function pay_fees() {
         $id = $this->uri->segment(3);
         $session = $this->session->userdata('user');
@@ -98,7 +131,7 @@ class Std_report_ctrl extends base_ctrl {
 
                 $feedback = ['status' => 'success', 'message' => "Voucher (" . $voucher_id . ") Data Inserted Successfully"];
             } else {
-                
+
             }
             $info['acc_from'] = $row->fee_category_id;
             $info['acc_to'] = 8;
@@ -120,102 +153,102 @@ class Std_report_ctrl extends base_ctrl {
         msg_display('Fees Payment Successfull', 'success');
     }
 
-    public function single() {
+    public function details() {
         $id = $this->uri->segment(3);
         if (!$id) {
             $msg = '
-<script type="text/javascript"> toastr.'
-                    . 'error'
-                    . '("'
+            <script type="text/javascript"> toastr.'
+                . 'error'
+                . '("'
                     . 'Please Give a Student ID'
                     . '");'
-                    . ' </script>
+. ' </script>
 ';
-            echo $msg;
+echo $msg;
+}
+if (!$this->model->get($id)) {
+    $data['results'] = FALSE;
+} else {
+    $data['results'] = $this->model->get($id);
+}
+if ($this->model->get_single_student($id)) {
+    $data['student'] = $this->model->get_single_student($id);
+} else {
+    $data['student'] = false;
+}
+if ($this->model->get_total_fees($id)) {
+    $data['total'] = $this->model->get_total_fees($id);
+} else {
+    $data['total'] = false;
+}
+$this->load->view('student_details', $data);
+}
+
+public function data_report() {
+    $this->load->library('Datatables');
+    $this->datatables
+    ->select('*')
+    ->from('std_fee_report');
+
+    echo $this->datatables->generate();
+}
+
+public function save() {
+    $data = $this->post();
+    $success = FALSE;
+    $msg = 'You are not permitted.';
+    $id = 0;
+    if (!isset($data->UserId)) {
+        if ($this->auth->IsInsert) {
+            $id = $this->model->add($data);
+            $msg = 'Data inserted successfully';
+            $success = TRUE;
         }
-        if (!$this->model->get($id)) {
-            $data['results'] = FALSE;
-        } else {
-            $data['results'] = $this->model->get($id);
+    } else {
+        if ($this->auth->IsUpdate) {
+            $id = $this->model->update($data->UserId, $data);
+            $success = TRUE;
+            $msg = 'Data updated successfully';
         }
-        if ($this->model->get_single_student($id)) {
-            $data['student'] = $this->model->get_single_student($id);
-        } else {
-            $data['student'] = false;
-        }
-        if ($this->model->get_total_fees($id)) {
-            $data['total'] = $this->model->get_total_fees($id);
-        } else {
-            $data['total'] = false;
-        }
-        $this->load->view('std_report_single_view', $data);
     }
+    print json_encode(array('success' => $success, 'msg' => $msg, 'id' => $id));
+}
 
-    public function data_report() {
-        $this->load->library('Datatables');
-        $this->datatables
-                ->select('*')
-                ->from('std_fee_report');
-
-        echo $this->datatables->generate();
-    }
-
-    public function save() {
+public function delete() {
+    if ($this->auth->IsDelete) {
         $data = $this->post();
-        $success = FALSE;
-        $msg = 'You are not permitted.';
-        $id = 0;
-        if (!isset($data->UserId)) {
-            if ($this->auth->IsInsert) {
-                $id = $this->model->add($data);
-                $msg = 'Data inserted successfully';
-                $success = TRUE;
-            }
-        } else {
-            if ($this->auth->IsUpdate) {
-                $id = $this->model->update($data->UserId, $data);
-                $success = TRUE;
-                $msg = 'Data updated successfully';
-            }
-        }
-        print json_encode(array('success' => $success, 'msg' => $msg, 'id' => $id));
+        print json_encode(array("success" => TRUE, "msg" => $this->model->delete($data->UserId)));
+    } else {
+        print json_encode(array("success" => FALSE, "msg" => "You are not permitted"));
     }
+}
 
-    public function delete() {
-        if ($this->auth->IsDelete) {
-            $data = $this->post();
-            print json_encode(array("success" => TRUE, "msg" => $this->model->delete($data->UserId)));
-        } else {
-            print json_encode(array("success" => FALSE, "msg" => "You are not permitted"));
-        }
-    }
+public function get_Roles_list() {
+    print json_encode($this->model->get_Roles_list());
+}
 
-    public function get_Roles_list() {
-        print json_encode($this->model->get_Roles_list());
-    }
+public function get_Navigations_list() {
+    print json_encode($this->model->get_Navigations_list());
+}
 
-    public function get_Navigations_list() {
-        print json_encode($this->model->get_Navigations_list());
-    }
+public function get() {
+    $data = $this->post();
+    print json_encode($this->model->get($data->UserId));
+}
 
-    public function get() {
-        $data = $this->post();
-        print json_encode($this->model->get($data->UserId));
-    }
+public function get_all() {
+    print json_encode($this->model->get_all());
+}
 
-    public function get_all() {
-        print json_encode($this->model->get_all());
-    }
+public function get_page() {
+    $data = $this->post();
+    print json_encode($this->model->get_page($data->size, $data->pageno));
+}
 
-    public function get_page() {
-        $data = $this->post();
-        print json_encode($this->model->get_page($data->size, $data->pageno));
-    }
-
-    public function get_page_where() {
-        $data = $this->post();
-        print json_encode($this->model->get_page_where($data->size, $data->pageno, $data));
-    }
+public function get_page_where() {
+    $data = $this->post();
+    print json_encode($this->model->get_page_where($data->size, $data->pageno, $data));
+}
 
 }
 

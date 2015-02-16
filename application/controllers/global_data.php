@@ -14,6 +14,7 @@ public function __construct() {
 
     function all() {
     	$data['voucher_type'] = $this->db->get('voucher_type')->result();
+        $data['class_info'] = $this->class_info();
     	// var_dump($data); 
     	echo json_encode($data);
     }
@@ -21,6 +22,11 @@ public function __construct() {
     function voucher_type() {
         $data = $this->db->select('id, name, acc_group_type_id')->get('voucher_type')->result();
     	echo json_encode($data);
+    }
+
+    function class_info() {
+        return $data = $this->db->select('id, class_name as name')->get('class')->result();
+        // echo json_encode($data);
     }
 
     function acc_group() {

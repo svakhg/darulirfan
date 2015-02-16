@@ -70,7 +70,8 @@ if(isset($params->ParentNavId) && !empty($params->ParentNavId)){
     }
 
     public function update($id, $data)
-    {
+    {	
+    	unset($data->navigations_NavName);
         return $this->db->where('NavigationId', $id)->update($this->table, $data);
     }
 

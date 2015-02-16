@@ -20,18 +20,48 @@ class Generate extends CI_Controller {
     }
     
     
-    function student_id() {
-        $query = $this->db->select('id')
-                ->order_by('id', 'desc')
-                ->limit(1, 0)
-                ->get('student');
-        $id = (int) $query->row()->id + 1;
-        $s = 's'; 
-        $year = 15; 
-        $student = $s . $year . $id;
-        var_dump($student); exit;
-        $student_id = $student + 1; 
-        return $student_id;
+    function student_id($gender = null) {
+        $s = ($gender == 1) ? 'M' : 'F';  
+        $year = date('y'); 
+        $id = $s . $year;
+            $query = $this->db->select('std_id')
+                    ->like('std_id', $id)
+                    ->order_by('std_id', 'DESC')
+                    ->get('student');
+            if ($query->num_rows() > 0) {
+                $student_id = $query->row()->std_id;
+            } else {
+                //if student table is empty start counting from first 0000
+                $student_id = 000;
+            }
+            // var_dump($student_id); exit; 
+            //plus 1 
+            //add zero if needed
+            $std_id = $id . sprintf("%03s", substr($student_id, -3) + 1);
+
+        return $std_id;
+    }
+
+    function employee_id() {
+        $s = 'E';  
+        $year = date('y'); 
+        $id = $s . $year;
+            $query = $this->db->select('std_id')
+                    ->like('std_id', $id)
+                    ->order_by('std_id', 'DESC')
+                    ->get('student');
+            if ($query->num_rows() > 0) {
+                $student_id = $query->row()->std_id;
+            } else {
+                //if student table is empty start counting from first 0000
+                $student_id = 000;
+            }
+            // var_dump($student_id); exit; 
+            //plus 1 
+            //add zero if needed
+            $std_id = $id . sprintf("%03s", substr($student_id, -3) + 1);
+
+        return $std_id;
     }
 
 }

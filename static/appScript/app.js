@@ -21,25 +21,27 @@ angular.module('project', ['ui.bootstrap', 'ngGrid', 'kendo.directives']).
                     when('/Roles', {templateUrl: BASE_URL + 'Roles_ctrl'}).
                     when('/status', {templateUrl: BASE_URL + 'status_ctrl'}).
                     when('/std_fees', {templateUrl: BASE_URL + 'std_fees_ctrl'}).
-                    when('/student', {templateUrl: BASE_URL + 'student_ctrl'}).
+                    // when('/student', {templateUrl: BASE_URL + 'student_ctrl'}).
                     when('/transaction', {templateUrl: BASE_URL + 'transaction_ctrl'}).
                     when('/Users', {templateUrl: BASE_URL + 'Users_ctrl'}).
-                    when('/std_report', {templateUrl: BASE_URL + 'std_report_ctrl'}).
+                    when('/student', {templateUrl: BASE_URL + 'std_report_ctrl'}).
                     when('/std_report_kendo', {templateUrl: BASE_URL + 'std_report_kendo_ctrl'}).
                     when('/voucher', {templateUrl: BASE_URL + 'voucher_ctrl'}).
                     when('/ledger_book', {templateUrl: BASE_URL + 'ledger_book_ctrl'}).
                     when('/ledger_report', {templateUrl: BASE_URL + 'ledger_report_ctrl'}).
-                    when('/std_report/single/:page', {
+                    when('/student/add', {templateUrl: BASE_URL + 'std_report_ctrl/add'}).
+                    
+                    when('/student/details/:page', {
                         templateUrl: function ($routeParams) {
-                            return BASE_URL + 'std_report_ctrl/single/' + $routeParams.page + '';
+                            return BASE_URL + 'std_report_ctrl/details/' + $routeParams.page + '';
                         }
                     }).
-                    when('/std_report/edit/:page', {
+                    when('/student/edit/:page', {
                         templateUrl: function ($routeParams) {
                             return BASE_URL + 'std_report_ctrl/edit/' + $routeParams.page + '';
                         }
                     }).
-                    when('/std_report/pay_fees/:page', {
+                    when('/student/pay_fees/:page', {
                         templateUrl: function ($routeParams) {
                             return BASE_URL + 'std_report_ctrl/pay_fees/' + $routeParams.page + '';
                         }
