@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 09, 2015 at 08:15 AM
+-- Generation Time: Feb 16, 2015 at 08:58 AM
 -- Server version: 5.5.41-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.5
 
@@ -28,19 +28,19 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `acc_group` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `Group_Name` varchar(500) NOT NULL,
-  `Group_Type` int(11) NOT NULL,
-  `Group_Status` int(11) DEFAULT NULL,
+  `group_name` varchar(500) NOT NULL,
+  `group_type` int(11) NOT NULL,
+  `group_status` int(11) DEFAULT NULL,
   `create_date` datetime NOT NULL,
   `modified_date` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 --
 -- Dumping data for table `acc_group`
 --
 
-INSERT INTO `acc_group` (`id`, `Group_Name`, `Group_Type`, `Group_Status`, `create_date`, `modified_date`) VALUES
+INSERT INTO `acc_group` (`id`, `group_name`, `group_type`, `group_status`, `create_date`, `modified_date`) VALUES
 (1, 'Asset: Current (AC)', 4, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (2, 'Cash at Bank', 4, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (3, 'Cash in Hand', 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
@@ -49,7 +49,8 @@ INSERT INTO `acc_group` (`id`, `Group_Name`, `Group_Type`, `Group_Status`, `crea
 (6, 'Entertainment', 2, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (7, 'Student Fees', 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (8, 'Donation', 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(9, 'Jamanat', 3, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+(9, 'Jamanat', 3, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(10, 'Dining', 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -90,7 +91,7 @@ CREATE TABLE IF NOT EXISTS `acc_ledger` (
   `create_date` datetime NOT NULL,
   `modified_date` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `acc_ledger`
@@ -102,7 +103,8 @@ INSERT INTO `acc_ledger` (`id`, `name`, `group_id`, `acc_group_type_id`, `status
 (3, 'Student Fees', 7, 2, 1, 0, 0, '2014-11-30 00:00:00', '0000-00-00 00:00:00'),
 (4, 'Donation', 8, 2, 1, 0, 0, '2015-02-03 00:00:00', '0000-00-00 00:00:00'),
 (5, 'Office Entertainment', 6, 1, 1, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(6, 'Eastern Bank (65645644)', 2, 0, 1, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+(6, 'Eastern Bank (65645644)', 2, 0, 1, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(7, 'Marketing', 10, 0, 1, 0, 0, '2015-02-04 00:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -289,13 +291,16 @@ INSERT INTO `designation` (`id`, `Designation_Name`) VALUES
 
 CREATE TABLE IF NOT EXISTS `employee` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(500) NOT NULL,
+  `emp_id` varchar(15) NOT NULL,
+  `emp_name` varchar(500) NOT NULL,
   `father_name` varchar(500) NOT NULL,
   `mother_name` varchar(500) NOT NULL,
   `designation` int(11) NOT NULL,
   `contact_no` varchar(100) NOT NULL,
-  `address` varchar(1500) NOT NULL,
-  `created_date` datetime NOT NULL,
+  `present_address` varchar(1500) NOT NULL,
+  `created_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `status` tinyint(1) NOT NULL COMMENT '1-active, 2- inactive, 3- blocked',
+  `salary_amount` float NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
@@ -303,8 +308,8 @@ CREATE TABLE IF NOT EXISTS `employee` (
 -- Dumping data for table `employee`
 --
 
-INSERT INTO `employee` (`id`, `name`, `father_name`, `mother_name`, `designation`, `contact_no`, `address`, `created_date`) VALUES
-(1, 'Rabia Basary', 'Unknown', 'Rokeya Begum', 1, '01686489638', 'Coxbazar, feni', '0000-00-00 00:00:00');
+INSERT INTO `employee` (`id`, `emp_id`, `emp_name`, `father_name`, `mother_name`, `designation`, `contact_no`, `present_address`, `created_date`, `status`, `salary_amount`) VALUES
+(1, '', 'Rabia Basary', 'Unknown', 'Rokeya Begum', 1, '01686489638', 'Coxbazar, feni', '0000-00-00 00:00:00', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -375,7 +380,7 @@ CREATE TABLE IF NOT EXISTS `navigations` (
   `ActionPath` varchar(100) NOT NULL,
   `ParentNavId` int(11) DEFAULT NULL,
   PRIMARY KEY (`NavigationId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=30 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=32 ;
 
 --
 -- Dumping data for table `navigations`
@@ -403,10 +408,12 @@ INSERT INTO `navigations` (`NavigationId`, `NavName`, `NavOrder`, `ActionPath`, 
 (23, 'Fees Category', 17, 'fee_category', 17),
 (24, 'Fees', 18, 'Fees', 17),
 (25, 'Student Fees', 18, 'std_fees', 9),
-(26, 'Student Report', 19, 'std_report', NULL),
+(26, 'Student Report', 19, 'student', 30),
 (27, 'Voucher', 1, 'voucher', NULL),
 (28, 'Ledger Book', 2, 'ledger_book', NULL),
-(29, 'Student Info', 19, 'student', 9);
+(29, 'Student Info', 19, 'student', 9),
+(30, 'Report', 4, 'report', NULL),
+(31, 'Individual Ledger Report', 6, 'ledger_report', 30);
 
 -- --------------------------------------------------------
 
@@ -420,7 +427,7 @@ CREATE TABLE IF NOT EXISTS `navigviewright` (
   `Roles` int(11) DEFAULT NULL,
   `Users` int(11) DEFAULT NULL,
   PRIMARY KEY (`NavgViewId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=30 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=32 ;
 
 --
 -- Dumping data for table `navigviewright`
@@ -451,7 +458,9 @@ INSERT INTO `navigviewright` (`NavgViewId`, `Navigations`, `Roles`, `Users`) VAL
 (26, 26, 1, NULL),
 (27, 27, 1, 2),
 (28, 28, 1, 2),
-(29, 29, 1, NULL);
+(29, 29, 1, NULL),
+(30, 30, 1, NULL),
+(31, 31, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -594,34 +603,34 @@ INSERT INTO `std_fee_report` (`id`, `std_id`, `fees_id`, `fee_category_id`, `mon
 
 CREATE TABLE IF NOT EXISTS `student` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `std_id` varchar(15) NOT NULL,
   `std_name` varchar(500) NOT NULL,
+  `gender` tinyint(1) NOT NULL,
   `father_name` varchar(500) NOT NULL,
   `mother_name` varchar(500) NOT NULL,
-  `class` int(11) DEFAULT NULL,
+  `guardian_name` varchar(250) NOT NULL,
+  `guardian_mobile_no` varchar(50) NOT NULL,
+  `class_id` int(11) DEFAULT NULL,
   `roll_no` int(11) NOT NULL,
   `father_mobile_no` varchar(100) NOT NULL,
   `mother_mobile_no` varchar(100) NOT NULL,
-  `address` varchar(500) NOT NULL,
-  `create_date` datetime NOT NULL,
-  `status` int(11) NOT NULL,
+  `present_address` tinytext NOT NULL,
+  `permanent_address` text NOT NULL,
+  `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1-active, 2- inactive, 3- blocked',
+  `residential_status` tinyint(4) NOT NULL COMMENT '1- residential, 2- non-residential',
+  `concession_description` text NOT NULL,
+  `concession_amount` float NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `student`
 --
 
-INSERT INTO `student` (`id`, `std_name`, `father_name`, `mother_name`, `class`, `roll_no`, `father_mobile_no`, `mother_mobile_no`, `address`, `create_date`, `status`) VALUES
-(1, 'Mehdi Hasan', 'Babul Ahmed', 'Rokeya Begum', 2, 2, '01686489638', '01684896853', 'Feni, Bd', '0000-00-00 00:00:00', 1),
-(2, 'Rabia Basary', 'Unknown', 'Rokeya Begum', 1, 1, '01686489638', '0125689956', 'Coxbazar, Ctg', '0000-00-00 00:00:00', 1),
-(3, 'Raihan Ahmed', 'Babul Ahmed', 'Rokeya Begum', 3, 1, '5645', '541650145', 'Feni, BD', '0000-00-00 00:00:00', 1),
-(4, 'Imran Ahmed', 'unknown', '', 4, 4, '4522', '45254', 'feni.bd', '0000-00-00 00:00:00', 1),
-(5, 'sdf', 'sdf', 'sd', 0, 0, '', '', '', '0000-00-00 00:00:00', 0),
-(6, 'sd', 'sdf', 'sdf', 0, 0, '', '', '', '0000-00-00 00:00:00', 0),
-(7, 'sdf', 'sdfs', 'df', 0, 0, '', '', '', '0000-00-00 00:00:00', 0),
-(8, 'sdf', 'sdf', 'sdf', 0, 0, '', '', '', '0000-00-00 00:00:00', 0),
-(9, 'sdf', 'sdf', 'sdf', 0, 0, '', '', '', '0000-00-00 00:00:00', 0),
-(10, 'sdf', 'sdf', 'sdf', 0, 0, '', '', '', '0000-00-00 00:00:00', 0);
+INSERT INTO `student` (`id`, `std_id`, `std_name`, `gender`, `father_name`, `mother_name`, `guardian_name`, `guardian_mobile_no`, `class_id`, `roll_no`, `father_mobile_no`, `mother_mobile_no`, `present_address`, `permanent_address`, `create_date`, `status`, `residential_status`, `concession_description`, `concession_amount`) VALUES
+(1, 'M15001', 'Mehdi Hasan', 1, 'Babul Ahmed', '4sdsd', 'sdfaws', '5465465', 2, 21, '01686489638', 'sdfsdf', 'klsjdf', 'skldfjkl', '2015-02-15 06:35:54', 1, 1, 'sdfdf', 1000),
+(2, 'M15002', 'Mehdi Hasan', 2, 'sfsf', '4sdsd', 'sdfaws', '5465465', 5, 21, '546', 'sdfsdf', 'klsjdf', 'skldfjkl', '2015-02-15 06:36:20', 1, 2, 'asfd', 123);
 
 -- --------------------------------------------------------
 
@@ -708,8 +717,8 @@ CREATE TABLE IF NOT EXISTS `transaction` (
   `student_id` int(11) NOT NULL,
   `acc_group_id` int(11) NOT NULL,
   `ledger_id` int(11) NOT NULL,
-  `debit` float NOT NULL,
-  `credit` float NOT NULL,
+  `debit` float DEFAULT NULL,
+  `credit` float DEFAULT NULL,
   `description` text NOT NULL,
   `voucher_type` int(11) NOT NULL,
   `voucher_id` int(11) NOT NULL,
@@ -720,17 +729,23 @@ CREATE TABLE IF NOT EXISTS `transaction` (
   `modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `modified_by` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 --
 -- Dumping data for table `transaction`
 --
 
 INSERT INTO `transaction` (`id`, `student_id`, `acc_group_id`, `ledger_id`, `debit`, `credit`, `description`, `voucher_type`, `voucher_id`, `created_by`, `date`, `created`, `user_ip`, `modified`, `modified_by`) VALUES
-(1, 0, 7, 3, 5000, 0, 'Mehdi', 1, 9010234, 2, '2015-02-09', '2015-02-08 19:07:34', '127.0.0.1', '0000-00-00 00:00:00', 0),
-(2, 0, 7, 1, 0, 5000, 'Mehdi', 1, 9010234, 2, '2015-02-09', '2015-02-08 19:07:34', '127.0.0.1', '0000-00-00 00:00:00', 0),
-(3, 0, 8, 4, 400, 0, 'hg', 1, 9010257, 2, '2015-02-09', '2015-02-08 19:12:57', '127.0.0.1', '0000-00-00 00:00:00', 0),
-(4, 0, 8, 1, 0, 400, 'hg', 1, 9010257, 2, '2015-02-09', '2015-02-08 19:12:57', '127.0.0.1', '0000-00-00 00:00:00', 0);
+(1, 0, 2, 1, 5000, NULL, 'sdf', 4, 9110232, 2, '2015-02-09', '2015-02-09 17:55:32', '127.0.0.1', '0000-00-00 00:00:00', 0),
+(2, 0, 2, 2, NULL, 5000, 'sdf', 4, 9110232, 2, '2015-02-09', '2015-02-09 17:55:32', '127.0.0.1', '0000-00-00 00:00:00', 0),
+(3, 0, 6, 5, 500, NULL, 'dfg', 1, 10120248, 2, '2015-02-10', '2015-02-09 18:10:48', '127.0.0.1', '0000-00-00 00:00:00', 0),
+(4, 0, 6, 1, NULL, 500, 'dfg', 1, 10120248, 2, '2015-02-10', '2015-02-09 18:10:49', '127.0.0.1', '0000-00-00 00:00:00', 0),
+(5, 0, 7, 1, 500, NULL, 'sdf', 2, 10120257, 2, '2015-02-10', '2015-02-09 18:10:57', '127.0.0.1', '0000-00-00 00:00:00', 0),
+(6, 0, 7, 3, NULL, 500, 'sdf', 2, 10120257, 2, '2015-02-10', '2015-02-09 18:10:57', '127.0.0.1', '0000-00-00 00:00:00', 0),
+(7, 0, 7, 1, 5000, NULL, 'asdf', 2, 10120206, 2, '2015-02-10', '2015-02-09 18:12:06', '127.0.0.1', '0000-00-00 00:00:00', 0),
+(8, 0, 7, 3, NULL, 5000, 'asdf', 2, 10120206, 2, '2015-02-10', '2015-02-09 18:12:06', '127.0.0.1', '0000-00-00 00:00:00', 0),
+(9, 0, 2, 2, 500, NULL, 'sdf', 3, 10120224, 2, '2015-02-10', '2015-02-09 18:12:24', '127.0.0.1', '0000-00-00 00:00:00', 0),
+(10, 0, 2, 1, NULL, 500, 'sdf', 3, 10120224, 2, '2015-02-10', '2015-02-09 18:12:24', '127.0.0.1', '0000-00-00 00:00:00', 0);
 
 -- --------------------------------------------------------
 
