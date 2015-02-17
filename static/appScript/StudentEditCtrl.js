@@ -16,7 +16,7 @@ function StudentEditCtrl($scope, $http, $location){
         	$http.get(baseurl + "std_report_ctrl/single_student/" + student_id)
         	.success(function (data)
         	{
-        		console.log(data);
+        		// console.log(data);
         	});
 
         	$.ajax({
@@ -28,7 +28,7 @@ function StudentEditCtrl($scope, $http, $location){
         		},
         		success: function (response) {
         			$scope.student = response;
-        			console.log($scope.student);
+        			// console.log($scope.student);
         		},
         		error: function () {
         			console.log("error");
@@ -49,7 +49,7 @@ function StudentEditCtrl($scope, $http, $location){
         		.success(function (data) {
         			if (data.status == 'success') {
         				toastr.success(data.message);
-        				window.location.replace("#/std_report/");
+        				window.location.replace("#/student/");
         			} else {
         				toastr.error(data.message);
         			}

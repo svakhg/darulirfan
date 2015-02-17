@@ -95,93 +95,104 @@ class Std_report_ctrl extends base_ctrl {
     }
     public function pay_fees() {
         $id = $this->uri->segment(3);
-        $session = $this->session->userdata('user');
-
-        if (!$this->model->get($id)) {
-            $data['results'] = FALSE;
-        } else {
-            $data['results'] = $this->model->get($id);
-        }
-
-        foreach ($data['results'] as $row) {
-            if (!check_is_voucher_duplicate($voucher_id)) {
-                $debit['ledger_id'] = $cash_in_hand; //1 = cash in hand
-                $debit['description'] = (string) $result['description'];
-                $debit['voucher_type'] = (int) $result['voucher_type'];
-                $debit['acc_group_id'] = (int) acc_group_id($result['ledger_id'])->acc_group_id;
-                $debit['voucher_id'] = $voucher_id;
-                $debit['debit'] = $result['amount'];
-                $debit['date'] = date("Y-m-d");
-                $debit['user_ip'] = $this->input->ip_address();
-                $debit['created_by'] = $this->session->userdata('user')->UserId;
-
-                $this->db->insert('transaction', $debit);
-
-                $credit['ledger_id'] = (int) $result['ledger_id'];
-                $credit['description'] = (string) $result['description'];
-                $credit['voucher_type'] = (int) $result['voucher_type'];
-                $credit['acc_group_id'] = (int) acc_group_id($result['ledger_id'])->acc_group_id;
-                $credit['voucher_id'] = $voucher_id;
-                $credit['credit'] = $result['amount'];
-                $credit['date'] = date("Y-m-d");
-                $credit['user_ip'] = $this->input->ip_address();
-                $credit['created_by'] = $this->session->userdata('user')->UserId;
-
-                $this->db->insert('transaction', $credit);
-
-                $feedback = ['status' => 'success', 'message' => "Voucher (" . $voucher_id . ") Data Inserted Successfully"];
-            } else {
-
-            }
-            $info['acc_from'] = $row->fee_category_id;
-            $info['acc_to'] = 8;
-            $info['dr_amount'] = 0;
-            $info['cr_amount'] = $row->amount;
-            $info['total'] = $row->amount;
-            $info['customer_id'] = $row->std_id;
-            $info['user_id'] = $session->UserId;
-            $info['description'] = $row->name . ', ' . $row->month;
-
-
-            $this->db->insert('transaction', $info);
-
-            $arr->is_active = 0;
-            $this->db->where('id', $row->id);
-            $this->db->update('std_fee_report', $arr);
-        }
-
-        msg_display('Fees Payment Successfull', 'success');
+        // var_dump($id); 
+        $this->load->view('pay_fees'); 
     }
 
+    // exit; 
+    //     $session = $this->session->userdata('user');
+
+    //     if (!$this->model->get_fees($id)) {
+    //         $data['results'] = FALSE;
+    //     } else {
+    //         $data['results'] = $this->model->get_fees($id);
+    //     }
+
+    //     foreach ($data['results'] as $row) {
+    //         if (!check_is_voucher_duplicate($voucher_id)) {
+    //             $debit['ledger_id'] = $cash_in_hand; //1 = cash in hand
+    //             $debit['description'] = (string) $result['description'];
+    //             $debit['voucher_type'] = (int) $result['voucher_type'];
+    //             $debit['acc_group_id'] = (int) acc_group_id($result['ledger_id'])->acc_group_id;
+    //             $debit['voucher_id'] = $voucher_id;
+    //             $debit['debit'] = $result['amount'];
+    //             $debit['date'] = date("Y-m-d");
+    //             $debit['user_ip'] = $this->input->ip_address();
+    //             $debit['created_by'] = $this->session->userdata('user')->UserId;
+
+    //             $this->db->insert('transaction', $debit);
+
+    //             $credit['ledger_id'] = (int) $result['ledger_id'];
+    //             $credit['description'] = (string) $result['description'];
+    //             $credit['voucher_type'] = (int) $result['voucher_type'];
+    //             $credit['acc_group_id'] = (int) acc_group_id($result['ledger_id'])->acc_group_id;
+    //             $credit['voucher_id'] = $voucher_id;
+    //             $credit['credit'] = $result['amount'];
+    //             $credit['date'] = date("Y-m-d");
+    //             $credit['user_ip'] = $this->input->ip_address();
+    //             $credit['created_by'] = $this->session->userdata('user')->UserId;
+
+    //             $this->db->insert('transaction', $credit);
+
+    //             $feedback = ['status' => 'success', 'message' => "Voucher (" . $voucher_id . ") Data Inserted Successfully"];
+    //         } else {
+
+    //         }
+    //         $info['acc_from'] = $row->fee_category_id;
+    //         $info['acc_to'] = 8;
+    //         $info['dr_amount'] = 0;
+    //         $info['cr_amount'] = $row->amount;
+    //         $info['total'] = $row->amount;
+    //         $info['customer_id'] = $row->std_id;
+    //         $info['user_id'] = $session->UserId;
+    //         $info['description'] = $row->name . ', ' . $row->month;
+
+
+    //         $this->db->insert('transaction', $info);
+
+    //         $arr->is_active = 0;
+    //         $this->db->where('id', $row->id);
+    //         $this->db->update('std_fee_report', $arr);
+    //     }
+
+    //     msg_display('Fees Payment Successfull', 'success');
+
     public function details() {
-        $id = $this->uri->segment(3);
+        $this->load->view('student_details');
+    }
+
+    public function details_info() {
+            $id = $this->input->get('id'); 
         if (!$id) {
             $msg = '
             <script type="text/javascript"> toastr.'
-                . 'error'
-                . '("'
+                    . 'error'
+                    . '("'
                     . 'Please Give a Student ID'
                     . '");'
-. ' </script>
-';
-echo $msg;
-}
-if (!$this->model->get($id)) {
-    $data['results'] = FALSE;
-} else {
-    $data['results'] = $this->model->get($id);
-}
-if ($this->model->get_single_student($id)) {
-    $data['student'] = $this->model->get_single_student($id);
-} else {
-    $data['student'] = false;
-}
-if ($this->model->get_total_fees($id)) {
+            . ' </script>
+            ';
+            echo $msg;
+            }
+    $info = $this->model->get_single_student($id);
+    $info->gender = ($info->gender == 1) ? "Male" : "Female"; 
+
+    $info->residential_status = ($info->residential_status == 1) ? "Yes" : "No"; 
+    $info->status = ($info->status == 1) ? "Current Student" : "Previous/Old Student"; 
+    
+    $arr = $this->model->get_fees($id);
+    $subArr = []; 
+    foreach ($arr as $key=>$value) {
+        $subArr[$key]['name'] = $value->name;  
+        $subArr[$key]['amount'] = (int) $value->amount;  
+        $subArr[$key]['created'] = $value->created;  
+        $subArr[$key]['isSelected'] = (bool) false;  
+    }
+    $data['fees'] = $subArr;
+    $data['student'] = $info; 
     $data['total'] = $this->model->get_total_fees($id);
-} else {
-    $data['total'] = false;
-}
-$this->load->view('student_details', $data);
+
+    echo json_encode($data); 
 }
 
 public function data_report() {

@@ -1,0 +1,30 @@
+<script src="static/appScript/StudentPayFeesCtrl.js"></script>
+<!-- <div ng-controller = "StudentDetailsCtrl">
+ -->
+<h2>Shopping Card Example</h2>
+<div ng:controller="CartForm">
+    <table class="table">
+        <tr>
+                        <th>Description</th>
+            <th>Qty</th>
+            <th>Cost</th>
+            <th>Total</th>
+            <th></th>
+        </tr>
+        <tr ng:repeat="item in invoice.items">
+            <td><input type="text" ng:model="item.description"class="input-small"></td>           
+            <td><input type="number" ng:model="item.qty" ng:required class="input-mini"></td>
+            <td><input type="number" ng:model="item.cost" ng:required class="input-mini"></td>
+            <td>{{item.qty * item.cost | currency}}</td>
+            <td>
+                [<a href ng:click="removeItem($index)">X</a>]
+            </td>
+        </tr>
+        <tr>
+            <td><a href ng:click="addItem()" class="btn btn-small">add item</a></td>
+            <td></td>
+            <td>Total:</td>
+            <td>{{total() | currency}}</td>
+        </tr>
+    </table>
+</div>
