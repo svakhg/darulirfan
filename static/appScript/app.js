@@ -41,11 +41,26 @@ angular.module('project', ['ui.bootstrap', 'ngGrid', 'kendo.directives']).
                             return BASE_URL + 'std_report_ctrl/edit/' + $routeParams.page + '';
                         }
                     }).
-                    when('/student/pay_fees/:page', {
+                     when('/student/pay_fees/:page', {
                         templateUrl: function ($routeParams) {
                             return BASE_URL + 'std_report_ctrl/pay_fees/' + $routeParams.page + '';
                         }
                     }).
+
+                    when('/employee/add', {templateUrl: BASE_URL + 'employee_ctrl/add'}).
+                    
+                    when('/employee/details/:page', {
+                        templateUrl: function ($routeParams) {
+                            return BASE_URL + 'employee_ctrl/details/' + $routeParams.page + '';
+                        }
+                    }).
+                    when('/employee/edit/:page', {
+                        templateUrl: function ($routeParams) {
+                            return BASE_URL + 'employee_ctrl/edit/' + $routeParams.page + '';
+                        }
+                    }).
+
+                   
                     when('/kendo', {templateUrl: BASE_URL + 'kendo_ctrl/ins'}).
                     when('/Cash_Payment/:page', {
                         templateUrl: function ($routeParams) {

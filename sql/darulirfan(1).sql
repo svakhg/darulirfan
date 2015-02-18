@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 16, 2015 at 08:58 AM
+-- Generation Time: Feb 18, 2015 at 09:12 AM
 -- Server version: 5.5.41-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.5
 
@@ -564,7 +564,7 @@ INSERT INTO `std_fees` (`std_id`, `id`, `fees_id`, `status`, `created`, `user_id
 
 CREATE TABLE IF NOT EXISTS `std_fee_report` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `std_id` int(11) NOT NULL,
+  `std_id` varchar(11) NOT NULL,
   `fees_id` int(11) NOT NULL,
   `fee_category_id` int(11) NOT NULL,
   `month` varchar(50) NOT NULL,
@@ -582,18 +582,18 @@ CREATE TABLE IF NOT EXISTS `std_fee_report` (
 --
 
 INSERT INTO `std_fee_report` (`id`, `std_id`, `fees_id`, `fee_category_id`, `month`, `year`, `amount`, `created`, `modified`, `user_id`, `is_active`) VALUES
-(139, 3, 0, 2, 'December', 2014, 5000, '2014-12-02 01:56:01', '0000-00-00 00:00:00', 0, 0),
-(140, 1, 0, 5, 'December', 2014, 900, '2014-12-02 01:56:01', '0000-00-00 00:00:00', 0, 1),
-(141, 1, 0, 1, 'December', 2014, 100, '2014-12-02 01:56:01', '0000-00-00 00:00:00', 0, 0),
-(142, 2, 0, 1, 'December', 2014, 200, '2014-12-02 01:56:01', '0000-00-00 00:00:00', 0, 0),
-(143, 3, 0, 1, 'December', 2014, 300, '2014-12-02 01:56:01', '0000-00-00 00:00:00', 0, 0),
-(144, 4, 0, 1, 'December', 2014, 400, '2014-12-02 01:56:01', '0000-00-00 00:00:00', 0, 0),
-(145, 3, 0, 2, 'February', 2015, 5000, '2015-01-28 05:11:50', '0000-00-00 00:00:00', 0, 0),
-(146, 1, 0, 5, 'February', 2015, 900, '2015-01-28 05:11:50', '0000-00-00 00:00:00', 0, 1),
-(147, 1, 0, 1, 'February', 2015, 100, '2015-01-28 05:11:50', '0000-00-00 00:00:00', 0, 0),
-(148, 2, 0, 1, 'February', 2015, 200, '2015-01-28 05:11:50', '0000-00-00 00:00:00', 0, 0),
-(149, 3, 0, 1, 'February', 2015, 300, '2015-01-28 05:11:50', '0000-00-00 00:00:00', 0, 0),
-(150, 4, 0, 1, 'February', 2015, 400, '2015-01-28 05:11:50', '0000-00-00 00:00:00', 0, 0);
+(139, '3', 0, 2, 'December', 2014, 5000, '2014-12-02 01:56:01', '0000-00-00 00:00:00', 0, 0),
+(140, 'M15001', 0, 5, 'December', 2014, 900, '2014-12-02 01:56:01', '0000-00-00 00:00:00', 0, 1),
+(141, '1', 0, 1, 'December', 2014, 100, '2014-12-02 01:56:01', '0000-00-00 00:00:00', 0, 0),
+(142, '2', 0, 1, 'December', 2014, 200, '2014-12-02 01:56:01', '0000-00-00 00:00:00', 0, 0),
+(143, '3', 0, 1, 'December', 2014, 300, '2014-12-02 01:56:01', '0000-00-00 00:00:00', 0, 0),
+(144, '4', 0, 1, 'December', 2014, 400, '2014-12-02 01:56:01', '0000-00-00 00:00:00', 0, 0),
+(145, '3', 0, 2, 'February', 2015, 5000, '2015-01-28 05:11:50', '0000-00-00 00:00:00', 0, 0),
+(146, 'M15001', 0, 5, 'February', 2015, 900, '2015-01-28 05:11:50', '0000-00-00 00:00:00', 0, 1),
+(147, '1', 0, 1, 'February', 2015, 100, '2015-01-28 05:11:50', '0000-00-00 00:00:00', 0, 0),
+(148, '2', 0, 1, 'February', 2015, 200, '2015-01-28 05:11:50', '0000-00-00 00:00:00', 0, 0),
+(149, '3', 0, 1, 'February', 2015, 300, '2015-01-28 05:11:50', '0000-00-00 00:00:00', 0, 0),
+(150, '4', 0, 1, 'February', 2015, 400, '2015-01-28 05:11:50', '0000-00-00 00:00:00', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -629,8 +629,8 @@ CREATE TABLE IF NOT EXISTS `student` (
 --
 
 INSERT INTO `student` (`id`, `std_id`, `std_name`, `gender`, `father_name`, `mother_name`, `guardian_name`, `guardian_mobile_no`, `class_id`, `roll_no`, `father_mobile_no`, `mother_mobile_no`, `present_address`, `permanent_address`, `create_date`, `status`, `residential_status`, `concession_description`, `concession_amount`) VALUES
-(1, 'M15001', 'Mehdi Hasan', 1, 'Babul Ahmed', '4sdsd', 'sdfaws', '5465465', 2, 21, '01686489638', 'sdfsdf', 'klsjdf', 'skldfjkl', '2015-02-15 06:35:54', 1, 1, 'sdfdf', 1000),
-(2, 'M15002', 'Mehdi Hasan', 2, 'sfsf', '4sdsd', 'sdfaws', '5465465', 5, 21, '546', 'sdfsdf', 'klsjdf', 'skldfjkl', '2015-02-15 06:36:20', 1, 2, 'asfd', 123);
+(1, 'M15001', 'RAbia Basary', 2, 'Babul Ahmed', '4sdsd', 'sdfaws', '5465465', 2, 21, '01686489638', 'sdfsdf', 'home: Rokeya Monjil, Village: Uttar ballabpur, Thana: Chhagalnaiya, District: Feni, Country: Bangladesh. ', 'home: Rokeya Monjil, Village: Uttar ballabpur, Thana: Chhagalnaiya, District: Feni, Country: Bangladesh. ', '2015-02-15 06:35:54', 2, 1, 'sdfdf', 1000),
+(2, 'M15002', 'Mehdi Hasan', 1, 'sfsf', '4sdsd', 'sdfaws', '5465465', 5, 21, '546', 'sdfsdf', 'klsjdf', 'skldfjkl', '2015-02-15 06:36:20', 2, 2, 'asfd', 123);
 
 -- --------------------------------------------------------
 

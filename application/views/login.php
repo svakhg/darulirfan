@@ -60,10 +60,10 @@
         <h2 class="form-signin-heading">Please sign in</h2>
         <input type="text" class="input-block-level" name="username" value="" placeholder="Email address">
         <input type="password" class="input-block-level" name="password" value="" placeholder="Password">
-        <label class="checkbox">
+       <!--  <label class="checkbox">
           <input type="checkbox" value="remember-me"> Remember me
-        </label>
-        <button class="btn btn-large btn-primary" type="submit">Sign in</button>
+        </label> -->
+        <button class="btn btn-large btn-primary btn-block" type="submit">Sign in</button>
       </form>
 
     </div> <!-- /container -->  
