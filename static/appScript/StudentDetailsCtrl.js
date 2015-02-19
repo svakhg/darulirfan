@@ -1,139 +1,72 @@
 
 function StudentDetailsCtrl($scope, $http, $location){
-	var url = document.URL;
-	$scope.student_id = url.substring(url.lastIndexOf('/') + 1);
-	// $http.get(baseurl + "std_report_ctrl/single_student?id=" + student_id)
-	// .success(function (data)
-	// {
-	// 	$scope.student = data; 
-	// 	console.log(data);
-	// });
-$scope.username = 'World';
+  var url = document.URL;
+  $scope.student_id = url.substring(url.lastIndexOf('/') + 1);
+
+  $scope.username = 'World';
 
   $scope.sayHello = function() {
     $scope.greeting = 'Hello ' + $scope.username + '!';
   };
-  console.log($scope.greeting); 
-	$scope.fees = [];
+  $scope.fees = [];
+  var all_data = $.ajax({url: baseurl + "std_report_ctrl/details_info?id=" + $scope.student_id, dataType: 'json', async: false})
+  .success(function (result) {
+    return result;
+  })
+  .error(function () {
+    console.log("error");
+  });
+  response = JSON.parse(all_data.responseText); 
 
-	       $http.get(baseurl + "std_report_ctrl/details_info?id=" + $scope.student_id)
-         .success(function (response) {
-                $scope.student = response.student;  
-                $scope.fees = response.fees;
-                $scope.total = response.total;
-                fees_arr = $scope.fees; 
-                // console.log(fees_arr); 
-             //    for (var i in fees_arr){
-      			    //   tmpSum =+ fees_arr[i].amount; 
-      			    // }			         
-                // console.log(tmpSum); 
-            })
+  $scope.student = response.student;  
+  $scope.fees = response.fees;
+  $scope.total = response.total;
 
-	// function sum (fees) {
-	//     var data = $scope.fees;
-	//     var tmpSum
 
-	//      for (var i in data){
-	//       tmpSum =+ data[i].amount;
-	//     }
-	//     $scope.sum = tmpSum 
-	//     console.log($scope.sum); 
-	// };
+  
 
-	// // Initialization
- //    $scope.areAllPeopleSelected = false;
+  // $scope.grand_total = 0.00; 
+  $scope.printMode = false;
 
- //    $scope.stringsArray = [];
- //    var currStringIndex = 0;
- //    console.log($scope.stringsArray); 
- //    // Utility functions
- //    $scope.updatePeopleSelection = function (peopleArray, selectionValue) {
- //      for (var i = 0; i < peopleArray.length; i++)
- //      {
- //        peopleArray[i].isSelected = selectionValue;
- //      }
- //    };
+  $scope.addItem = function() {
+    $scope.invoice.items.push({amount:0, name:"", created: new Date});    
+  }
 
- //    $scope.getPersonPositionDesc = function(isFirst, isMiddle, isLast, isEven, isOdd) {
- //      var result = "";
+  $scope.removeItem = function(item) {
+    $scope.invoice.items.splice($scope.invoice.items.indexOf(item), 1);    
+  }
 
- //      if (isFirst)
- //      {
- //        result = "(first";
- //      }
- //      else if (isMiddle)
- //      {
- //        result = "(middle";
- //      }
- //      else if (isLast)
- //      {
- //        result = "(last";
- //      }
+  $scope.invoice_sub_total = function() {
+    var total = 0.00;
 
- //      if (isEven)
- //      {
- //        result += "-even)";
- //      }
- //      else if (isOdd)
- //      {
- //        result += "-odd)";
- //      }
+    angular.forEach($scope.invoice.items, function(item, key){
+      total += (Number)(item.amount);
+    });
+    return total;
+  }
+  $scope.grand_total = function() {
+    return ($scope.invoice_sub_total() - $scope.invoice.discount);
+  }
 
- //      return result;
- //    };
+  $scope.printInfo = function() {
+    window.print();
+  }
+  $scope.invoice = {
+    student_id: $scope.student_id,
+    discount: 0.00, 
+    items: $scope.fees};
 
- //    $scope.addStringToArray = function () {
- //      $scope.stringsArray.push("Item " + currStringIndex);
- //      currStringIndex++;
- //    };
-
- //    $scope.removeStringFromArray = function (stringIndex) {
- //      if (stringIndex >= 0 && stringIndex < $scope.stringsArray.length)
- //      {
- //        $scope.stringsArray.splice(stringIndex, 1);
- //      }
- //    };
-
-    $scope.btnPayFees = function (fees) {
-    	console.log($scope.fees); 
-    	console.log("hello"); 
+    $scope.btnPayFees = function (invoice) {
+      console.log(invoice);
+      $http.post(baseurl + "std_report_ctrl/process_fees", invoice)
+      .success(function (data) {
+        console.log(data);
+        if (data.status == 'success') {
+          toastr.success(data.message);
+          // window.location.replace("#/student/");
+        } else {
+          toastr.error(data.message);
+        }
+      });
     }
-
-
-    $scope.printMode = false;
-
-  var sample_invoice = {
-            tax: 13.00, 
-            invoice_number: 10,
-            customer_info:  {name: "Mr. John Doe", web_link: "John Doe Designs Inc.", address1: "1 Infinite Loop", address2: "Cupertino, California, US", postal: "90210"},
-            company_info:  {name: "Metaware Labs", web_link: "www.metawarelabs.com", address1: "123 Yonge Street", address2: "Toronto, ON, Canada", postal: "M5S 1B6"},
-              items:[ {qty:10, description:'Gadget', cost:9.95}]};
-
-    $scope.invoice = sample_invoice;
-    console.log($scope.fees); 
-    $scope.addItem = function() {
-        $scope.invoice.items.push({cost:0, description:""});    
-    }
-    
-    $scope.removeItem = function(item) {
-        $scope.invoice.items.splice($scope.invoice.items.indexOf(item), 1);    
-    }
-    
-    $scope.invoice_sub_total = function() {
-        var total = 0.00;
-
-        angular.forEach($scope.invoice.items, function(item, key){
-          total += (Number)(item.cost);
-          // console.log($scope.invoice.items); 
-        });
-        return total;
-    }
-    $scope.calculate_tax = function() {
-        return ($scope.invoice_sub_total() - $scope.invoice.tax);
-    }
-   
-    $scope.printInfo = function() {
-      window.print();
-    }
-
-};
+  };

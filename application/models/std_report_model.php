@@ -32,7 +32,7 @@ class std_report_model extends CI_Model {
         return $this->db->insert_id(); 
     }
     public function get_fees($id) {
-        $query = $this->db->select('student.std_id as student_id, std_fee_report.amount, std_fee_report.created, acc_ledger.id as acc_ledger_id, acc_ledger.name')
+        $query = $this->db->select('student.std_id as student_id, std_fee_report.id, std_fee_report.amount, std_fee_report.created, acc_ledger.id as acc_ledger_id, acc_ledger.name')
                 ->from('std_fee_report')
                 ->where(['std_fee_report.std_id' => $id, 'std_fee_report.is_active' => 1])
                 ->join('student', 'std_fee_report.std_id = student.std_id')

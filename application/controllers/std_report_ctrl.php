@@ -16,7 +16,6 @@ class Std_report_ctrl extends base_ctrl {
             header('Content-Type: application/json');
 
             $request = json_decode(file_get_contents('php://input'));
-            // var_dump($request); exit; 
             $result = new DataSourceResult('');
 
             $type = $_GET['type'];
@@ -59,7 +58,6 @@ class Std_report_ctrl extends base_ctrl {
     public function process_student() {
         $result = json_decode(file_get_contents('php://input'));
         $info = (array) $result;
-        // var_dump($info['duty_type']); exit;
         $is_valid = GUMP::is_valid($info, array(
           'gender' => 'required'
           ));
@@ -93,10 +91,36 @@ class Std_report_ctrl extends base_ctrl {
             echo json_encode($row);
         }        
     }
-    public function pay_fees() {
-        $id = $this->uri->segment(3);
-        // var_dump($id); 
-        $this->load->view('pay_fees'); 
+    public function process_fees() {
+        $result = json_decode(file_get_contents('php://input'));
+        $info = (array) $result;
+        $is_valid = GUMP::is_valid($info, array(
+          'discount' => 'required',
+          'items' => 'required',
+          'student_id' => 'required'
+          ));
+        if($is_valid === true) {
+            $sum = array();
+            foreach($info['items'] as $key => $value)
+                {
+                    $sum[] = $value->amount;
+                }
+                $total = array_sum($sum);
+            $data['total'] = $total;
+            $data['student_id'] = $info['student_id'];
+            $data['discount'] = $info['discount']; 
+            $data['grand_total'] = $total - $info['discount']; 
+            $data['fees'] = $info['items']; 
+            var_dump($data); 
+
+        } else {
+            $err = error_process($is_valid);
+            foreach ($err as $value) {
+                $row['message'] = $value;
+            }
+            $row['status'] = 'error';
+            echo json_encode($row);
+        }    
     }
 
     // exit; 
@@ -179,16 +203,20 @@ class Std_report_ctrl extends base_ctrl {
 
     $info->residential_status = ($info->residential_status == 1) ? "Yes" : "No"; 
     $info->status = ($info->status == 1) ? "Current Student" : "Previous/Old Student"; 
-    
+    $data['fees'] = null; 
     $arr = $this->model->get_fees($id);
-    $subArr = []; 
-    foreach ($arr as $key=>$value) {
-        $subArr[$key]['name'] = $value->name;  
-        $subArr[$key]['amount'] = (int) $value->amount;  
-        $subArr[$key]['created'] = $value->created;  
-        $subArr[$key]['isSelected'] = (bool) false;  
-    }
+    if ($arr !== false) {
+            $subArr = []; 
+        foreach ($arr as $key=>$value) {
+            $subArr[$key]['id'] = $value->id;  
+            $subArr[$key]['name'] = $value->name;  
+            $subArr[$key]['amount'] = (int) $value->amount;  
+            $subArr[$key]['created'] = $value->created;  
+            $subArr[$key]['isSelected'] = (bool) false;  
+        }
     $data['fees'] = $subArr;
+    }
+    
     $data['student'] = $info; 
     $data['total'] = $this->model->get_total_fees($id);
 

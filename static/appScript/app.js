@@ -106,5 +106,9 @@ angular.module('project', ['ui.bootstrap', 'ngGrid', 'kendo.directives']).
                             return total;
                         }
                     };
-                });
+                })
+        // .controller('StudentDetailsCtrl', function ($scope, $route, $http, $filter, $location) {
+               
+        //     })
+        ;
                 

@@ -13,27 +13,27 @@ function StudentEditCtrl($scope, $http, $location){
         var url = document.URL;
         var student_id = url.substring(url.lastIndexOf('/') + 1);
         if (student_id !== 'add') {
-        	$http.get(baseurl + "std_report_ctrl/single_student/" + student_id)
+        	$http.get(baseurl + "std_report_ctrl/single_student/?id=" + student_id)
         	.success(function (data)
         	{
-        		// console.log(data);
+        		$scope.student = data;
         	});
 
-        	$.ajax({
-        		url: baseurl + "std_report_ctrl/single_student/",
-        		dataType: "json",
-        		type: "get",
-        		data: {
-        			id: student_id
-        		},
-        		success: function (response) {
-        			$scope.student = response;
-        			// console.log($scope.student);
-        		},
-        		error: function () {
-        			console.log("error");
-        		}
-        	});
+        	// $.ajax({
+        	// 	url: baseurl + "std_report_ctrl/single_student/",
+        	// 	dataType: "json",
+        	// 	type: "get",
+        	// 	data: {
+        	// 		id: student_id
+        	// 	},
+        	// 	success: function (response) {
+        	// 		$scope.student = response;
+        	// 		// console.log($scope.student);
+        	// 	},
+        	// 	error: function () {
+        	// 		console.log("error");
+        	// 	}
+        	// });
         } else {
         	console.log('Add new student');
         }
