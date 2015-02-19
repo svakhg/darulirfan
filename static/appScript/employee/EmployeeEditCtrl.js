@@ -1,6 +1,6 @@
 
-function StudentEditCtrl($scope, $http, $location){
-	$scope.student = {};
+function EmployeeEditCtrl($scope, $http, $location){
+	$scope.employee = {};
         // console.log(JSON.parse(all_data['responseText']).class_info); 
         // $("#class_id").kendoDropDownList({
         // 	filter: "startswith",
@@ -11,47 +11,48 @@ function StudentEditCtrl($scope, $http, $location){
         // });
 
         var url = document.URL;
-        var student_id = url.substring(url.lastIndexOf('/') + 1);
-        if (student_id !== 'add') {
-        	$http.get(baseurl + "std_report_ctrl/single_student/" + student_id)
+        var emp_id = url.substring(url.lastIndexOf('/') + 1);
+        if (emp_id !== 'add') {
+        	$http.get(baseurl + "employee_ctrl/single_emp/" + emp_id)
         	.success(function (data)
         	{
         		// console.log(data);
         	});
 
         	$.ajax({
-        		url: baseurl + "std_report_ctrl/single_student/",
+        		url: baseurl + "employee_ctrl/single_emp/",
         		dataType: "json",
         		type: "get",
         		data: {
-        			id: student_id
+        			id: emp_id
         		},
         		success: function (response) {
-        			$scope.student = response;
-        			// console.log($scope.student);
+        			$scope.employee = response;
+        			console.log($scope.employee);
         		},
         		error: function () {
         			console.log("error");
         		}
         	});
         } else {
-        	console.log('Add new student');
+        	console.log('Add new Employee');
         }
 
-        $scope.processStudent = function (student) {
+        $scope.processEmployee = function (employee) {
         	if ($scope.validator.validate()) {
-        		if (student.id) {
-        			angular.extend(student, {duty_type: 'update'});
+        		if (employee.id) {
+        			angular.extend(employee, {duty_type: 'update'});
         		} else {
-        			angular.extend(student, {duty_type: 'save'});
+        			angular.extend(employee, {duty_type: 'save'});
         		}
-        		$http.post(baseurl + "std_report_ctrl/process_student", student)
+        		$http.post(baseurl + "employee_ctrl/process_employee", employee)
         		.success(function (data) {
         			if (data.status == 'success') {
         				toastr.success(data.message);
-        				window.location.replace("#/student/");
+        				window.location.replace("#/employee/");
         			} else {
         				toastr.error(data.message);
+                        $scope.employee = employee; 
         			}
         		});
         	}

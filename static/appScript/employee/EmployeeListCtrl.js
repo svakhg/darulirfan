@@ -24,7 +24,7 @@ function EmployeeListCtrl($scope, $http, $location){
                                     father_name: {type: "string", validation: {required: true}},
                                     mother_name: {type: "string", validation: {required: true}},
                                     designation: {type: "string", validation: {required: true}},
-                                    contact_no: {type: "number", validation: {required: true}},
+                                    contact_no: {type: "string", validation: {required: true}},
                                     // status: {type: "boolean", validation: {required: true}},
                                 }
                             },
@@ -120,6 +120,7 @@ function EmployeeListCtrl($scope, $http, $location){
                 function EditEmployeeBtn(e) {
                     e.preventDefault();
                     var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+                    console.log(dataItem);
                     window.location.replace("#/employee/edit/" + dataItem.emp_id);
                 }
 

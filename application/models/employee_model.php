@@ -20,15 +20,15 @@ class employee_model extends CI_Model {
     }
 
     public function add($data){
-            unset($data['duty_type']);
-        $this->db->insert('student', $data); 
+        unset($data['duty_type']);
+        $this->db->insert('employee', $data); 
         return $this->db->insert_id(); 
     }
 
     public function update($data){
             unset($data['duty_type']);
         $this->db->where(['id' => $data['id']])
-            ->update('student', $data); 
+            ->update('employee', $data); 
         return $this->db->insert_id(); 
     }
     public function get_fees($id) {
@@ -45,9 +45,9 @@ class employee_model extends CI_Model {
         }
     }
 
-    public function get_single_student($id) {
+    public function get_single_emp($id) {
         $query = $this->db->select('*')
-                ->get_where('student', ['std_id' => $id]);
+                ->get_where('employee', ['emp_id' => $id]);
         if (!$query->num_rows() > 0) {
             return false;
         } else {

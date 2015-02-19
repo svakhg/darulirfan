@@ -21,7 +21,7 @@ class Employee_ctrl extends base_ctrl {
 
             $type = $_GET['type'];
 
-            $columns = array('id', 'emp_id', 'emp_name', 'father_name', 'mother_name', 'designation', 'status');
+            $columns = array('id', 'emp_id', 'emp_name', 'father_name', 'mother_name', 'designation', 'contact_no', 'status');
 
             switch ($type) {
                 case 'read':
@@ -34,8 +34,8 @@ class Employee_ctrl extends base_ctrl {
         }
     }
     public function single_emp(){
-        $student_id = $this->input->get('id');
-        $data = $this->model->get_single_emp($student_id); 
+        $emp_id = $this->input->get('id');
+        $data = $this->model->get_single_emp($emp_id);
         echo json_encode($data);
     }
     public function edit() {
@@ -48,12 +48,13 @@ class Employee_ctrl extends base_ctrl {
     public function index() {
         $this->load->view('employee/list');
     }
-    public function process_student() {
+    public function process_employee() {
         $result = json_decode(file_get_contents('php://input'));
         $info = (array) $result;
-        // var_dump($info['duty_type']); exit;
         $is_valid = GUMP::is_valid($info, array(
-          'designation' => 'required'
+          'designation' => 'required',
+          'salary_amount' => 'required',
+          'status' => 'required'
           ));
         if($is_valid === true) {
             $status = 'error';
@@ -63,10 +64,16 @@ class Employee_ctrl extends base_ctrl {
                 if ($this->auth->IsInsert) {
                     $this->load->library('generate'); 
                     $student_id = $this->generate->employee_id($info); 
-                    $info['emp_id'] = $student_id; 
+                    if (!empty($student_id)) {
+                         $info['emp_id'] = $student_id; 
+                    // var_dump($info); exit; 
                     $id = $this->model->add($info);
                     $msg = 'Data inserted successfully';
                     $status = 'success';
+                } else {
+                   $status = 'error'; 
+                   $msg = "Employee ID Generate Error"; 
+                }
                 }
             } elseif ($info['duty_type'] === 'update') {
                 if ($this->auth->IsUpdate) {
@@ -87,7 +94,7 @@ class Employee_ctrl extends base_ctrl {
     }
     
     public function details() {
-        $this->load->view('employee/emp_details');
+        $this->load->view('employee/details');
     }
 
     public function details_info() {
