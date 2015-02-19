@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 18, 2015 at 09:12 AM
+-- Generation Time: Feb 19, 2015 at 08:26 AM
 -- Server version: 5.5.41-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.5
 
@@ -293,23 +293,31 @@ CREATE TABLE IF NOT EXISTS `employee` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `emp_id` varchar(15) NOT NULL,
   `emp_name` varchar(500) NOT NULL,
+  `emp_mobile` varchar(20) NOT NULL,
+  `gender` tinyint(1) NOT NULL,
   `father_name` varchar(500) NOT NULL,
   `mother_name` varchar(500) NOT NULL,
   `designation` int(11) NOT NULL,
   `contact_no` varchar(100) NOT NULL,
   `present_address` varchar(1500) NOT NULL,
+  `permanent_address` text NOT NULL,
+  `emergency_address` text NOT NULL,
+  `remarks` text NOT NULL,
+  `residential_status` tinyint(1) NOT NULL COMMENT '1- residential, 2- non-residential',
   `created_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `status` tinyint(1) NOT NULL COMMENT '1-active, 2- inactive, 3- blocked',
   `salary_amount` float NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `employee`
 --
 
-INSERT INTO `employee` (`id`, `emp_id`, `emp_name`, `father_name`, `mother_name`, `designation`, `contact_no`, `present_address`, `created_date`, `status`, `salary_amount`) VALUES
-(1, '', 'Rabia Basary', 'Unknown', 'Rokeya Begum', 1, '01686489638', 'Coxbazar, feni', '0000-00-00 00:00:00', 0, 0);
+INSERT INTO `employee` (`id`, `emp_id`, `emp_name`, `emp_mobile`, `gender`, `father_name`, `mother_name`, `designation`, `contact_no`, `present_address`, `permanent_address`, `emergency_address`, `remarks`, `residential_status`, `created_date`, `status`, `salary_amount`) VALUES
+(3, 'E15001', 'Rabia Basary', '01686489638', 2, 'sdf', 'sdf', 1, '01686489638', 'sdf', 'sdf', 'sdf', 'sdf', 1, '2015-02-18 17:15:00', 1, 1500),
+(5, 'E15002', 'Raihan Ahmed', '', 1, 'sdfkj', 'sdjfl', 2, '01686489638', 'jskldjf', 'lsjdfl', 'ljsdfk', 'sdf', 1, '2015-02-18 17:35:50', 1, 5000),
+(6, 'E15003', 'Mehedi Hasan', '', 1, 'df', 'sdf', 3, '01686489638', 'sdf', 'sdf', 'sdf', 'sdf', 1, '2015-02-18 17:42:06', 1, 15200);
 
 -- --------------------------------------------------------
 

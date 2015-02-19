@@ -10,8 +10,9 @@ class MY_Controller extends CI_Controller {
         $data = new stdClass();
         $this->CI = & get_instance();
         
-        require_once 'system/kendo/lib/DataSourceResult.php';
-        require_once 'system/kendo/lib/kendo/Autoload.php';
+        require_once 'application/third_party/kendo/lib/DataSourceResult.php';
+        require_once 'application/third_party/kendo/lib/kendo/Autoload.php';
+        require_once 'application/third_party/gump.class.php';
     }
 
     /**
