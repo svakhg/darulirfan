@@ -72,6 +72,11 @@ angular.module('project', ['ui.bootstrap', 'ngGrid', 'kendo.directives']).
                             return BASE_URL + 'report/' + $routeParams.page + '';
                         }
                     }).
+                      when('/employee/:page', {
+                        templateUrl: function ($routeParams) {
+                            return BASE_URL + 'employee_ctrl/' + $routeParams.page + '';
+                        }
+                    }).
                     when('/Cash_Payment', {templateUrl: BASE_URL + 'cash_payment_ctrl/payment'}).
                     when('/:page/:child*', {
                         templateUrl: function ($routeParams) {

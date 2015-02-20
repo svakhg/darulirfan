@@ -43,8 +43,12 @@ load->library('form_validation');
         $info = ['status' => 'success', 'message' => 'operation successful', 'data' => $data, 'debit_total' => $debit_total, 'credit_total' => $credit_total];
         echo json_encode($info);
       }  else {
-          print_r($is_valid);
-      }
+            $err = error_process($is_valid);
+            foreach ($err as $value) {
+                $row['message'] = $value;
+            }
+            $row['status'] = 'error';
+            echo json_encode($row);
     }
 
 }

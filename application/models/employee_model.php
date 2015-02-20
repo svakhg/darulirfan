@@ -19,6 +19,15 @@ class employee_model extends CI_Model {
         return $query->result();
     }
 
+    public function show_salary_sheet($data) {
+         $query = $this->db->select('*')
+                ->get_where('employee_salary_report', ['month' => $data['month'], 'year' => $data['year']]);
+        if ($query->num_rows() > 0) {
+            return ['data' => $query->result(), 'total' => $query->num_rows()];  
+        } else {
+            return false;
+        }
+    }
     public function add($data){
         unset($data['duty_type']);
         $this->db->insert('employee', $data); 

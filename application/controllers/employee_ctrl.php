@@ -16,7 +16,6 @@ class Employee_ctrl extends base_ctrl {
             header('Content-Type: application/json');
 
             $request = json_decode(file_get_contents('php://input'));
-            // var_dump($request); exit; 
             $result = new DataSourceResult('');
 
             $type = $_GET['type'];
@@ -65,70 +64,146 @@ class Employee_ctrl extends base_ctrl {
                     $this->load->library('generate'); 
                     $student_id = $this->generate->employee_id($info); 
                     if (!empty($student_id)) {
-                         $info['emp_id'] = $student_id; 
+                     $info['emp_id'] = $student_id; 
                     // var_dump($info); exit; 
-                    $id = $this->model->add($info);
-                    $msg = 'Data inserted successfully';
-                    $status = 'success';
-                } else {
+                     $id = $this->model->add($info);
+                     $msg = 'Data inserted successfully';
+                     $status = 'success';
+                 } else {
                    $status = 'error'; 
                    $msg = "Employee ID Generate Error"; 
-                }
-                }
-            } elseif ($info['duty_type'] === 'update') {
-                if ($this->auth->IsUpdate) {
-                    $id = $this->model->update($info);
-                    $status = 'success';
-                    $msg = 'Data updated successfully';
-                }
-            }
-        echo json_encode(array('status' => $status, 'message' => $msg, 'id' => $id));
+               }
+           }
+       } elseif ($info['duty_type'] === 'update') {
+        if ($this->auth->IsUpdate) {
+            $id = $this->model->update($info);
+            $status = 'success';
+            $msg = 'Data updated successfully';
+        }
+    }
+    echo json_encode(array('status' => $status, 'message' => $msg, 'id' => $id));
+} else {
+    $err = error_process($is_valid);
+    foreach ($err as $value) {
+        $row['message'] = $value;
+    }
+    $row['status'] = 'error';
+    echo json_encode($row);
+}        
+}
+
+public function salary_sheet() {
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        header('Content-Type: application/json');
+
+        $request = json_decode(file_get_contents('php://input'));
+
+        $result = new DataSourceResult('');
+
+        $type = $_GET['type'];
+
+        $columns = array('id', 'emp_id', 'emp_name', 'month', 'year', 'amount', 'remarks', 'status', 'created_by');
+
+        switch($type) {
+            case 'create':
+            $result = $result->create('employee_salary_report', $columns, $request->models, 'id');
+            break;
+            case 'read':
+            $result = $result->read('employee_salary_report', $columns, $request);
+            break;
+            case 'update':
+            $result = $result->update('employee_salary_report', $columns, $request->models, 'id');
+            break;
+            case 'destroy':
+            $result = $result->destroy('employee_salary_report', $request->models, 'id');
+            break;
+        }
+
+        echo json_encode($result,JSON_NUMERIC_CHECK);
+
+        exit;
+    }
+
+    $this->load->view('employee/salary_sheet');
+}
+public function generate_salary_sheet() {
+
+}
+public function details() {
+    $this->load->view('employee/details');
+}
+public function show_salary_sheet() {
+    header('Content-Type: application/json');
+    $data = json_decode(file_get_contents('php://input'));
+    $result = (array) $data;
+    $is_valid = GUMP::is_valid($result, array(
+      'month' => 'required'
+      ));
+    if($is_valid === true) {
+        $arr['month'] = (int) date("m",strtotime($result['month']));
+        $arr['year'] = (int) date("Y",strtotime($result['month']));
+        $response = $this->model->show_salary_sheet($arr); 
+        if ($response != false) {
+            $feedback = ['status' => 'success', 'message' => "Data found Succesffully", 'data' => $response['data'], 'total' => $response['total']]; 
         } else {
-            $err = error_process($is_valid);
-            foreach ($err as $value) {
-                $row['message'] = $value;
+            $request_month = date("m-Y",strtotime($result['month']));
+            $current_month = date("m-Y"); 
+            // var_dump($request_month);
+            // var_dump($current_month);
+            if ($request_month <= $current_month) {
+                $this->load->library('generate'); 
+                $response = $this->generate->salary_sheet($arr); 
+                $feedback = ['status' => $response['status'], 'message' => $response['message']]; 
+                
+            } else {
+                $feedback = ['status' => 'error', 'message' => "Please Don't Try to Generate Future Salary Sheet"];
             }
-            $row['status'] = 'error';
-            echo json_encode($row);
-        }        
+            // var_dump($response); exit; 
+            // $feedback = ['status' => 'error', 'message' => "No Data Found"]; 
+        }
+        echo json_encode($feedback); 
+    } else {
+        $err = error_process($is_valid);
+        foreach ($err as $value) {
+            $row['message'] = $value;
+        }
+        $row['status'] = 'error';
+        echo json_encode($row);
     }
-    
-    public function details() {
-        $this->load->view('employee/details');
-    }
+}
+public function details_info() {
+    $id = $this->input->get('id'); 
+    if (!$id) {
+        $msg = '
+        <script type="text/javascript"> toastr.'
+            . 'error'
+            . '("'
+                . 'Please Give a Student ID'
+                . '");'
+. ' </script>
+';
+echo $msg;
+}
+$info = $this->model->get_single_student($id);
+$info->gender = ($info->gender == 1) ? "Male" : "Female"; 
 
-    public function details_info() {
-            $id = $this->input->get('id'); 
-        if (!$id) {
-            $msg = '
-            <script type="text/javascript"> toastr.'
-                    . 'error'
-                    . '("'
-                    . 'Please Give a Student ID'
-                    . '");'
-            . ' </script>
-            ';
-            echo $msg;
-            }
-    $info = $this->model->get_single_student($id);
-    $info->gender = ($info->gender == 1) ? "Male" : "Female"; 
+$info->residential_status = ($info->residential_status == 1) ? "Yes" : "No"; 
+$info->status = ($info->status == 1) ? "Current Student" : "Previous/Old Student"; 
 
-    $info->residential_status = ($info->residential_status == 1) ? "Yes" : "No"; 
-    $info->status = ($info->status == 1) ? "Current Student" : "Previous/Old Student"; 
-    
-    $arr = $this->model->get_fees($id);
-    $subArr = []; 
-    foreach ($arr as $key=>$value) {
-        $subArr[$key]['name'] = $value->name;  
-        $subArr[$key]['amount'] = (int) $value->amount;  
-        $subArr[$key]['created'] = $value->created;  
-        $subArr[$key]['isSelected'] = (bool) false;  
-    }
-    $data['fees'] = $subArr;
-    $data['student'] = $info; 
-    $data['total'] = $this->model->get_total_fees($id);
+$arr = $this->model->get_fees($id);
+$subArr = []; 
+foreach ($arr as $key=>$value) {
+    $subArr[$key]['name'] = $value->name;  
+    $subArr[$key]['amount'] = (int) $value->amount;  
+    $subArr[$key]['created'] = $value->created;  
+    $subArr[$key]['isSelected'] = (bool) false;  
+}
+$data['fees'] = $subArr;
+$data['student'] = $info; 
+$data['total'] = $this->model->get_total_fees($id);
 
-    echo json_encode($data); 
+echo json_encode($data); 
 }
 
 }
