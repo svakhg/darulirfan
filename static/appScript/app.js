@@ -1,6 +1,12 @@
-angular.module('project', ['ui.bootstrap', 'ngGrid', 'kendo.directives']).
+angular.module('project', ['ui.bootstrap', 'ngGrid', 'kendo.directives', 'ngProgress']).
 
-        config(function ($routeProvider) {
+        config(function ($routeProvider, progressbarProvider) {
+            //for ngprogrees
+            // Default color is firebrick
+            progressbarProvider.setColor('firebrick');
+            // Default height is 2px
+            progressbarProvider.setHeight('2px');
+            //route provider
             $routeProvider.
                     when('/', {templateUrl: BASE_URL + 'home_ctrl'}).
                     when('/acc-group', {templateUrl: BASE_URL + 'acc-group_ctrl'}).

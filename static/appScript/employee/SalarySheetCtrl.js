@@ -1,12 +1,57 @@
 
-function SalarySheetCtrl($scope, $http){
-    $scope.mainGridOptions = {
+function SalarySheetCtrl($scope, $http, $timeout, progressbar){
+    var edititng_enable = false; 
+    $scope.show = false;
+    progressbar.start();
+        $timeout(function(){
+            progressbar.complete();
+            $scope.show = true;
+        }, 500);
+    var selectmonth = $("#selectmonth").kendoDatePicker({
+        start: "year",
+        depth: "year",
+        format: "MMMM yyyy"
+    }).bind("focus", function () {
+        $(this).data("kendoDatePicker").open();
+    }).prop("readonly", true).data("kendoDatePicker");
+
+    $scope.show_salary_sheet_div = false; 
+
+    $scope.showSalarySheet = function () {
+        progressbar.start();
+        
+        $scope.data = {month : selectmonth.value()};
+        $http.post(baseurl + "employee_ctrl/show_salary_sheet", $scope.data)
+        .success(function (response){
+            console.log(response); 
+            if (response.status == 'success') {
+              progressbar.complete();
+              $scope.show_salary_sheet_div = true; 
+              $scope.datas = response.data; 
+              toastr.success(response.message);
+          } else {
+            progressbar.set(60);
+             $timeout(function(){
+                progressbar.reset();
+                $scope.show_salary_sheet_div = false; 
+              toastr.error(response.message);
+            }, 400);
+              
+          }
+      }).error(function (data){
+          console.log(data);
+      });
+  }
+$scope.mainGridOptions = {
         dataSource: {
             transport: {
                 read:  {
                     url: baseurl + "employee_ctrl/salary_sheet?type=read",
                     contentType: 'application/json',
                     type: 'POST',
+                    data: {
+                        month : selectmonth.value()
+                    }
                 },
                 update: {
                     url: baseurl + "employee_ctrl/salary_sheet?type=update",
@@ -30,6 +75,9 @@ function SalarySheetCtrl($scope, $http){
             batch: true,
             pageSize: 20,
             serverFiltering: true,
+            serverSorting: true,
+            serverPaging: true,
+            // serverGrouping: true,
             schema: {
                 model: {
                     id: "id",
@@ -53,7 +101,7 @@ function SalarySheetCtrl($scope, $http){
             }
 
         },
-        height: 550,
+        // height: 550,
         groupable: true,
         filterable: {
             extra: false
@@ -79,37 +127,8 @@ function SalarySheetCtrl($scope, $http){
         { field: "amount", title: "Amount"},
         { field: "remarks", title: "Remarks"}],
         // { command: "destroy", title: "&nbsp;", width: 150 }],
-        editable: true
+        editable: edititng_enable
     };
-
-    var selectmonth = $("#selectmonth").kendoDatePicker({
-        start: "year",
-        depth: "year",
-        format: "MMMM yyyy"
-    }).bind("focus", function () {
-        $(this).data("kendoDatePicker").open();
-    }).prop("readonly", true).data("kendoDatePicker");
-
-    $scope.show_salary_sheet_div = false; 
-
-    $scope.showSalarySheet = function () {
-        $scope.data = {month : selectmonth.value()};
-        $http.post(baseurl + "employee_ctrl/show_salary_sheet", $scope.data)
-        .success(function (response){
-            console.log(response); 
-            if (response.status == 'success') {
-              $scope.show_salary_sheet_div = true; 
-              $scope.datas = response.data; 
-              toastr.success(response.message);
-          } else {
-              $scope.show_salary_sheet_div = false; 
-              toastr.error(response.message);
-          }
-      }).error(function (data){
-          console.log(data);
-      });
-  }
-
   function getStatus(status) {
     if (status == 0) {
         return 'Unpaid'; 
