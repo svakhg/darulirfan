@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 19, 2015 at 08:26 AM
+-- Generation Time: Feb 22, 2015 at 03:48 PM
 -- Server version: 5.5.41-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.5
 
@@ -322,6 +322,45 @@ INSERT INTO `employee` (`id`, `emp_id`, `emp_name`, `emp_mobile`, `gender`, `fat
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `employee_salary_report`
+--
+
+CREATE TABLE IF NOT EXISTS `employee_salary_report` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `emp_id` varchar(10) NOT NULL,
+  `emp_name` varchar(200) NOT NULL,
+  `month` varchar(3) NOT NULL,
+  `year` year(4) NOT NULL,
+  `datetime` varchar(25) NOT NULL,
+  `status` tinyint(1) NOT NULL COMMENT '1-paid 0-unpaid',
+  `amount` float NOT NULL,
+  `remarks` text NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
+
+--
+-- Dumping data for table `employee_salary_report`
+--
+
+INSERT INTO `employee_salary_report` (`id`, `emp_id`, `emp_name`, `month`, `year`, `datetime`, `status`, `amount`, `remarks`, `created`, `created_by`) VALUES
+(1, 'E15003', 'Mehedi Hasan', '2', 2014, '', 0, 1200, ' sdfsdf', '2015-02-19 18:47:04', 0),
+(2, 'E15002', 'Raihan Ahmed', '2', 2014, '', 1, 5000, 'sdf', '2015-02-19 18:47:04', 0),
+(3, 'E15001', 'Rabia Basary', '2', 2014, '', 1, 1500, 'sdf', '2015-02-19 18:47:04', 0),
+(4, 'E15003', 'Mehedi Hasan', '1', 2015, '', 0, 15200, 'sdf', '2015-02-19 18:49:40', 0),
+(5, 'E15002', 'Raihan Ahmed', '1', 2015, '', 0, 5000, 'sdf', '2015-02-19 18:49:40', 0),
+(6, 'E15001', 'Rabia Basary', '1', 2015, '', 0, 1500, 'sdf', '2015-02-19 18:49:40', 0),
+(7, 'E15003', 'Mehedi Hasan', '2', 2015, '', 0, 15200, 'sdf', '2015-02-19 18:50:44', 0),
+(8, 'E15002', 'Raihan Ahmed', '2', 2015, '', 0, 5000, '', '2015-02-19 18:50:44', 0),
+(9, 'E15001', 'Rabia Basary', '2', 2015, '', 0, 1500, '', '2015-02-19 18:50:44', 0),
+(10, 'E15003', 'Mehedi Hasan', '1', 2014, '', 0, 15200, '', '2015-02-19 18:51:54', 0),
+(11, 'E15002', 'Raihan Ahmed', '1', 2014, '', 0, 5000, '', '2015-02-19 18:51:54', 0),
+(12, 'E15001', 'Rabia Basary', '1', 2014, '', 0, 1500, '', '2015-02-19 18:51:54', 0);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `fees`
 --
 
@@ -331,7 +370,7 @@ CREATE TABLE IF NOT EXISTS `fees` (
   `class_id` int(11) NOT NULL,
   `amount` int(11) NOT NULL,
   `is_current` int(11) NOT NULL,
-  `created` datetime NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `modified` datetime NOT NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
@@ -559,10 +598,10 @@ CREATE TABLE IF NOT EXISTS `std_fees` (
 --
 
 INSERT INTO `std_fees` (`std_id`, `id`, `fees_id`, `status`, `created`, `user_id`, `modified`) VALUES
-(3, 8, 2, 1, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
-(3, 15, 3, 1, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
-(1, 16, 5, 2, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
-(4, 17, 5, 1, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
+(2, 8, 3, 1, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
+(1, 15, 3, 1, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
+(1, 16, 5, 1, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
+(2, 17, 7, 1, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
