@@ -18,12 +18,34 @@ class employee_model extends CI_Model {
 
         return $query->result();
     }
-
+    public function approved_salary_sheet($data) {
+        $query = $this->db->select('*')
+                ->get_where('employee_salary_report', ['month' => $data['month'], 'year' => $data['year'], 'status' => 0]);
+        if ($query->num_rows() > 0) {
+            foreach ($query->result() as $value) {
+                $info['status'] = 1; 
+                // var_dump($value->emp_id); 
+                $this->db->where('id', $value->id)->update('employee_salary_report', $info); 
+            }
+            return ['status' => 'success', 'message' => 'Salary paid successfully']; 
+    } else {
+        return ['status' => "errror", 'message' => "salary already paid"]; 
+    }
+}
     public function show_salary_sheet($data) {
          $query = $this->db->select('*')
                 ->get_where('employee_salary_report', ['month' => $data['month'], 'year' => $data['year']]);
         if ($query->num_rows() > 0) {
-            return ['data' => $query->result(), 'total' => $query->num_rows()];  
+            foreach ($query->result() as $value) {
+                // var_dump($value->status); 
+                if ($value->status == 0) {
+                    $editable = true; 
+                } else {
+                    $editable = false; 
+                }
+                # code...
+            }
+            return ['editable' => $editable, 'data' => $query->result(), 'total' => $query->num_rows()];  
         } else {
             return false;
         }

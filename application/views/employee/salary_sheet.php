@@ -8,11 +8,13 @@
          <label for="selectmonth">Select Month:</label>
          <input id="selectmonth" style="width: 200px"/> 
          <input class="btn btn-success" type="submit" value="Show">
+         <button  ng-show="show_approved_btn" ng-click="approved_salary()" type="button" class="btn btn-warning pull-right">Approved & Pay Salary</button>
        </form>
+
      </div>
      <div ng-show="show_salary_sheet_div">
        <div class="col-md-12">
-        <kendo-grid options="mainGridOptions">
+        <kendo-grid id="grid" options="mainGridOptions">
 
         </kendo-grid>
        </div>

@@ -1,7 +1,10 @@
 
 function SalarySheetCtrl($scope, $http, $timeout, progressbar){
-    var edititng_enable = false; 
+    $scope.edititng_enable = false; 
+    $scope.show_salary_sheet_div = false; 
+    $scope.show_approved_btn = false;
     $scope.show = false;
+
     progressbar.start();
         $timeout(function(){
             progressbar.complete();
@@ -15,18 +18,38 @@ function SalarySheetCtrl($scope, $http, $timeout, progressbar){
         $(this).data("kendoDatePicker").open();
     }).prop("readonly", true).data("kendoDatePicker");
 
-    $scope.show_salary_sheet_div = false; 
+    $scope.approved_salary = function () {
+        var value = selectmonth.value()
+        var fullYear = value.getFullYear(); 
+        var month = value.getMonth() + 1; 
 
+         $http.post(baseurl + "employee_ctrl/approved_salary_sheet", {month : selectmonth.value()})
+        .success(function (response){
+            grid = $("#grid").data("kendoGrid");
+            grid.dataSource.filter( [{ field: "month", operator: "eq", value: month },{ field: "year", operator: "eq", value: fullYear }]);
+            $scope.show_approved_btn = false;
+            toastr.success(response.message);
+        });
+    }
     $scope.showSalarySheet = function () {
         progressbar.start();
-        
+        var value = selectmonth.value()
+        var fullYear = value.getFullYear(); 
+        var month = value.getMonth() + 1; 
+
         $scope.data = {month : selectmonth.value()};
         $http.post(baseurl + "employee_ctrl/show_salary_sheet", $scope.data)
         .success(function (response){
-            console.log(response); 
+            grid = $("#grid").data("kendoGrid");
             if (response.status == 'success') {
               progressbar.complete();
+              $scope.edititng_enable = response.editable; 
+                grid.options.editable = response.editable; 
+                grid.dataSource.filter( [{ field: "month", operator: "eq", value: month },{ field: "year", operator: "eq", value: fullYear }]);
+            
               $scope.show_salary_sheet_div = true; 
+              $scope.show_approved_btn = response.editable;
+
               $scope.datas = response.data; 
               toastr.success(response.message);
           } else {
@@ -43,15 +66,13 @@ function SalarySheetCtrl($scope, $http, $timeout, progressbar){
       });
   }
 $scope.mainGridOptions = {
+    // dataSource.filter( { field: "month", operator: "eq", value: 2 });
         dataSource: {
             transport: {
                 read:  {
                     url: baseurl + "employee_ctrl/salary_sheet?type=read",
                     contentType: 'application/json',
                     type: 'POST',
-                    data: {
-                        month : selectmonth.value()
-                    }
                 },
                 update: {
                     url: baseurl + "employee_ctrl/salary_sheet?type=update",
@@ -74,6 +95,7 @@ $scope.mainGridOptions = {
             },
             batch: true,
             pageSize: 20,
+            // filter: [{ field: "month", operator: "eq", value: 2 }],
             serverFiltering: true,
             serverSorting: true,
             serverPaging: true,
@@ -102,13 +124,14 @@ $scope.mainGridOptions = {
 
         },
         // height: 550,
-        groupable: true,
+        // filter: [{ field: "month", operator: "eq", value: 2 }],
+        // groupable: true,
         filterable: {
             extra: false
         },
         sortable: true,
         navigatable: true,
-        toolbar: ["create", "save", "cancel"],
+        toolbar: ["save", "cancel"],
         pageable: {
             refresh: true,
             pageSizes: true,
@@ -117,18 +140,19 @@ $scope.mainGridOptions = {
         columns: [
         { field: "emp_id", title: "Employee ID", width: 120 },
         { field: "emp_name", title: "Employee Name", width: 120 },
-        { field: "month", width: 120, template: function (dataItem) {
+        { field: "month", title: "Month", width: 120, template: function (dataItem) {
                                 return getMonth(dataItem.month);
                             } },
-        { field: "year", width: 120 },
-        { field: "status", template: function (dataItem) {
+        { field: "year", title: "Year", width: 120 },
+        { field: "status", title: "Status", template: function (dataItem) {
                                 return getStatus(dataItem.status);
                             }},
         { field: "amount", title: "Amount"},
         { field: "remarks", title: "Remarks"}],
         // { command: "destroy", title: "&nbsp;", width: 150 }],
-        editable: edititng_enable
+        editable: true
     };
+
   function getStatus(status) {
     if (status == 0) {
         return 'Unpaid'; 

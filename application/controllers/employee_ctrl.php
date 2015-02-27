@@ -133,7 +133,7 @@ public function generate_salary_sheet() {
 public function details() {
     $this->load->view('employee/details');
 }
-public function show_salary_sheet() {
+public function approved_salary_sheet() {
     header('Content-Type: application/json');
     $data = json_decode(file_get_contents('php://input'));
     $result = (array) $data;
@@ -143,21 +143,44 @@ public function show_salary_sheet() {
     if($is_valid === true) {
         $arr['month'] = (int) date("m",strtotime($result['month']));
         $arr['year'] = (int) date("Y",strtotime($result['month']));
-        $response = $this->model->show_salary_sheet($arr); 
+        $response = $this->model->approved_salary_sheet($arr);
+        echo json_encode($response);
+    } else {
+        $err = error_process($is_valid);
+        foreach ($err as $value) {
+            $row['message'] = $value;
+        }
+        $row['status'] = 'error';
+        echo json_encode($row);
+    }
+}
+public function show_salary_sheet() {
+    header('Content-Type: application/json');
+    $data = json_decode(file_get_contents('php://input'));
+    $result = (array) $data;
+
+    $is_valid = GUMP::is_valid($result, array(
+      'month' => 'required'
+      ));
+    if($is_valid === true) {
+        $arr['month'] = (int) date("m",strtotime($result['month']));
+        $arr['year'] = (int) date("Y",strtotime($result['month']));
+        $response = $this->model->show_salary_sheet($arr);
+        // var_dump($response); exit;  
         if ($response != false) {
-            $feedback = ['status' => 'success', 'message' => "Data found Succesffully", 'data' => $response['data'], 'total' => $response['total']]; 
+            $feedback = ['editable' => $response['editable'], 'status' => 'success', 'message' => "Data found Successfully"]; 
         } else {
             $request_month = date("m-Y",strtotime($result['month']));
             $current_month = date("m-Y"); 
             // var_dump($request_month);
             // var_dump($current_month);
-            if ($request_month <= $current_month) {
+            // exit;
+            if ($request_month == $current_month) {
                 $this->load->library('generate'); 
                 $response = $this->generate->salary_sheet($arr); 
-                $feedback = ['status' => $response['status'], 'message' => $response['message']]; 
-                
+                $feedback = ['status' => $response['status'], 'message' => $response['message'], 'editable' => true]; 
             } else {
-                $feedback = ['status' => 'error', 'message' => "Please Don't Try to Generate Future Salary Sheet"];
+                $feedback = ['status' => 'error', 'message' => "Data not Found. Unable to Generate Future or Past Salary Sheet"];
             }
             // var_dump($response); exit; 
             // $feedback = ['status' => 'error', 'message' => "No Data Found"]; 
