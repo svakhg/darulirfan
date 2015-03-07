@@ -39,57 +39,116 @@ class ledger_book_ctrl extends base_ctrl {
     $status = 'success';
     $message = 'operation successful';
     $data['voucher_type'] = $type['cash_payment'];
-    $data['bank_type'] = $type['bank_payment'];
+    // $data['bank_type'] = $type['bank_payment'];
     $cash_payment = $this->ledger_book_model->show_data($data);
-    $credits = '';
-    $cash_payment_total = '';
+    // var_dump($cash_payment); exit; 
+    $credits_cp = '';
+    // $cash_payment_total = '';
     if (isset($cash_payment) && !empty($cash_payment)) {
-      $cash_payment_total = $this->ledger_book_model->show_total($data); 
+      // $cash_payment_total = $this->ledger_book_model->show_total($data); 
       foreach ($cash_payment as $key => $value) {
-        if ($value->voucher_type == 3) {
-          if ($value->credit !== NULL) {
-          $credits[$key]['date'] = $value->date;
-          $credits[$key]['cdescription'] = $value->description;
-          $credits[$key]['cbank'] = $value->credit;
-        }
-      } else {
-        $credits[$key]['date'] = $value->date;
-          $credits[$key]['cdescription'] = $value->description;
-          $credits[$key]['camount'] = $value->credit;
-      }
+        $credits_cp[$key]['date'] = $value->date;
+          $credits_cp[$key]['cdescription'] = $value->description;
+          $credits_cp[$key]['camount'] = $value->credit;
       }
     } else {
       $status = 'error'; 
       $message = 'Error to read Cash Payment';
     }
 
+    $data['voucher_type'] = $type['bank_payment'];
+    $bank_payment = $this->ledger_book_model->show_data($data);
+    $credits_bp = '';
+    // $bank_payment_total = '';
+    if (isset($bank_payment) && !empty($bank_payment)) {
+      // $bank_payment_total = $this->ledger_book_model->show_total($data); 
+      foreach ($bank_payment as $key => $value) {
+          $credits_bp[$key]['date'] = $value->date;
+          $credits_bp[$key]['cdescription'] = $value->description;
+          $credits_bp[$key]['cbank'] = $value->credit;
+
+          $debits_bp[$key]['date'] = $value->date;
+         $debits_bp[$key]['ddescription'] = $value->description;
+         $debits_bp[$key]['damount'] = $value->credit;
+      }
+      
+    } else {
+      $status = 'error'; 
+      $message = 'Error to read Cash Payment';
+    }
+
+    $data['voucher_type'] = $type['bank_receipt'];
+    $bank_receipt = $this->ledger_book_model->show_data($data);
+    $credits_br = '';
+    // $bank_receipt_total = '';
+    if (isset($bank_receipt) && !empty($bank_receipt)) {
+      // $bank_receipt_total = $this->ledger_book_model->show_total($data); 
+      foreach ($bank_receipt as $key => $value) {
+          $credits_br[$key]['date'] = $value->date;
+          $credits_br[$key]['cdescription'] = $value->description;
+          $credits_br[$key]['camount'] = $value->debit;
+
+          $debits_br[$key]['date'] = $value->date;
+         $debits_br[$key]['ddescription'] = $value->description;
+         $debits_br[$key]['dbank'] = $value->debit;
+      }
+      
+    } else {
+      $status = 'error'; 
+      $message = 'Error to read Cash Payment';
+    }
+
+
     $data['voucher_type'] = $type['cash_receipt'];
+    // $data['bank_type'] = $type['bank_receipt'];
     $cash_receipt = $this->ledger_book_model->show_data($data);
     // var_dump($cash_receipt); exit; 
-    $debits = '';
-    $cash_receipt_total = '';
+    $debits_cr = '';
+    // $cash_receipt_total = '';
     if (isset($cash_receipt) && !empty($cash_receipt)) {
-      $cash_receipt_total = $this->ledger_book_model->show_total($data); 
+      // $cash_receipt_total = $this->ledger_book_model->show_total($data); 
       foreach ($cash_receipt as $key => $value) {
-        if ($value->voucher_type == 3) {
-          if ($value->debit !== NULL) {
-            $debits[$key]['date'] = $value->date;
-            $debits[$key]['ddescription'] = $value->description;
-            $debits[$key]['dbank'] = $value->debit;
-          }
-        } else {
-         $debits[$key]['date'] = $value->date;
-         $debits[$key]['ddescription'] = $value->description;
-         $debits[$key]['damount'] = $value->debit;
+         $debits_cr[$key]['date'] = $value->date;
+         $debits_cr[$key]['ddescription'] = $value->description;
+         $debits_cr[$key]['damount'] = $value->debit;
        }
-     }
+     
    } else {
     $status = 'error'; 
     $message = 'Error to read Cash Receipt, ' . $this->config->item('contact');
   }
+  $credits_sub = array_merge($credits_bp, $credits_cp);
+  $credits = array_merge($credits_sub, $credits_br); 
+
+  $debits_sub = array_merge($debits_bp, $debits_cr);
+  $debits = array_merge($debits_sub, $debits_br);
 
   $data['voucher_type'] = $type['bank_payment'];
   $bank_payment = $this->ledger_book_model->show_data($data);
+
+$damount_total = 0;
+foreach($debits as $key=>$value)
+{
+   $damount_total+= (isset($value['damount'])) ? $value['damount'] : 0;
+}
+
+$dbank_total = 0;
+foreach($debits as $key=>$value)
+{
+   $dbank_total+= (isset($value['dbank'])) ? $value['dbank'] : 0;
+}
+
+$camount_total = 0;
+foreach($credits as $key=>$value)
+{
+   $camount_total+= (isset($value['camount'])) ? $value['camount'] : 0;
+}
+
+$cbank_total = 0;
+foreach($credits as $key=>$value)
+{
+   $cbank_total+= (isset($value['cbank'])) ? $value['cbank'] : 0;
+}
 
 
 
@@ -97,8 +156,14 @@ class ledger_book_ctrl extends base_ctrl {
   'message' => $message,
   'debits' => $debits,
   'credits' => $credits,
-  'debit_total' => $cash_receipt_total,
-  'credit_total' => $cash_payment_total]; 
+  'damount_total' => $damount_total,
+  'dbank_total' => $dbank_total,
+  'closing_camount' => $damount_total - $camount_total,
+  'closing_cbank' => $dbank_total - $cbank_total,
+  'camount_total' => $camount_total,
+  'cbank_total' => $cbank_total
+  ]; 
+
   echo json_encode($result);
 }
 }
