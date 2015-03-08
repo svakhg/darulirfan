@@ -16,6 +16,11 @@ class Ledger_report_ctrl extends base_ctrl {
     $this->load->view('ledger_report');
   }
 
+  public function view () {
+    $ledger_id = $this->uri->segment(3); 
+    // var_dump($ledger_id);
+    $this->load->view('ledger_report', $ledger_id);
+  }
   function show_ledger() {
     header('Content-Type: application/json');
     $data = json_decode(file_get_contents('php://input'));

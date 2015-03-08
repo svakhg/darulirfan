@@ -11,7 +11,7 @@
  					<label for="enddate">End date:</label>
  					<input id="enddate" style="width: 200px"/> 
 
- 					<input class="btn btn-success" type="submit" value="Show Ledger Book">
+ 					<input class="btn btn-success hidden-print" type="submit" value="Show Ledger Book">
  				</p>
  			</form>
  		</div>
@@ -25,6 +25,7 @@
  						</tr>
  						<tr>
  							<th>Date</th>
+ 							<th>Voucher ID</th>
  							<th>Description</th>
  							<th>Amount</th>
  							<th>Bank</th>
@@ -34,11 +35,12 @@
  					<tr>
  							<td><strong>Opening Balance</strong></td>
  							<td></td>
- 							<td><strong>{{opening_camount}}</strong></td>
- 							<td><strong>{{opening_cbank}}</strong></td>
+ 							<td><strong>{{opening_cash_in_hand}}</strong></td>
+ 							<td><strong>{{opening_cash_at_bank}}</strong></td>
  						</tr>
  						<tr ng-repeat="data in debits">
  							<td>{{data.date}}</td>
+ 							<td><a href="#/voucher/view/{{data.voucher_id}}">{{data.voucher_id}}</a></td>
  							<td>{{data.ddescription}}</td>
  							<td>{{data.damount}}</td>
  							<td>{{data.dbank}}</td>
@@ -60,6 +62,7 @@
  						</tr>
  						<tr>
  							<th>Date</th>
+ 							<th>Voucher ID</th>
  							<th>Description</th>
  							<th>Amount</th>
  							<th>Bank</th>
@@ -68,6 +71,7 @@
  					<tbody>
  						<tr ng-repeat="data in credits">
  							<td>{{data.date}}</td>
+ 							<td><a href="#/voucher/view/{{data.voucher_id}}">{{data.voucher_id}}</a></td>
  							<td>{{data.cdescription}}</td>
  							<td>{{data.camount}}</td>
  							<td>{{data.cbank}}</td>
@@ -91,3 +95,4 @@
  		</div>
  	</div>
  </div>
+

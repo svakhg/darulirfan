@@ -5,7 +5,7 @@ class Ledger_book_model extends CI_Model
 	public $table = 'transaction';
 
 	function show_data($data) {
-		$data = $this->db->select('*')
+		$data = $this->db->select('id, voucher_type, voucher_id, description, credit, debit, date')
 		->where(['ledger_id' => $data['cash_in_hand'], 'date >' => $data['startdate'], 'date <' => $data['enddate'], 'voucher_type' => $data['voucher_type']])
 		// ->or_where(['voucher_type' => $data['bank_type']])
 		->get('transaction')->result();

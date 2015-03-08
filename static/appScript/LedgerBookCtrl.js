@@ -80,7 +80,8 @@ function LedgerBookCtrl($scope, $http){
 						$scope.closing_cbank = response.closing_cbank;
 						$scope.camount_total = response.camount_total + Number ($scope.closing_camount);
 						$scope.cbank_total = response.cbank_total + Number ($scope.closing_cbank);
-
+						$scope.opening_cash_in_hand = response.opening_cash_in_hand;
+						$scope.opening_cash_at_bank = response.opening_cash_at_bank; 
 						// $scope.credit_final_total = Number ($scope.credit_total) + Number ($scope.closing_balance);
 						toastr.success(response.message);
 					} else {

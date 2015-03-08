@@ -40,7 +40,7 @@
          <tr ng-repeat="data in datas | filter:searchText">
            <td>{{ $index + 1 }}</td>
            <td>{{data.date}}</td>
-           <td>{{data.voucher_id}}</td>
+          <td><a href="#/voucher/view/{{data.voucher_id}}">{{data.voucher_id}}</a></td>
            <td>{{data.voucher_type}}</td>
            <td>{{data.description}}</td>
            <td>{{data.debit}}</td>

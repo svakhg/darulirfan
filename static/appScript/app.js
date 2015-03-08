@@ -35,8 +35,17 @@ angular.module('project', ['ui.bootstrap', 'ngGrid', 'kendo.directives', 'ngProg
                     when('/voucher', {templateUrl: BASE_URL + 'voucher_ctrl'}).
                     when('/ledger_book', {templateUrl: BASE_URL + 'ledger_book_ctrl'}).
                     when('/ledger_report', {templateUrl: BASE_URL + 'ledger_report_ctrl'}).
+                     when('/ledger_report/view/:page', {
+                        templateUrl: function ($routeParams) {
+                            return BASE_URL + 'ledger_report_ctrl/view/' + $routeParams.page + '';
+                        }
+                    }).
                     when('/student/add', {templateUrl: BASE_URL + 'std_report_ctrl/add'}).
-                    
+                    when('/voucher/view/:page', {
+                        templateUrl: function ($routeParams) {
+                            return BASE_URL + 'voucher_ctrl/view/' + $routeParams.page + '';
+                        }
+                    }).
                     when('/student/details/:page', {
                         templateUrl: function ($routeParams) {
                             return BASE_URL + 'std_report_ctrl/details/' + $routeParams.page + '';

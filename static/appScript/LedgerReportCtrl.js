@@ -1,6 +1,6 @@
 
 function LedgerReportCtrl($scope, $http){
-	
+	 
 	$scope.show_ledger_div = false; 
 	function startChange() {
 		var startDate = start.value(),
@@ -82,6 +82,31 @@ function LedgerReportCtrl($scope, $http){
                             }
                         }
                     }).data("kendoDropDownList");
+
+		var url = document.URL;
+        var ledger_id_url = url.substring(url.lastIndexOf('/') + 1);
+        // console.log(ledger_id); 
+        if (ledger_id_url !== "ledger_report") {
+        	$scope.data = {startdate : start.value(), enddate: end.value(), ledger_id: ledger_id_url};
+				$http.post(baseurl + "ledger_report_ctrl/show_ledger", $scope.data)
+				.success(function (response){
+					if (response.status == 'success') {
+						ledger_id.value(ledger_id_url);
+						$scope.show_ledger_div = true; 
+						$scope.datas = response.data; 
+						$scope.debit_total = response.debit_total;
+						$scope.credit_total = response.credit_total;
+						toastr.success(response.message);
+					} else {
+						$scope.show_ledger_div = false; 
+						toastr.error(response.message);
+					}
+					}).error(function (data){
+						console.log(data);
+					});
+				}
+        
+
 
 			$scope.showLedger = function () {
 				$scope.data = {startdate : start.value(), enddate: end.value(), ledger_id: ledger_id.value()};

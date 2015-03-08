@@ -105,8 +105,9 @@
              </div>
              <div class="form-horizontal form-widgets col-lg-6">
                  <fieldset>
-                     <legend>Fees & Concession</legend>
-                     <table class="table table-hover table-bordered">
+                 <!-- Fees &  -->
+                     <legend>Concession</legend>
+                     <!-- <table class="table table-hover table-bordered">
                          <tr>
                              <th>Particular</th>
                              <th>Amount</th>
@@ -120,7 +121,7 @@
                              </td>
                              <td>152</td>
                          </tr>
-                     </table>
+                     </table> -->
                      <div class="form-group">
                          <label class="control-label col-sm-4"for="concession_description">Concession Description</label>
                          <div class="col-md-6">
