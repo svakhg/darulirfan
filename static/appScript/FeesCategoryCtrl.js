@@ -9,17 +9,17 @@ function FeesCategoryCtrl($scope, $http, $location){
 					type: 'POST',
 				},
 				create: {
-					url: baseurl + "fee_category_ctrl/process?type=read",
+					url: baseurl + "fee_category_ctrl/process?type=create",
 					contentType: 'application/json',
 					type: 'POST',
 				},
 				update: {
-					url: baseurl + "fee_category_ctrl/process?type=read",
+					url: baseurl + "fee_category_ctrl/process?type=update",
 					contentType: 'application/json',
 					type: 'POST',
 				},
 				destroy: {
-					url: baseurl + "fee_category_ctrl/process?type=read",
+					url: baseurl + "fee_category_ctrl/process?type=destroy",
 					contentType: 'application/json',
 					type: 'POST',
 				},
@@ -28,6 +28,8 @@ function FeesCategoryCtrl($scope, $http, $location){
 				}
 			},
 			pageSize: 20,
+			serverSorting: true,
+			serverFiltering: true,
 			schema: {
 				model: {
 					id: "id",

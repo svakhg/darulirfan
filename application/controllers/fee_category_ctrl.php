@@ -11,17 +11,29 @@ class fee_category_ctrl extends base_ctrl {
             header('Content-Type: application/json');
 
             $request = json_decode(file_get_contents('php://input'));
+            // var_dump($request); exit; 
             $result = new DataSourceResult('');
 
             $type = $_GET['type'];
 
-            $columns = array('id', 'fee_category', 'mother_fee_category', 'description', 'fee_type', 'residential', 'non_residential');
+            $columns = array('id', 'fee_category', 'mother_fee_category', 'description', 'fee_type', 'residential', 'non_residential', 'status');
 
-            switch ($type) {
-                case 'read':
-                $result = $result->read('fees_category', $columns, $request);
-                break;
-            }
+
+            switch($type) {
+        case 'create':
+            $result = $result->create('fees_category', $columns, $request, 'id');
+            break;
+        case 'read':
+            $result = $result->read('fees_category', $columns, $request);
+            break;
+        case 'update':
+            $result = $result->update('fees_category', $columns, $request, 'id');
+            break;
+        case 'destroy':
+            $result = $result->destroy('fees_category', $request, 'id');
+            break;
+    }
+
             echo json_encode($result, JSON_NUMERIC_CHECK);
 
             exit;
