@@ -72,10 +72,16 @@ function LedgerBookCtrl($scope, $http){
 						$scope.show_ledger_div = true; 
 						$scope.debits = response.debits; 
 						$scope.credits = response.credits;
-						$scope.debit_total = response.debit_total;
-						$scope.credit_total = response.credit_total;
-						$scope.closing_balance = $scope.debit_total - $scope.credit_total;
-						$scope.credit_final_total = Number ($scope.credit_total) + Number ($scope.closing_balance);
+						
+						$scope.damount_total = response.damount_total;
+						$scope.dbank_total = response.dbank_total;
+						
+						$scope.closing_camount = response.closing_camount;
+						$scope.closing_cbank = response.closing_cbank;
+						$scope.camount_total = response.camount_total + Number ($scope.closing_camount);
+						$scope.cbank_total = response.cbank_total + Number ($scope.closing_cbank);
+
+						// $scope.credit_final_total = Number ($scope.credit_total) + Number ($scope.closing_balance);
 						toastr.success(response.message);
 					} else {
 						$scope.show_ledger_div = false; 

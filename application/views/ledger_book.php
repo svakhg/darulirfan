@@ -31,6 +31,12 @@
  						</tr>
  					</thead>
  					<tbody>
+ 					<tr>
+ 							<td><strong>Opening Balance</strong></td>
+ 							<td></td>
+ 							<td><strong>{{opening_camount}}</strong></td>
+ 							<td><strong>{{opening_cbank}}</strong></td>
+ 						</tr>
  						<tr ng-repeat="data in debits">
  							<td>{{data.date}}</td>
  							<td>{{data.ddescription}}</td>
@@ -40,8 +46,8 @@
  						<tr class="strong">
  							<td><strong>Total</strong></td>
  							<td></td>
- 							<td><strong>{{debit_total}}</strong></td>
- 							<td><strong>{{debit_bank_total}}</strong></td>
+ 							<td><strong>{{damount_total}}</strong></td>
+ 							<td><strong>{{dbank_total}}</strong></td>
  						</tr>
  					</tbody>
  				</table>
@@ -69,14 +75,14 @@
  						<tr>
  							<td><strong>Closing Balance</strong></td>
  							<td></td>
- 							<td><strong>{{closing_balance}}</strong></td>
- 							<td><strong>{{closing_bank_balance}}</strong></td>
+ 							<td><strong>{{closing_camount}}</strong></td>
+ 							<td><strong>{{closing_cbank}}</strong></td>
  						</tr>
  						<tr>
  							<td><strong>Total</strong></td>
  							<td></td>
- 							<td><strong>{{credit_final_total}}</strong></td>
- 							<td><strong>{{credit_bank_total}}</strong></td>
+ 							<td><strong>{{camount_total}}</strong></td>
+ 							<td><strong>{{cbank_total}}</strong></td>
  						</tr>
  					</tbody>
  				</table>
