@@ -20,7 +20,7 @@ function FeesCategoryDropDownEditor(container, options){
     }
 
 function fee_type_editor(container, options){
-	 $('<input data-bind="value:' + options.field +'"/>')
+	 $('<input required="required" name="fee_type" validationmessage = "Fees Type is Required" data-bind="value:' + options.field +'"/>')
       .appendTo(container)
       .kendoDropDownList({
         autoBind: false,
@@ -32,11 +32,10 @@ function fee_type_editor(container, options){
 }
 
 function get_fee_type(fee_type_id) {
-	console.log(fee_type_id);
-    data = data.fee_type;
-    for (var idx = 0, length = data.length; idx < length; idx++) {
-        if (parseInt(data[idx].fee_type_id) === parseInt(fee_type_id)) {
-            return data[idx].fee_type_name;
+    arr = data.fee_type;
+    for (var idx = 0, length = arr.length; idx < length; idx++) {
+        if (parseInt(arr[idx].fee_type_id) === parseInt(fee_type_id)) {
+            return arr[idx].fee_type_name;
         }
     }
 }
@@ -54,10 +53,12 @@ function fees_category_editor(container, options){
 }
 
 function get_fees_category(id) {
-    data = data.fees_category;
-    for (var idx = 0, length = data.length; idx < length; idx++) {
-        if (parseInt(data[idx].value) === parseInt(id)) {
-            return data[idx].text;
+    arr = data.fees_category;
+    for (var idx = 0, length = arr.length; idx < length; idx++) {
+        if (parseInt(arr[idx].value) === parseInt(id)) {
+            return arr[idx].text;
+        } else if (0 === parseInt(id))  {
+        	return "N/A";
         }
     }
 }

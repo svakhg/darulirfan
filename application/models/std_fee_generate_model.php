@@ -16,9 +16,19 @@ class std_fee_generate_model extends CI_Model
 
     public function get_active_std()
     {   
-        $this->db->select('std_id, status, residential_status');
+        $this->db->select('std_id, status, residential_status,concession_amount');
         $this->db->from('student');
         $this->db->where('student.status', 1);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function get_active_fees()
+    {   
+        $this->db->select('*');
+        $this->db->from('fees_category');
+        $this->db->where('fees_category.status', 1);
+        $this->db->where('fees_category.fee_type', 1);
         $query = $this->db->get();
         return $query->result();
     }

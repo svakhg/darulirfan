@@ -71,14 +71,20 @@ function FeesCategoryCtrl($scope, $http, $location){
                     },{
                     	field: "mother_fee_category",
                     	title: "Parent Fee Category",
-                    	editor: fees_category_editor
+                    	editor: fees_category_editor,
+                    	template: function(dataItem) {
+                    		return get_fees_category(dataItem.mother_fee_category);
+                    	}
                     }, {
                     	field: "description",
                     	title: "Description"
                     }, {
                     	field: "fee_type",
                     	title: "Fee Type",
-                    	editor: fee_type_editor
+                    	editor: fee_type_editor,
+                    	template: function(dataItem) {
+                    		return get_fee_type(dataItem.fee_type);
+                    	}
                     }, {
                     	field: "residential",
                     	title: "Residential"

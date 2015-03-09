@@ -17,12 +17,15 @@ class Std_Fee_Generate extends MY_Controller {
         $data['year'] = date('Y');
         if ($this->check_is_already_generate($data)) {
             $students = $this->model->get_active_std();
+            $fees = $this->model->get_active_fees();
+
 //            $students = $this->model->get_active_std_class();
 
             echo "<pre>";
-            print_r($students);
+            print_r($fees);
             exit;
             foreach ($students as $student) {
+                var_dump($student); 
                 $data['std_id'] = $student->std_id;
                 $data['fee_category_id'] = $student->fees_id;
                 $data['amount'] = $student->amount;
