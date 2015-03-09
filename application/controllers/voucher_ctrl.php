@@ -38,7 +38,7 @@ public function __construct() {
       // {"id":"5","name":"Journal Voucher"}]
       if($is_valid === true) {
         $feedback = ['status' => 'error', 'message' => "Dont try to be so smart, Please give me valid data"];
-        $voucher_id = (int) date('dhms'); 
+        $voucher_id = random_string('numeric', 6);
           if ($result['voucher_type'] === $cash_payment) {
             # Cash Payment
             if (!check_is_voucher_duplicate($voucher_id)) {

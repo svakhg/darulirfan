@@ -35,6 +35,8 @@
  					<tr>
  							<td><strong>Opening Balance</strong></td>
  							<td></td>
+ 							<td></td>
+
  							<td><strong>{{opening_cash_in_hand}}</strong></td>
  							<td><strong>{{opening_cash_at_bank}}</strong></td>
  						</tr>
@@ -48,6 +50,8 @@
  						<tr class="strong">
  							<td><strong>Total</strong></td>
  							<td></td>
+ 							<td></td>
+
  							<td><strong>{{damount_total}}</strong></td>
  							<td><strong>{{dbank_total}}</strong></td>
  						</tr>
@@ -79,12 +83,16 @@
  						<tr>
  							<td><strong>Closing Balance</strong></td>
  							<td></td>
+ 							<td></td>
+ 							
  							<td><strong>{{closing_camount}}</strong></td>
  							<td><strong>{{closing_cbank}}</strong></td>
  						</tr>
  						<tr>
  							<td><strong>Total</strong></td>
  							<td></td>
+ 							<td></td>
+
  							<td><strong>{{camount_total}}</strong></td>
  							<td><strong>{{cbank_total}}</strong></td>
  						</tr>
