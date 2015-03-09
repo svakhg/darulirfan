@@ -15,15 +15,27 @@ public function __construct() {
     function all() {
     	$data['voucher_type'] = $this->db->get('voucher_type')->result();
         $data['class_info'] = $this->class_info();
-    	// var_dump($data); 
+        $data['fee_type'] = $this->fee_type(); 
+        $data['fees_category'] = $this->fees_category(); 
+
+        // var_dump($data); 
     	echo json_encode($data);
+    }
+
+    function fees_category() {
+        $data = $this->db->select('id as value, fee_category as text')->get('fees_category')->result();
+    	return $data;
     }
 
     function voucher_type() {
         $data = $this->db->select('id, name, acc_group_type_id')->get('voucher_type')->result();
-    	echo json_encode($data);
+        echo json_encode($data);
     }
-
+    
+    function fee_type() {
+        $data = [['fee_type_name' => 'Monthly', 'fee_type_id' => 1], ['fee_type_name' => 'Yearly', 'fee_type_id' => 2], ['fee_type_name' => 'One Time', 'fee_type_id' => 3]];
+        return $data;  
+    }
     function class_info() {
         return $data = $this->db->select('id, class_name as name')->get('class')->result();
         // echo json_encode($data);
