@@ -39,6 +39,9 @@ class fee_category_ctrl extends base_ctrl {
             exit;
         }
     }
+    public function fee_type() {
+    	
+    }
     public function edit() {
         $this->load->view('fees_category/edit'); 
     }

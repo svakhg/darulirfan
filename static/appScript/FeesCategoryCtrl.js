@@ -41,18 +41,18 @@ function FeesCategoryCtrl($scope, $http, $location){
 						fee_type: {type: "string", validation: {required: true}},
 						residential: {type: "number", validation: {required: false}},
 						non_residential: {type: "number", validation: {required: false}},
-                        status: {type: "boolean", validation: {required: true}},
-                                }
-                            },
-                            data: function (response) {
-                            	return response.data;
-                            },
-                            total: "total",
-                            errors: "error"
-                        }
+						status: {type: "boolean", validation: {required: true}},
+					}
+				},
+				data: function (response) {
+					return response.data;
+				},
+				total: "total",
+				errors: "error"
+			}
 
-                    },
-                    height: 550,
+		},
+		height: 550,
                     // groupable: true,
                     toolbar: ["create"],
                     editable:"popup",
@@ -70,14 +70,15 @@ function FeesCategoryCtrl($scope, $http, $location){
                     	title: "Fee Category Name"
                     },{
                     	field: "mother_fee_category",
-                    	title: "Parent Fee Category"
+                    	title: "Parent Fee Category",
+                    	editor: fees_category_editor
                     }, {
                     	field: "description",
                     	title: "Description"
                     }, {
                     	field: "fee_type",
                     	title: "Fee Type",
-                    	editor: fee_type_editor()
+                    	editor: fee_type_editor
                     }, {
                     	field: "residential",
                     	title: "Residential"
@@ -86,8 +87,8 @@ function FeesCategoryCtrl($scope, $http, $location){
                     	title: "Non-Residential"
                     }, 
                     {
-                        field: "status",
-                        title: "Status"
+                    	field: "status",
+                    	title: "Status"
                     },
                     {command: [{name: "edit",
                     text: "Edit"
@@ -128,8 +129,4 @@ function FeesCategoryCtrl($scope, $http, $location){
         	wnd.center().open();
         }
 
-        function fee_type_editor (e) {
-        	console.log("hello");
-        	// body...
-        }
-    };
+};

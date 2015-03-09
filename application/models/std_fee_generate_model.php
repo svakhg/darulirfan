@@ -3,13 +3,22 @@
 class std_fee_generate_model extends CI_Model
 {
     public $table = 'std_fee_report';
-    public function get_active_std()
+    public function get_sdf_active_std()
     {	
     	$this->db->select('*');
     	$this->db->from('student');
     	$this->db->where('std_fees.status', 1);
     	$this->db->join('std_fees', 'student.id = std_fees.std_id');
     	$this->db->join('fees', 'std_fees.fees_id = fees.fee_category_id');
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function get_active_std()
+    {   
+        $this->db->select('std_id, status, residential_status');
+        $this->db->from('student');
+        $this->db->where('student.status', 1);
         $query = $this->db->get();
         return $query->result();
     }
