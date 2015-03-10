@@ -53,7 +53,8 @@
                      <div class="form-group">
                          <label class="control-label col-sm-4"for="designation">Designation</label>
                          <div class="col-md-6">
-                             <input type="text" ng-model="employee.designation" name="Designation" required class="k-textbox" placeholder=""/>
+                          <input name="Designation" ng-model="employee.designation" id="designation" required data-required-msg="Required"/>
+                             <!-- <input id="designation" ng-model="employee.designation" name="Designation" required class="k-textbox" placeholder=""/> -->
                          </div>
                      </div>
                      <div class="form-group">
@@ -80,7 +81,7 @@
                      <div class="form-group">
                          <label class="control-label col-sm-4"for="status">Employee Status</label>
                          <div class="col-md-6">
-                             <input type="text" ng-model="employee.status" class="k-textbox" /> 
+                             <input id="status" type="text" ng-model="employee.status" class="k-textbox" /> 
                          </div>
                      </div>
                  </fieldset>
@@ -108,4 +109,20 @@
      </form>
  </div>
 
- 
+ <script>
+ $("#designation").kendoDropDownList({
+                    // filter: "startswith",
+                    optionLabel: "---Please Select---",
+                    dataTextField: "text",
+                    dataValueField: "value",
+                    dataSource: data.designation
+                });
+ $("#status").kendoDropDownList({
+                    // filter: "startswith",
+                    optionLabel: "---Please Select---",
+                    dataTextField: "text",
+                    dataValueField: "value",
+                    dataSource: data.status
+                });
+
+ </script>

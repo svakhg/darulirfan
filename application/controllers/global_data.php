@@ -16,7 +16,10 @@ public function __construct() {
     	$data['voucher_type'] = $this->db->get('voucher_type')->result();
         $data['class_info'] = $this->class_info();
         $data['fee_type'] = $this->fee_type(); 
-        $data['fees_category'] = $this->fees_category(); 
+        $data['designation'] = $this->designation();
+        $data['status'] = $this->status(); 
+
+        // $data['fees_category'] = $this->fees_category(); 
 
         // var_dump($data); 
     	echo json_encode($data);
@@ -26,6 +29,16 @@ public function __construct() {
         $data = $this->db->select('id as value, fee_category as text')->get('fees_category')->result();
     	return $data;
     }
+
+    function designation() {
+        $data = $this->db->select('id as value, designation_name as text')->get('designation')->result();
+        return $data;
+    }
+
+    public function status() {
+        return [['value' => 1, 'text' => "Active"], ['value' => 2, 'text' => "Inactive"]];
+    }
+
 
     function voucher_type() {
         $data = $this->db->select('id, name, acc_group_type_id')->get('voucher_type')->result();

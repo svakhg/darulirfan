@@ -1,12 +1,12 @@
 var all_data = $.ajax({url: baseurl + 'global_data/all', dataType: 'json', async: false})
         .success(function (result) {
-            // return result;
+            return result;
         })
         .error(function () {
             // console.log('error');
         });
 
-// var data = JSON.parse(all_data['responseText']); 
+var data = JSON.parse(all_data['responseText']); 
 
 function FeesCategoryDropDownEditor(container, options){
       $('<input data-bind="value:' + options.field +'"/>')
@@ -36,6 +36,15 @@ function get_fee_type(fee_type_id) {
     for (var idx = 0, length = arr.length; idx < length; idx++) {
         if (parseInt(arr[idx].fee_type_id) === parseInt(fee_type_id)) {
             return arr[idx].fee_type_name;
+        }
+    }
+}
+
+function get_designation(id) {
+    arr = data.designation;
+    for (var idx = 0, length = arr.length; idx < length; idx++) {
+        if (parseInt(arr[idx].value) === parseInt(id)) {
+            return arr[idx].text;
         }
     }
 }

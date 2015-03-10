@@ -58,6 +58,8 @@ class employee_model extends CI_Model {
 
     public function update($data){
             unset($data['duty_type']);
+            unset($data['designation_name']);
+
         $this->db->where(['id' => $data['id']])
             ->update('employee', $data); 
         return $this->db->insert_id(); 

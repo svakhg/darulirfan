@@ -76,6 +76,7 @@ class Employee_ctrl extends base_ctrl {
            }
        } elseif ($info['duty_type'] === 'update') {
         if ($this->auth->IsUpdate) {
+            var_dump($info); exit; 
             $id = $this->model->update($info);
             $status = 'success';
             $msg = 'Data updated successfully';
