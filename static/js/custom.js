@@ -1,12 +1,12 @@
 var all_data = $.ajax({url: baseurl + 'global_data/all', dataType: 'json', async: false})
         .success(function (result) {
-            return result;
+            // return result;
         })
         .error(function () {
-            console.log('error');
+            // console.log('error');
         });
 
-var data = JSON.parse(all_data['responseText']); 
+// var data = JSON.parse(all_data['responseText']); 
 
 function FeesCategoryDropDownEditor(container, options){
       $('<input data-bind="value:' + options.field +'"/>')

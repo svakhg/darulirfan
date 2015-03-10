@@ -62,8 +62,8 @@ class employee_model extends CI_Model {
             ->update('employee', $data); 
         return $this->db->insert_id(); 
     }
-    public function get_fees($id) {
-        $query = $this->db->select('student.std_id as student_id, std_fee_report.amount, std_fee_report.created, acc_ledger.id as acc_ledger_id, acc_ledger.name')
+    public function get_salary_report($id) {
+        $query = $this->db->select('employee.emp_id as employee_id, std_fee_report.amount, std_fee_report.created, acc_ledger.id as acc_ledger_id, acc_ledger.name')
                 ->from('std_fee_report')
                 ->where(['std_fee_report.std_id' => $id, 'std_fee_report.is_active' => 1])
                 ->join('student', 'std_fee_report.std_id = student.std_id')
@@ -78,7 +78,10 @@ class employee_model extends CI_Model {
 
     public function get_single_emp($id) {
         $query = $this->db->select('*')
-                ->get_where('employee', ['emp_id' => $id]);
+            ->from('employee')
+            ->join('designation', 'employee.designation = designation.id')
+            ->where(['emp_id' => $id])
+            ->get();
         if (!$query->num_rows() > 0) {
             return false;
         } else {

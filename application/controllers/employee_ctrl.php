@@ -208,23 +208,13 @@ public function details_info() {
 ';
 echo $msg;
 }
-$info = $this->model->get_single_student($id);
+$info = $this->model->get_single_emp($id);
 $info->gender = ($info->gender == 1) ? "Male" : "Female"; 
 
 $info->residential_status = ($info->residential_status == 1) ? "Yes" : "No"; 
-$info->status = ($info->status == 1) ? "Current Student" : "Previous/Old Student"; 
+$info->status = ($info->status == 1) ? "Current Employee" : "Previous/Old Employee"; 
 
-$arr = $this->model->get_fees($id);
-$subArr = []; 
-foreach ($arr as $key=>$value) {
-    $subArr[$key]['name'] = $value->name;  
-    $subArr[$key]['amount'] = (int) $value->amount;  
-    $subArr[$key]['created'] = $value->created;  
-    $subArr[$key]['isSelected'] = (bool) false;  
-}
-$data['fees'] = $subArr;
-$data['student'] = $info; 
-$data['total'] = $this->model->get_total_fees($id);
+$data['employee'] = $info; 
 
 echo json_encode($data); 
 }
