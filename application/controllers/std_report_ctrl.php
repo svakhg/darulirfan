@@ -24,52 +24,49 @@ class Std_report_ctrl extends base_ctrl {
 
             switch ($type) {
                 case 'read':
-                $result = $result->read('student', $columns, $request);
-                break;
+                    $result = $result->read('student', $columns, $request);
+                    break;
             }
             echo json_encode($result, JSON_NUMERIC_CHECK);
 
             exit;
         }
     }
-    public function single_student(){
+
+    public function single_student() {
         $student_id = $this->input->get('id');
-        $data = $this->model->get_single_student($student_id); 
+        $data = $this->model->get_single_student($student_id);
         echo json_encode($data);
     }
+
     public function edit() {
-        // $id = $this->input->get('id');
-        // $data = $this->model->get_single_student($id); 
-        $this->load->view('student_edit'); 
-        // echo "edit";
-    }
-    public function add() {
-        $this->load->view('student_edit'); 
+        $this->load->view('student_edit');
     }
 
-    // public function details() {
-    //     $this->load->view('student_details'); 
-    // }
+    public function add() {
+        $this->load->view('student_edit');
+    }
 
     public function index() {
-        // $data['results'] = $this->model->get_all();
         $this->load->view('std_fee_report_view');
     }
+
     public function process_student() {
         $result = json_decode(file_get_contents('php://input'));
         $info = (array) $result;
         $is_valid = GUMP::is_valid($info, array(
-          'gender' => 'required'
-          ));
-        if($is_valid === true) {
+                    'gender' => 'required'
+        ));
+        if ($is_valid === true) {
             $status = 'error';
             $msg = 'You are not permitted.';
             $id = 0;
             if ($info['duty_type'] === 'save') {
                 if ($this->auth->IsInsert) {
-                    $this->load->library('generate'); 
-                    $student_id = $this->generate->student_id($info['gender']); 
-                    $info['std_id'] = $student_id; 
+                    $this->load->library('generate');
+                    $student_id = $this->generate->student_id($info['gender']);
+                    $info['std_id'] = $student_id;
+                    $info['user_id'] = $this->session->userdata('user')->UserId;
                     $id = $this->model->add($info);
                     $msg = 'Data inserted successfully';
                     $status = 'success';
@@ -81,7 +78,7 @@ class Std_report_ctrl extends base_ctrl {
                     $msg = 'Data updated successfully';
                 }
             }
-        echo json_encode(array('status' => $status, 'message' => $msg, 'id' => $id));
+            echo json_encode(array('status' => $status, 'message' => $msg, 'id' => $id));
         } else {
             $err = error_process($is_valid);
             foreach ($err as $value) {
@@ -89,30 +86,62 @@ class Std_report_ctrl extends base_ctrl {
             }
             $row['status'] = 'error';
             echo json_encode($row);
-        }        
+        }
     }
+
     public function process_fees() {
         $result = json_decode(file_get_contents('php://input'));
         $info = (array) $result;
+//        var_dump($info); exit; 
         $is_valid = GUMP::is_valid($info, array(
-          'discount' => 'required',
-          'items' => 'required',
-          'student_id' => 'required'
-          ));
-        if($is_valid === true) {
+//                    'discount' => 'required',
+                    'items' => 'required',
+                    'student_id' => 'required'
+        ));
+        if ($is_valid === true) {
             $sum = array();
-            foreach($info['items'] as $key => $value)
-                {
-                    $sum[] = $value->amount;
-                }
-                $total = array_sum($sum);
+            foreach ($info['items'] as $key => $val) {
+                $sum[] = $val->payable_amount - $val->concession_amount;
+            }
+            $total = array_sum($sum);
             $data['total'] = $total;
-            $data['student_id'] = $info['student_id'];
-            $data['discount'] = $info['discount']; 
-            $data['grand_total'] = $total - $info['discount']; 
-            $data['fees'] = $info['items']; 
-            var_dump($data); 
+            $student_id = $info['student_id'];
+//            $data['grand_total'] = $info['grand_total'];
+            $fees = $info['items'];
+//            var_dump($data['fees']); exit; 
+            //it should be randomize inputform codeigniter 
+            $voucher_id = (int) date('dhms'); 
+            
+            foreach ($fees as $value) {
+              $debit[$key]['ledger_id'] = $this->config->item('cash_in_hand'); //1 = cash in hand
+              $debit[$key]['description'] = (string) $student_id . '- ' . $value->name . ' (' . $value->id . ')'; 
+              $debit[$key]['voucher_type'] = $this->config->item('cash_receipt');
+              $debit[$key]['acc_group_id'] = (int) acc_group_id($student_id)->acc_group_id; 
+              $debit[$key]['voucher_id'] = $voucher_id; 
+              $debit[$key]['debit'] = $value->payable_amount - $value->concession_amount;
+              $debit[$key]['date'] = date ("Y-m-d");
+              $debit[$key]['user_ip'] = $this->input->ip_address();
+              $debit[$key]['created_by'] = $this->session->userdata('user')->UserId; 
+//              
+              $this->db->insert_batch('transaction', $debit); 
 
+              $credit[$key]['ledger_id'] = (string) $student_id;
+              $credit[$key]['description'] = (string) $student_id . '- ' .  $value->name . ' (' . $value->id . ')'; 
+              $credit[$key]['voucher_type'] = (int) $this->config->item('cash_receipt');
+              $credit[$key]['acc_group_id'] = (int) acc_group_id($student_id)->acc_group_id; 
+              $credit[$key]['voucher_id'] = $voucher_id; 
+              $credit[$key]['credit'] =  $value->payable_amount - $value->concession_amount;
+              $credit[$key]['date'] = date ("Y-m-d");
+              $credit[$key]['user_ip'] = $this->input->ip_address();
+              $credit[$key]['created_by'] = $this->session->userdata('user')->UserId;
+
+//              $this->db->insert('transaction', $credit[$key]); 
+              
+//              $this->db->where('id' => )
+            }
+            var_dump($debit);
+            var_dump($credit);
+//            exit; 
         } else {
             $err = error_process($is_valid);
             foreach ($err as $value) {
@@ -120,18 +149,16 @@ class Std_report_ctrl extends base_ctrl {
             }
             $row['status'] = 'error';
             echo json_encode($row);
-        }    
+        }
     }
 
     // exit; 
     //     $session = $this->session->userdata('user');
-
     //     if (!$this->model->get_fees($id)) {
     //         $data['results'] = FALSE;
     //     } else {
     //         $data['results'] = $this->model->get_fees($id);
     //     }
-
     //     foreach ($data['results'] as $row) {
     //         if (!check_is_voucher_duplicate($voucher_id)) {
     //             $debit['ledger_id'] = $cash_in_hand; //1 = cash in hand
@@ -143,9 +170,7 @@ class Std_report_ctrl extends base_ctrl {
     //             $debit['date'] = date("Y-m-d");
     //             $debit['user_ip'] = $this->input->ip_address();
     //             $debit['created_by'] = $this->session->userdata('user')->UserId;
-
     //             $this->db->insert('transaction', $debit);
-
     //             $credit['ledger_id'] = (int) $result['ledger_id'];
     //             $credit['description'] = (string) $result['description'];
     //             $credit['voucher_type'] = (int) $result['voucher_type'];
@@ -155,12 +180,9 @@ class Std_report_ctrl extends base_ctrl {
     //             $credit['date'] = date("Y-m-d");
     //             $credit['user_ip'] = $this->input->ip_address();
     //             $credit['created_by'] = $this->session->userdata('user')->UserId;
-
     //             $this->db->insert('transaction', $credit);
-
     //             $feedback = ['status' => 'success', 'message' => "Voucher (" . $voucher_id . ") Data Inserted Successfully"];
     //         } else {
-
     //         }
     //         $info['acc_from'] = $row->fee_category_id;
     //         $info['acc_to'] = 8;
@@ -170,15 +192,11 @@ class Std_report_ctrl extends base_ctrl {
     //         $info['customer_id'] = $row->std_id;
     //         $info['user_id'] = $session->UserId;
     //         $info['description'] = $row->name . ', ' . $row->month;
-
-
     //         $this->db->insert('transaction', $info);
-
     //         $arr->is_active = 0;
     //         $this->db->where('id', $row->id);
     //         $this->db->update('std_fee_report', $arr);
     //     }
-
     //     msg_display('Fees Payment Successfull', 'success');
 
     public function details() {
@@ -186,7 +204,7 @@ class Std_report_ctrl extends base_ctrl {
     }
 
     public function details_info() {
-            $id = $this->input->get('id'); 
+        $id = $this->input->get('id');
         if (!$id) {
             $msg = '
             <script type="text/javascript"> toastr.'
@@ -194,100 +212,35 @@ class Std_report_ctrl extends base_ctrl {
                     . '("'
                     . 'Please Give a Student ID'
                     . '");'
-            . ' </script>
+                    . ' </script>
             ';
             echo $msg;
+        }
+        $info = $this->model->get_single_student($id);
+        $info->gender = ($info->gender == 1) ? "Male" : "Female";
+
+        $info->residential_status = ($info->residential_status == 1) ? "Yes" : "No";
+        $info->status = ($info->status == 1) ? "Current Student" : "Previous/Old Student";
+        $data['fees'] = null;
+        $arr = $this->model->get_fees($id);
+        if ($arr !== false) {
+            $subArr = [];
+            foreach ($arr as $key => $value) {
+                $subArr[$key]['id'] = $value->id;
+                $subArr[$key]['name'] = $value->fee_category . ', ' . $value->month . '- ' . $value->year;
+                $subArr[$key]['payable_amount'] = (int) $value->payable_amount;
+                $subArr[$key]['concession_amount'] = (int) $value->concession_amount;
+                $subArr[$key]['amount'] = (int) $value->amount;
+                $subArr[$key]['created'] = $value->created;
             }
-    $info = $this->model->get_single_student($id);
-    $info->gender = ($info->gender == 1) ? "Male" : "Female"; 
-
-    $info->residential_status = ($info->residential_status == 1) ? "Yes" : "No"; 
-    $info->status = ($info->status == 1) ? "Current Student" : "Previous/Old Student"; 
-    $data['fees'] = null; 
-    $arr = $this->model->get_fees($id);
-    if ($arr !== false) {
-            $subArr = []; 
-        foreach ($arr as $key=>$value) {
-            $subArr[$key]['id'] = $value->id;  
-            $subArr[$key]['name'] = $value->name;  
-            $subArr[$key]['amount'] = (int) $value->amount;  
-            $subArr[$key]['created'] = $value->created;  
-            $subArr[$key]['isSelected'] = (bool) false;  
+            $data['fees'] = $subArr;
         }
-    $data['fees'] = $subArr;
+
+        $data['student'] = $info;
+        $data['total'] = $this->model->get_total_fees($id);
+
+        echo json_encode($data);
     }
-    
-    $data['student'] = $info; 
-    $data['total'] = $this->model->get_total_fees($id);
-
-    echo json_encode($data); 
-}
-
-public function data_report() {
-    $this->load->library('Datatables');
-    $this->datatables
-    ->select('*')
-    ->from('std_fee_report');
-
-    echo $this->datatables->generate();
-}
-
-public function save() {
-    $data = $this->post();
-    $success = FALSE;
-    $msg = 'You are not permitted.';
-    $id = 0;
-    if (!isset($data->UserId)) {
-        if ($this->auth->IsInsert) {
-            $id = $this->model->add($data);
-            $msg = 'Data inserted successfully';
-            $success = TRUE;
-        }
-    } else {
-        if ($this->auth->IsUpdate) {
-            $id = $this->model->update($data->UserId, $data);
-            $success = TRUE;
-            $msg = 'Data updated successfully';
-        }
-    }
-    print json_encode(array('success' => $success, 'msg' => $msg, 'id' => $id));
-}
-
-public function delete() {
-    if ($this->auth->IsDelete) {
-        $data = $this->post();
-        print json_encode(array("success" => TRUE, "msg" => $this->model->delete($data->UserId)));
-    } else {
-        print json_encode(array("success" => FALSE, "msg" => "You are not permitted"));
-    }
-}
-
-public function get_Roles_list() {
-    print json_encode($this->model->get_Roles_list());
-}
-
-public function get_Navigations_list() {
-    print json_encode($this->model->get_Navigations_list());
-}
-
-public function get() {
-    $data = $this->post();
-    print json_encode($this->model->get($data->UserId));
-}
-
-public function get_all() {
-    print json_encode($this->model->get_all());
-}
-
-public function get_page() {
-    $data = $this->post();
-    print json_encode($this->model->get_page($data->size, $data->pageno));
-}
-
-public function get_page_where() {
-    $data = $this->post();
-    print json_encode($this->model->get_page_where($data->size, $data->pageno, $data));
-}
 
 }
 

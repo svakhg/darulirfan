@@ -50,7 +50,7 @@
                 <strong>Present Address:</strong>
                 <span ng-bind="student.present_address"></span>
             </h5>
-            <h5>
+            <h5 class="visible-desktop">
                 <strong>Permanent Address:</strong>
                 <span ng-bind="student.permanent_address"></span>
             </h5>
@@ -60,12 +60,14 @@
             <table class="table table-striped" align="center" >
             <thead>
                 <tr>
-                                <th class="text-center" colspan="7">Fees Report</tr>
+                                <th class="text-center" colspan="7">Payable Fees</tr>
                                 <tr>
                     <th>S.N</th>
                     <th>Particular</th>
-                    <th>Amount</th>
-                    <th style="text-align:right;">Total</th>
+                    <th>Payable Amount</th>
+                    <th>Concession Amount</th>
+                    <!-- <th>Amount</th> -->
+                    <th>Total</th>
                     <th></th>
 
                 </tr>
@@ -75,44 +77,65 @@
                     
                     <td>{{ $index + 1 }}</td>
                     <td>
-                        <input ng-model="item.name" placeholder="Description"></td>
-                    <!-- <td>
-                    <input ng:model="item.qty" value="1" size="4" ng:required ng:validate="integer" placeholder="qty"></td>
-                    -->
+                    {{item.name}}
+                        <!-- <input ng-model="item.name" placeholder="Description"> -->
+                        </td>
+                         <td>
+                         {{item.payable_amount}}
+                    <!-- <input ng:model="item.payable_amount" value="1" size="4" ng:required ng:validate="integer" placeholder="payable_amount"> -->
+                    </td>
                     <td>
-                        <input ng-model="item.amount" value="0.00" ng-required ng-validate="number" size="6" placeholder="Amount"></td>
-                    <td align="right">{{item.amount| currency}}</td>
+                    <input ng:model="item.concession_amount" value="1" size="4" ng:required ng:validate="integer" placeholder="concession_amount">
+                    </td>
+                    <td>{{item.payable_amount - item.concession_amount}}</td>
                     <td style="text-align:right;">
-                        <a href ng-hide="printMode" ng-click="removeItem(item)" class="btn btn-danger">[X]</a>
+                        <a href ng-hide="printMode" ng-click="removeItem(item)" class="visible-desktop btn btn-danger">[X]</a>
                     </td>
 
                 </tr>
                 <tr ng-hide="printMode">
-                    <td colspan="5">
+                <td>
+                    <strong>Total</strong> 
+                </td>
+                   <!--  <td colspan="1">
                         <a class="btn btn-primary" href ng-click="addItem()" >Add Fees</a>
+                    </td> -->
+                    <td>
+                        
+                    </td>
+                    <td>
+                       {{payable_amount_total()}} /= 
+                    </td>
+                    <td>
+                        {{concession_amount_total()}} /=
+                    </td>
+
+                    <td>
+                        {{grand_total()}} /=
                     </td>
                 </tr>
                 </tbody>
                
                 <tr>
-                    <td colspan="3" align="right">Sub Total</td>
-                    <td align="right">{{invoice_sub_total() | currency}}</td>
+                    <td colspan="4" align="right">Sub Total(TK):</td>
+                    <td align="right">{{payable_amount_total()}} /=</td>
                 </tr>
                 <tr>
-                    <td colspan="3" align="right">Discount(TK):</td>
+                    <td colspan="4" align="right">Total Discount(TK):</td>
                     <td align="right">
-                        <input ng:model="invoice.discount" ng:validate="number" style="width:80px"></td>
+                        {{concession_amount_total()}} /=</td>
                 </tr>
                 <tr>
-                    <td colspan="3" align="right">Grand Total:</td>
-                    <td align="right">{{grand_total() | currency}}</td>
+                    <td colspan="4" align="right">Grand Total(TK):</td>
+                    <td align="right"><strong>{{grand_total()}} /=</strong></td>
                 </tr>
             </table>
-            <div class="noPrint pull-right">
-                <a class="btn btn-primary" ng-show="printMode" ng-click="printInfo()">Print</a>
+            <div class="visible-desktop pull-right">
+                <!-- <a class="btn btn-primary" ng-show="printMode" ng-click="printInfo()">Print</a>
                 <a class="btn btn-primary" ng-click="clearLocalStorage()">Reset</a>
                 <a class="btn btn-primary" ng-hide="printMode" ng-click="printMode = true;">Turn On Print Mode</a>
-                <a class="btn btn-primary" ng-show="printMode" ng-click="printMode = false;">Turn Off Print Mode</a>
+                 <a class="btn btn-primary" ng-show="printMode" ng-click="printMode = false;">Turn Off Print Mode</a>
+                -->
                 <a ng-click="btnPayFees(invoice)" class="btn btn-large btn-primary">Pay Fees</a>
                 <a href="#/student" class="btn btn-danger">Cancel</a>
             </div>

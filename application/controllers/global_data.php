@@ -17,8 +17,7 @@ public function __construct() {
         $data['class_info'] = $this->class_info();
         $data['fee_type'] = $this->fee_type(); 
         $data['fees_category'] = $this->fees_category(); 
-
-        // var_dump($data); 
+        $data['std_type'] = $this->std_type();
     	echo json_encode($data);
     }
 
@@ -36,6 +35,12 @@ public function __construct() {
         $data = [['fee_type_name' => 'Monthly', 'fee_type_id' => 1], ['fee_type_name' => 'Yearly', 'fee_type_id' => 2], ['fee_type_name' => 'One Time', 'fee_type_id' => 3]];
         return $data;  
     }
+
+    function std_type() {
+        $data = [['text' => 'All', 'value' => 1], ['text' => 'Residential', 'value' => 2], ['text' => 'Non-Residential', 'value' => 3]];
+        return $data;  
+    }
+
     function class_info() {
         return $data = $this->db->select('id, class_name as name')->get('class')->result();
         // echo json_encode($data);
@@ -62,14 +67,14 @@ public function __construct() {
                 // $acc_group_type_id = acc_group_type_id($voucher_type_id)->acc_group_type_id;
                     // var_dump($acc_group_id); 
                     
-                    echo json_encode($this->db->select('id, name')
+                    echo json_encode($this->db->select('ledger_id, name')
                     ->where('group_id', $acc_group_id)
                     ->get('acc_ledger')
                     ->result());
             //}
         } 
         else {
-            echo json_encode($this->db->select('id, name, acc_group_type_id')->get('acc_ledger')->result());
+            echo json_encode($this->db->select('ledger_id, name, acc_group_type_id')->get('acc_ledger')->result());
         }
     }
 

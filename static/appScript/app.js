@@ -32,6 +32,7 @@ angular.module('project', ['ui.bootstrap', 'ngGrid', 'kendo.directives', 'ngProg
                     when('/Users', {templateUrl: BASE_URL + 'Users_ctrl'}).
                     when('/student', {templateUrl: BASE_URL + 'std_report_ctrl'}).
                     when('/std_report_kendo', {templateUrl: BASE_URL + 'std_report_kendo_ctrl'}).
+                    when('/generate_std_fees', {templateUrl: BASE_URL + 'generate_std_fees'}).
                     when('/voucher', {templateUrl: BASE_URL + 'voucher_ctrl'}).
                     when('/ledger_book', {templateUrl: BASE_URL + 'ledger_book_ctrl'}).
                     when('/ledger_report', {templateUrl: BASE_URL + 'ledger_report_ctrl'}).

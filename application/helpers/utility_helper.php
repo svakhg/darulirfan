@@ -37,7 +37,7 @@ function acc_group_id($ledger_id = null) {
     $CI = get_instance();
     $CI->load->database();
     if ($ledger_id !== null) {
-        return $CI->db->select('group_id as acc_group_id')->get_where('acc_ledger', ['id' => $ledger_id])->row();
+        return $CI->db->select('group_id as acc_group_id')->get_where('acc_ledger', ['ledger_id' => $ledger_id])->row();
     }
 }
 

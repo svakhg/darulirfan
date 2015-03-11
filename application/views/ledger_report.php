@@ -41,7 +41,7 @@
            <td>{{ $index + 1 }}</td>
            <td>{{data.date}}</td>
           <td><a href="#/voucher/view/{{data.voucher_id}}">{{data.voucher_id}}</a></td>
-           <td>{{data.voucher_type}}</td>
+           <td>{{get_voucher_name(data.voucher_type)}}</td>
            <td>{{data.description}}</td>
            <td>{{data.debit}}</td>
            <td>{{data.credit}}</td>

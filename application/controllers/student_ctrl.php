@@ -29,8 +29,6 @@ class student_ctrl extends base_ctrl {
         if (!isset($data->id)) {
             if ($this->auth->IsInsert) {
                 $data->id = $this->generate->student_id();
-                var_dump($data);
-                exit;
                 $id = $this->model->add($data);
                 $msg = 'Data inserted successfully';
                 $success = TRUE;
