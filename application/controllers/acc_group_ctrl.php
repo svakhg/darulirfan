@@ -18,6 +18,48 @@ class acc_group_ctrl extends base_ctrl {
 			$this->load->view('forbidden');
 		}
 	}
+public function view () {
+    $id = $this->uri->segment(3); 
+    $this->load->view('acc_group/single', $id);
+  }
+  function show_acc_group() {
+    header('Content-Type: application/json');
+    $receive = json_decode(file_get_contents('php://input'));
+    $result = (array) $receive;
+    $is_valid = GUMP::is_valid($result, array(
+          'startdate' => 'required',
+          'group_id' => 'required',
+          'enddate' => 'required'
+      ));
+      if($is_valid === true) {
+        $data = $this->db->select('*')
+                    ->where('group_id', $result['group_id'])
+                    ->get('acc_ledger')->result();
+        foreach($data as $key => $row) {
+          	$transaction[$key] = $this->db->select('ledger_id, debit, credit')
+          	        			->select_sum('debit')
+        			->select_sum('credit')
+        			->where(['ledger_id' => $row->id])->get('transaction'); 
+
+          	if ($transaction[$key]->num_rows() > 0) {
+          		$arr[$key] = $transaction[$key]->row(); 
+          	} else {
+          		$arr[$key] = null; 
+          	}
+          	// var_dump($arr); 
+          	
+        }
+        $info = ['status' => 'success', 'message' => 'operation successful', 'data' => $arr];
+        echo json_encode($info);
+      }  else {
+            $err = error_process($is_valid);
+            foreach ($err as $value) {
+                $row['message'] = $value;
+            }
+            $row['status'] = 'error';
+            echo json_encode($row);
+    }
+}
 
 	public function save()
 	{

@@ -58,9 +58,8 @@ class employee_model extends CI_Model {
 
     public function update($data){
             unset($data['duty_type']);
-            unset($data['designation_name']);
-
-        $this->db->where(['id' => $data['id']])
+            unset($data['id']);
+        $this->db->where(['emp_id' => $data['emp_id']])
             ->update('employee', $data); 
         return $this->db->insert_id(); 
     }
@@ -81,7 +80,6 @@ class employee_model extends CI_Model {
     public function get_single_emp($id) {
         $query = $this->db->select('*')
             ->from('employee')
-            ->join('designation', 'employee.designation = designation.id')
             ->where(['emp_id' => $id])
             ->get();
         if (!$query->num_rows() > 0) {

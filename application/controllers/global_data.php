@@ -14,11 +14,12 @@ public function __construct() {
 
     function all() {
     	$data['voucher_type'] = $this->db->get('voucher_type')->result();
+        $data['ledger_info'] = $this->db->select('id as value, name as text')->get('acc_ledger')->result();
+        $data['acc_group_info'] = $this->db->select('id as value, group_name as text')->get('acc_group')->result();
         $data['class_info'] = $this->class_info();
         $data['fee_type'] = $this->fee_type(); 
         $data['designation'] = $this->designation();
-        $data['status'] = $this->status(); 
-
+        $data['active_status'] = $this->status(); 
         // $data['fees_category'] = $this->fees_category(); 
 
         // var_dump($data); 

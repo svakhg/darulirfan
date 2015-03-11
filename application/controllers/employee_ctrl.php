@@ -64,8 +64,7 @@ class Employee_ctrl extends base_ctrl {
                     $this->load->library('generate'); 
                     $student_id = $this->generate->employee_id($info); 
                     if (!empty($student_id)) {
-                     $info['emp_id'] = $student_id; 
-                    // var_dump($info); exit; 
+                     $info['emp_id'] = $student_id;
                      $id = $this->model->add($info);
                      $msg = 'Data inserted successfully';
                      $status = 'success';
@@ -76,7 +75,7 @@ class Employee_ctrl extends base_ctrl {
            }
        } elseif ($info['duty_type'] === 'update') {
         if ($this->auth->IsUpdate) {
-            var_dump($info); exit; 
+            // var_dump($info); exit; 
             $id = $this->model->update($info);
             $status = 'success';
             $msg = 'Data updated successfully';

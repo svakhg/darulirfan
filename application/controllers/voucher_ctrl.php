@@ -11,6 +11,28 @@ public function __construct() {
         $this->load->helper('url');
     }
 
+    function process() {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            header('Content-Type: application/json');
+
+            $request = json_decode(file_get_contents('php://input'));
+            $result = new DataSourceResult('');
+
+            $type = $_GET['type'];
+
+            $columns = array('id', 'acc_group_id', 'ledger_id', 'debit', 'credit', 'description', 'voucher_type', 'voucher_id', 'date');
+
+            switch ($type) {
+                case 'read':
+                $result = $result->read('transaction', $columns, $request);
+                break;
+            }
+            echo json_encode($result, JSON_NUMERIC_CHECK);
+
+            exit;
+        }
+    }
+
     public function save() {
       header('Content-Type: application/json');
       $data = json_decode(file_get_contents('php://input'));
@@ -175,13 +197,13 @@ public function __construct() {
           print_r($is_valid);
       }
     }
-    public function index() {
-//        var_dump($this->oisacl->check_hasRole('administrator')); exit; 
-//        var_dump($this->oisacl->check_has('student')); exit; 
-//        var_dump($this->oisacl->check_isAllowed(33, 'student')); exit; 
+    public function index() { 
         $this->load->view('voucher');
     }
 
+public function list_view() { 
+        $this->load->view('voucher_all');
+    }
     public function view() {
       $this->load->view('voucher_view'); 
     }

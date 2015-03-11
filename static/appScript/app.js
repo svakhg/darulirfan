@@ -9,9 +9,7 @@ angular.module('project', ['ui.bootstrap', 'ngGrid', 'kendo.directives', 'ngProg
             //route provider
             $routeProvider.
                     when('/', {templateUrl: BASE_URL + 'home_ctrl'}).
-                    when('/acc-group', {templateUrl: BASE_URL + 'acc-group_ctrl'}).
-                    when('/acc-group-type', {templateUrl: BASE_URL + 'acc-group-type_ctrl'}).
-                    when('/acc-ledger', {templateUrl: BASE_URL + 'acc-ledger_ctrl'}).
+                    
                     when('/acc_group', {templateUrl: BASE_URL + 'acc_group_ctrl'}).
                     when('/acc_group_type', {templateUrl: BASE_URL + 'acc_group_type_ctrl'}).
                     when('/acc_ledger', {templateUrl: BASE_URL + 'acc_ledger_ctrl'}).
@@ -33,11 +31,19 @@ angular.module('project', ['ui.bootstrap', 'ngGrid', 'kendo.directives', 'ngProg
                     when('/student', {templateUrl: BASE_URL + 'std_report_ctrl'}).
                     when('/std_report_kendo', {templateUrl: BASE_URL + 'std_report_kendo_ctrl'}).
                     when('/voucher', {templateUrl: BASE_URL + 'voucher_ctrl'}).
+                    when('/voucher/list', {templateUrl: BASE_URL + 'voucher_ctrl/list_view'}).
                     when('/ledger_book', {templateUrl: BASE_URL + 'ledger_book_ctrl'}).
                     when('/ledger_report', {templateUrl: BASE_URL + 'ledger_report_ctrl'}).
                      when('/ledger_report/view/:page', {
                         templateUrl: function ($routeParams) {
                             return BASE_URL + 'ledger_report_ctrl/view/' + $routeParams.page + '';
+                        }
+                    }).
+                     when('/acc_group/list', {templateUrl: BASE_URL + 'acc_group_ctrl/list'}).
+                      when('/acc_group/view', {templateUrl: BASE_URL + 'acc_group_ctrl/view'}).
+                     when('/acc_group/view/:page', {
+                        templateUrl: function ($routeParams) {
+                            return BASE_URL + 'acc_group_ctrl/view/' + $routeParams.page + '';
                         }
                     }).
                     when('/student/add', {templateUrl: BASE_URL + 'std_report_ctrl/add'}).

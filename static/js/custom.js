@@ -49,6 +49,42 @@ function get_designation(id) {
     }
 }
 
+function get_ledger_name(id) {
+    arr = data.ledger_info;
+    for (var idx = 0, length = arr.length; idx < length; idx++) {
+        if (parseInt(arr[idx].value) === parseInt(id)) {
+            return arr[idx].text;
+        }
+    }
+}
+
+function get_acc_group_name(id) {
+    arr = data.acc_group_info;
+    for (var idx = 0, length = arr.length; idx < length; idx++) {
+        if (parseInt(arr[idx].value) === parseInt(id)) {
+            return arr[idx].text;
+        }
+    }
+}
+
+function get_class(id) {
+    arr = data.class_info;
+    for (var idx = 0, length = arr.length; idx < length; idx++) {
+        if (parseInt(arr[idx].id) === parseInt(id)) {
+            return arr[idx].name;
+        }
+    }
+}
+
+function get_voucher_type(id) {
+    arr = data.voucher_type;
+    for (var idx = 0, length = arr.length; idx < length; idx++) {
+        if (parseInt(arr[idx].id) === parseInt(id)) {
+            return arr[idx].name;
+        }
+    }
+}
+
 function fees_category_editor(container, options){
 	 $('<input data-bind="value:' + options.field +'"/>')
       .appendTo(container)
