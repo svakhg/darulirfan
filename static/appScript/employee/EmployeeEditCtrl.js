@@ -1,5 +1,8 @@
 
-function EmployeeEditCtrl($scope, $http, $location, $timeout){
+function EmployeeEditCtrl($scope, $http, $location, $timeout, progressbar){
+     progressbar.start();
+
+
 	$scope.employee = {};
         // console.log(JSON.parse(all_data['responseText']).class_info); 
         // $("#class_id").kendoDropDownList({
@@ -18,6 +21,8 @@ function EmployeeEditCtrl($scope, $http, $location, $timeout){
         	{
                 // console.log(response);
         		$scope.employee = response; 
+                progressbar.complete();
+
                  $timeout(function () {
                         $scope.designationDropdown.value(response.designation); 
                         $scope.statusDropdown.value(response.status); 
@@ -26,6 +31,8 @@ function EmployeeEditCtrl($scope, $http, $location, $timeout){
                 
         	});
         } else {
+            progressbar.complete();
+
         	console.log('Add new Employee');
         }
 

@@ -1,5 +1,11 @@
 
-function LedgerBookCtrl($scope, $http){
+function LedgerBookCtrl($scope, $http, progressbar, $timeout){
+	 progressbar.start();
+        $timeout(function(){
+            progressbar.complete();
+            $scope.show = true;
+        }, 100);
+
 	$scope.show_ledger_div = false; 
 	function startChange() {
 		var startDate = start.value(),
@@ -65,10 +71,14 @@ function LedgerBookCtrl($scope, $http){
 			end.min(start.value());
 
 			$scope.saveLedgerBook = function () {
+				 progressbar.start();
+
 				$scope.data = {startdate : start.value(), enddate: end.value()};
 				$http.post(baseurl + "ledger_book_ctrl/show_ledger", $scope.data)
 				.success(function (response){
 					if (response.status == 'success') {
+				
+
 						$scope.show_ledger_div = true; 
 						$scope.debits = response.debits; 
 						$scope.credits = response.credits;
@@ -83,20 +93,17 @@ function LedgerBookCtrl($scope, $http){
 						$scope.opening_cash_in_hand = response.opening_cash_in_hand;
 						$scope.opening_cash_at_bank = response.opening_cash_at_bank; 
 						// $scope.credit_final_total = Number ($scope.credit_total) + Number ($scope.closing_balance);
+						 progressbar.complete();
 						toastr.success(response.message);
 					} else {
-						$scope.show_ledger_div = false; 
+
+						$scope.show_ledger_div = false;
+				 		progressbar.reset();
 						toastr.error(response.message);
 					}
-					$scope.voucher = {
-						voucher_type: '',
-						ledger_id: '',
-						description: '',
-						amount: ''}; 
-
-						$scope.validationMessage = "Hooray! Your voucher has been saved!";
-						$scope.validationClass = "valid";
-					}).error(function (data){
+					
+					})
+.error(function (data){
 						console.log(data);
 					});
 				}

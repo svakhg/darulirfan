@@ -1,5 +1,10 @@
 
-function LedgerReportCtrl($scope, $http){
+function LedgerReportCtrl($scope, $http,progressbar,$timeout){
+	 progressbar.start();
+        $timeout(function(){
+            progressbar.complete();
+            $scope.show = true;
+        }, 100);
 	 
 	$scope.show_ledger_div = false; 
 	function startChange() {
@@ -87,6 +92,7 @@ function LedgerReportCtrl($scope, $http){
         var ledger_id_url = url.substring(url.lastIndexOf('/') + 1);
         // console.log(ledger_id); 
         if (ledger_id_url !== "ledger_report") {
+        	 progressbar.start();
         	$scope.data = {startdate : start.value(), enddate: end.value(), ledger_id: ledger_id_url};
 				$http.post(baseurl + "ledger_report_ctrl/show_ledger", $scope.data)
 				.success(function (response){
@@ -96,12 +102,17 @@ function LedgerReportCtrl($scope, $http){
 						$scope.datas = response.data; 
 						$scope.debit_total = response.debit_total;
 						$scope.credit_total = response.credit_total;
+						 progressbar.complete();
+
 						toastr.success(response.message);
 					} else {
 						$scope.show_ledger_div = false; 
+						 progressbar.reset();
 						toastr.error(response.message);
 					}
 					}).error(function (data){
+						 progressbar.reset();
+
 						console.log(data);
 					});
 				}
@@ -109,6 +120,8 @@ function LedgerReportCtrl($scope, $http){
 
 
 			$scope.showLedger = function () {
+						 progressbar.start();
+
 				$scope.data = {startdate : start.value(), enddate: end.value(), ledger_id: ledger_id.value()};
 				$http.post(baseurl + "ledger_report_ctrl/show_ledger", $scope.data)
 				.success(function (response){
@@ -117,12 +130,18 @@ function LedgerReportCtrl($scope, $http){
 						$scope.datas = response.data; 
 						$scope.debit_total = response.debit_total;
 						$scope.credit_total = response.credit_total;
+						 progressbar.complete();
+
 						toastr.success(response.message);
 					} else {
 						$scope.show_ledger_div = false; 
+						 progressbar.reset();
+
 						toastr.error(response.message);
 					}
 					}).error(function (data){
+						 progressbar.reset();
+
 						console.log(data);
 					});
 				}
