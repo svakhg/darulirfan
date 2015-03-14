@@ -1,5 +1,7 @@
 
-function StudentEditCtrl($scope, $http, $location, $timeout){
+function StudentEditCtrl($scope, $http, $location, $timeout,progressbar){
+         progressbar.start();
+
 	$scope.student = {};
 
         var url = document.URL;
@@ -9,6 +11,8 @@ function StudentEditCtrl($scope, $http, $location, $timeout){
         	.success(function (response)
         	{
         		$scope.student = response;
+         progressbar.complete();
+
                 $timeout(function () {
                         $scope.classDropdown.value(response.class_id); 
                         $scope.statusDropdown.value(response.status); 
@@ -16,6 +20,8 @@ function StudentEditCtrl($scope, $http, $location, $timeout){
         	});
 
         } else {
+         progressbar.complete();
+
         	console.log('Add new student');
         }
 

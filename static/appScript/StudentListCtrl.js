@@ -1,5 +1,11 @@
 
-function StudentListCtrl($scope, $http, $location){
+function StudentListCtrl($scope, $http, $location,progressbar, $timeout){
+         progressbar.start();
+        $timeout(function(){
+            progressbar.complete();
+            $scope.show = true;
+        }, 100);
+
 	$scope.mainGridOptions = {
                 dataSource: {
                         transport: {
@@ -130,23 +136,5 @@ function StudentListCtrl($scope, $http, $location){
                     window.location.replace("#/student/details/" + dataItem.std_id);
                 }
 
-                function ShowDetails(e) {
-                    e.preventDefault();
-
-                    var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-                    $.ajax({
-                        url: baseurl + "std_report_ctrl/edit/",
-                        type: "get",
-                        data: {
-                            id: dataItem.id
-                        },
-                        success: function (response) {
-                            wnd.content(response);
-                        },
-                        error: function () {
-                            console.log("error");
-                        }
-                    })
-                    wnd.center().open();
-                }
+              
 			};

@@ -60,6 +60,7 @@ class Std_report_ctrl extends base_ctrl {
         $info = (array) $result;
         $is_valid = GUMP::is_valid($info, array(
           'gender' => 'required',
+          'residential_status' => 'required',
           'class_id' => 'required'
           ));
         if($is_valid === true) {

@@ -21,7 +21,12 @@ class std_report_model extends CI_Model {
 
     public function add($data){
         unset($data['duty_type']);
-
+        $arr['ledger_id'] = $data['std_id'];
+        $arr['name'] = $data['std_name'];
+        $arr['group_id'] = 7;
+        $arr['is_student'] = 1; 
+        $arr['status'] = 1 ;
+        $this->db->insert('acc_ledger', $arr); 
         $this->db->insert('student', $data); 
         return $this->db->insert_id(); 
     }

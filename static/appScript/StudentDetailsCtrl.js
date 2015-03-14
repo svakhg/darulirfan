@@ -1,5 +1,8 @@
 
-function StudentDetailsCtrl($scope, $http, $location){
+function StudentDetailsCtrl($scope, $http, $location, progressbar, $timeout){
+     progressbar.start();
+      
+
   var url = document.URL;
   $scope.student_id = url.substring(url.lastIndexOf('/') + 1);
 
@@ -11,9 +14,12 @@ function StudentDetailsCtrl($scope, $http, $location){
   $scope.fees = [];
   var all_data = $.ajax({url: baseurl + "std_report_ctrl/details_info?id=" + $scope.student_id, dataType: 'json', async: false})
   .success(function (result) {
+         progressbar.complete();
     return result;
   })
   .error(function () {
+         progressbar.reset();
+
     console.log("error");
   });
   response = JSON.parse(all_data.responseText); 
