@@ -1,4 +1,4 @@
-angular.module('project', ['ui.bootstrap', 'ngGrid', 'kendo.directives', 'ngProgress']).
+angular.module('project', ['googlechart', 'ui.bootstrap', 'ngGrid', 'kendo.directives', 'ngProgress']).
 
         config(function ($routeProvider, progressbarProvider) {
             //for ngprogrees

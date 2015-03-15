@@ -113,13 +113,17 @@ Selectize theme
 <!-- <script src="static/js/angular-datatables.min.js"></script>
 -->
 <script src="static/js/angular.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.8/angular-route.min.js"></script>
+
 <script src="static/js/kendo/kendo.all.min.js"></script>
 
-<script src="static/js/angular-resource.js"></script>
+<!-- <script src="static/js/angular-resource.js"></script> -->
 <script src="static/js/bootstrap.min.js"></script>
 <script src="static/js/ngProgress.js"></script>
 
 <script src="static/js/ng-grid.js"></script>
+<script src="static/js/ng-google-chart.js"></script>
+
 <script src="static/js/ui-bootstrap-tpls-0.5.0.min.js"></script>
 <script src="static/js/jQuery-ui-directive.js"></script>
 <script src="static/js/toastr.min.js"></script>
