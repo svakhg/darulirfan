@@ -1,10 +1,12 @@
 var all_data = $.ajax({url: baseurl + 'global_data/all', dataType: 'json', async: false})
+
 .success(function (result) {
 	return result;
 })
 .error(function () {
 	console.log('error');
 });
+
 
 var data = JSON.parse(all_data['responseText']); 
 
@@ -65,6 +67,51 @@ function get_fee_type(fee_type_id) {
 			return arr[idx].fee_type_name;
 		}
 	}
+}
+
+function get_designation(id) {
+    arr = data.designation;
+    for (var idx = 0, length = arr.length; idx < length; idx++) {
+        if (parseInt(arr[idx].value) === parseInt(id)) {
+            return arr[idx].text;
+        }
+    }
+}
+
+function get_ledger_name(id) {
+    arr = data.ledger_info;
+    for (var idx = 0, length = arr.length; idx < length; idx++) {
+        if (parseInt(arr[idx].value) === parseInt(id)) {
+            return arr[idx].text;
+        }
+    }
+}
+
+function get_acc_group_name(id) {
+    arr = data.acc_group_info;
+    for (var idx = 0, length = arr.length; idx < length; idx++) {
+        if (parseInt(arr[idx].value) === parseInt(id)) {
+            return arr[idx].text;
+        }
+    }
+}
+
+function get_class(id) {
+    arr = data.class_info;
+    for (var idx = 0, length = arr.length; idx < length; idx++) {
+        if (parseInt(arr[idx].id) === parseInt(id)) {
+            return arr[idx].name;
+        }
+    }
+}
+
+function get_voucher_type(id) {
+    arr = data.voucher_type;
+    for (var idx = 0, length = arr.length; idx < length; idx++) {
+        if (parseInt(arr[idx].id) === parseInt(id)) {
+            return arr[idx].name;
+        }
+    }
 }
 
 function fees_category_editor(container, options){

@@ -67,16 +67,33 @@ class employee_model extends CI_Model {
         return $this->db->insert_id();
     }
 
-    public function update($data) {
-        unset($data['duty_type']);
-        $this->db->where(['id' => $data['id']])
-                ->update('employee', $data);
-        return $this->db->insert_id();
+
+    public function update($data){
+            unset($data['duty_type']);
+            unset($data['id']);
+        $this->db->where(['emp_id' => $data['emp_id']])
+            ->update('employee', $data); 
+        return $this->db->insert_id(); 
+    }
+    public function get_salary_report($id) {
+        $query = $this->db->select('employee.emp_id as employee_id, std_fee_report.amount, std_fee_report.created, acc_ledger.id as acc_ledger_id, acc_ledger.name')
+                ->from('std_fee_report')
+                ->where(['std_fee_report.std_id' => $id, 'std_fee_report.is_active' => 1])
+                ->join('student', 'std_fee_report.std_id = student.std_id')
+                ->join('acc_ledger', 'acc_ledger.id = std_fee_report.fee_category_id')
+                ->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
     }
 
     public function get_single_emp($id) {
         $query = $this->db->select('*')
-                ->get_where('employee', ['emp_id' => $id]);
+            ->from('employee')
+            ->where(['emp_id' => $id])
+            ->get();
         if (!$query->num_rows() > 0) {
             return false;
         } else {

@@ -71,7 +71,6 @@ class Employee_ctrl extends base_ctrl {
                     if (!empty($student_id)) {
                         $info['emp_id'] = $student_id;
                         $info['user_id'] = $this->session->userdata('user')->UserId;
-
                         $id = $this->model->add($info);
                         $msg = 'Data inserted successfully';
                         $status = 'success';
@@ -95,6 +94,7 @@ class Employee_ctrl extends base_ctrl {
             }
             $row['status'] = 'error';
             echo json_encode($row);
+           }
         }
     }
 
@@ -236,6 +236,7 @@ class Employee_ctrl extends base_ctrl {
         $data['fees'] = $subArr;
         $data['student'] = $info;
         $data['total'] = $this->model->get_total_fees($id);
+
 
         echo json_encode($data);
     }

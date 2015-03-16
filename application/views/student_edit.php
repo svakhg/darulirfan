@@ -86,7 +86,12 @@
                      <div class="form-group">
                          <label class="control-label col-sm-4"for="class_id">Class</label>
                          <div class="col-md-6">
-                             <input type="text" id="class_id" ng-model="student.class_id" name="Class" class="k-textbox" required placeholder=""/> 
+                          <select kendo-drop-down-list="classDropdown" ng-model="student.class_id"
+                              k-data-text-field="'name'"
+                              k-data-value-field="'id'"
+                              k-option-label="'Please select'"
+                              k-data-source="classDataSource">
+                         </select>
                          </div>
                      </div>
                      <div class="form-group">
@@ -98,7 +103,11 @@
                      <div class="form-group">
                          <label class="control-label col-sm-4"for="status">Student Status</label>
                          <div class="col-md-6">
-                             <input type="text" ng-model="student.status" class="k-textbox" placeholder="" /> 
+                           <select kendo-drop-down-list="statusDropdown" ng-model="student.status"
+                              k-data-text-field="'text'"
+                              k-data-value-field="'value'"
+                              k-data-source="statusDataSource">
+                      </select>
                          </div>
                      </div>
                  </fieldset>

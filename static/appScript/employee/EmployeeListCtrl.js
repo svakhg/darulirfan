@@ -74,6 +74,9 @@ function EmployeeListCtrl($scope, $http, $location){
                     }, {
                         field: "designation",
                         title: "Designation",
+                        template: function(dataItem) {
+                            return get_designation(dataItem.designation);
+                        },
                         filterable: {
                             cell: {
                                 showOperators: false
@@ -120,7 +123,7 @@ function EmployeeListCtrl($scope, $http, $location){
                 function EditEmployeeBtn(e) {
                     e.preventDefault();
                     var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-                    console.log(dataItem);
+                    // console.log(dataItem);
                     window.location.replace("#/employee/edit/" + dataItem.emp_id);
                 }
 

@@ -1,5 +1,17 @@
 
-function LedgerReportCtrl($scope, $http) {
+
+function LedgerReportCtrl($scope, $http,progressbar,$timeout){
+	 progressbar.start();
+        $timeout(function(){
+            progressbar.complete();
+            $scope.show = true;
+        }, 100);
+	 
+	$scope.show_ledger_div = false;
+	
+	function startChange() {
+		var startDate = start.value(),
+		endDate = end.value();
 
     $scope.show_ledger_div = false;
     function startChange() {
@@ -85,6 +97,35 @@ function LedgerReportCtrl($scope, $http) {
         }
     }).data("kendoDropDownList");
 
+		var url = document.URL;
+        var ledger_id_url = url.substring(url.lastIndexOf('/') + 1);
+        // console.log(ledger_id); 
+        if (ledger_id_url !== "ledger_report") {
+        	 progressbar.start();
+        	$scope.data = {startdate : start.value(), enddate: end.value(), ledger_id: ledger_id_url};
+				$http.post(baseurl + "ledger_report_ctrl/show_ledger", $scope.data)
+				.success(function (response){
+					if (response.status == 'success') {
+						ledger_id.value(ledger_id_url);
+						$scope.show_ledger_div = true; 
+						$scope.datas = response.data; 
+						$scope.debit_total = response.debit_total;
+						$scope.credit_total = response.credit_total;
+						 progressbar.complete();
+
+						toastr.success(response.message);
+					} else {
+						$scope.show_ledger_div = false; 
+						 progressbar.reset();
+						toastr.error(response.message);
+					}
+					}).error(function (data){
+						 progressbar.reset();
+
+						console.log(data);
+					});
+				}
+
     var url = document.URL;
     var ledger_id_url = url.substring(url.lastIndexOf('/') + 1);
     // console.log(ledger_id); 
@@ -108,7 +149,6 @@ function LedgerReportCtrl($scope, $http) {
         });
     }
 
-
     $scope.get_voucher_name = function (voucher_id) {
         arr = data.voucher_type;
         for (var idx = 0, length = arr.length; idx < length; idx++) {
@@ -117,23 +157,31 @@ function LedgerReportCtrl($scope, $http) {
             }
         }
     }
-    $scope.showLedger = function () {
-        $scope.data = {startdate: start.value(), enddate: end.value(), ledger_id: ledger_id.value()};
-        $http.post(baseurl + "ledger_report_ctrl/show_ledger", $scope.data)
-                .success(function (response) {
-                    if (response.status == 'success') {
-                        $scope.show_ledger_div = true;
-                        $scope.datas = response.data;
-                        $scope.debit_total = response.debit_total;
-                        $scope.credit_total = response.credit_total;
-                        toastr.success(response.message);
-                    } else {
-                        $scope.show_ledger_div = false;
-                        toastr.error(response.message);
-                    }
-                }).error(function (data) {
-            console.log(data);
-        });
-    }
-}
-;
+
+			$scope.showLedger = function () {
+						 progressbar.start();
+
+				$scope.data = {startdate : start.value(), enddate: end.value(), ledger_id: ledger_id.value()};
+				$http.post(baseurl + "ledger_report_ctrl/show_ledger", $scope.data)
+				.success(function (response){
+					if (response.status == 'success') {
+						$scope.show_ledger_div = true; 
+						$scope.datas = response.data; 
+						$scope.debit_total = response.debit_total;
+						$scope.credit_total = response.credit_total;
+						 progressbar.complete();
+
+						toastr.success(response.message);
+					} else {
+						$scope.show_ledger_div = false; 
+						 progressbar.reset();
+
+						toastr.error(response.message);
+					}
+					}).error(function (data){
+						 progressbar.reset();
+
+						console.log(data);
+					});
+				}
+			};

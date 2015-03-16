@@ -72,6 +72,9 @@ function StudentListCtrl($scope, $http, $location){
                     }, {
                         field: "class_id",
                         title: "Class",
+                        template: function(dataItem) {
+                            return get_class(dataItem.class_id);
+                        },
                         filterable: {
                             cell: {
                                 showOperators: false
