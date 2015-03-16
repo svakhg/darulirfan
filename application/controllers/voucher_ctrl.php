@@ -188,16 +188,14 @@ public function __construct() {
     public function get_voucher() {
 
       $voucher_id = $this->input->get('id');
-      // var_dump($voucher_id);  
       $data = $this->db->select('transaction.id, transaction.date, transaction.ledger_id, transaction.voucher_id, transaction.description, transaction.voucher_type, transaction.debit, transaction.credit, transaction.ledger_id, acc_ledger.name as ledger_name')
-                      ->where('transaction.voucher_id', $voucher_id)
+                      ->where(['transaction.voucher_id' => $voucher_id, 'transaction.ledger_id !=' => 1])
                       ->join('acc_ledger', 'acc_ledger.ledger_id = transaction.ledger_id')
                       ->get('transaction');
 
-      $voucher_type = [$this->config->item('cash_payment') => 'cash payment', $this->config->item('cash_receipt') => 'cash receipt', $this->config->item('bank_payment') => 'bank payment', $this->config->item('bank_receipt') => 'bank receipt' ];
       if ($data->num_rows() > 0) {
         foreach ($data->result() as $key => $value) {
-          $info[$key]['voucher_type'] =  $voucher_type[$value->voucher_type]; 
+          $info[$key]['voucher_type'] =  $value->voucher_type; 
           $info[$key]['description'] = $value->description; 
           $info[$key]['credit'] = $value->credit; 
           $info[$key]['debit'] = $value->debit; 

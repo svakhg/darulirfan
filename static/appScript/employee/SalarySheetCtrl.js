@@ -111,7 +111,7 @@ $scope.mainGridOptions = {
                         year: {editable: false},
                         status: {editable: false},
                         amount: {type: "number", validation: {required: true}},
-                        remarks: {type: "string", validation: {required: true}},
+                        remarks: {type: "string", validation: {required: false}},
                         created_by: {editable: false},
                     }
                 },
@@ -141,7 +141,7 @@ $scope.mainGridOptions = {
         { field: "emp_id", title: "Employee ID", width: 120 },
         { field: "emp_name", title: "Employee Name", width: 120 },
         { field: "month", title: "Month", width: 120, template: function (dataItem) {
-                                return getMonth(dataItem.month);
+                                return get_month(dataItem.month);
                             } },
         { field: "year", title: "Year", width: 120 },
         { field: "status", title: "Status", template: function (dataItem) {
@@ -161,11 +161,4 @@ $scope.mainGridOptions = {
     }
   }
 
-  function getMonth(month) {
-    if (month == 1) {
-        return 'January'; 
-    } else if (month == 2) {
-        return 'February';
-    }
-  }
 };

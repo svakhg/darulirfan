@@ -28,6 +28,15 @@ function get_fees_name(id) {
 	}
 }
 
+function get_month(id) {
+	arr = data.month_info;
+	for (var idx = 0, length = arr.length; idx < length; idx++) {
+		if (parseInt(id) === parseInt(arr[idx].value)) {
+			return arr[idx].text; 
+		}
+	}
+}
+
 function get_std_type_name(id) {
 	arr = data.std_type;
 	for (var idx = 0, length = arr.length; idx < length; idx++) {

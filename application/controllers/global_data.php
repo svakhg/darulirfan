@@ -18,6 +18,8 @@ public function __construct() {
         $data['fee_type'] = $this->fee_type(); 
         $data['fees_category'] = $this->fees_category(); 
         $data['std_type'] = $this->std_type();
+        $data['month_info'] = $this->month_info();
+
     	echo json_encode($data);
     }
 
@@ -38,6 +40,11 @@ public function __construct() {
 
     function std_type() {
         $data = [['text' => 'All', 'value' => 1], ['text' => 'Residential', 'value' => 2], ['text' => 'Non-Residential', 'value' => 3]];
+        return $data;  
+    }
+
+    function month_info() {
+        $data = [['text' => 'January', 'value' => 1], ['text' => 'February', 'value' => 2], ['text' => 'March', 'value' => 3], ['text' => 'April', 'value' => 4], ['text' => 'May', 'value' => 5], ['text' => 'June', 'value' => 6], ['text' => 'July', 'value' => 7], ['text' => 'August', 'value' => 8], ['text' => 'September', 'value' => 9], ['text' => 'Octobar', 'value' => 10], ['text' => 'November', 'value' => 11], ['text' => 'December', 'value' => 12]];
         return $data;  
     }
 

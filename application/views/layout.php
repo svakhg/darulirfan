@@ -34,7 +34,8 @@
         <![endif]-->
 
         <script>
-            var BASE_URL = "<?php echo site_url(); ?>/";</script>
+            var BASE_URL = "<?php echo site_url(); ?>/";
+            var user_id = 5844</script>
 
     </head>
 
@@ -47,7 +48,7 @@
                     <hr style="border-color: #080707;" class="divider">
                     <div class="col-md-12">
                         <h5 class="pull-left">Date: __________</h5>
-                        <h5 class="pull-right">Ref.: __________</h5>
+                        <!-- <h5 class="pull-right">Ref.: __________</h5> -->
                     </div>
 
 
@@ -91,8 +92,15 @@
 
         <div class="visible-print-block">
             <div class="container">
-                <div class="row">
-                    <h5 class="text-center">Developed by Mehedi Hasan</h5>
+                
+                    
+                    <div class="col-md-12">
+                    <hr>
+                    <div class="row">
+                    <span class="text-center">Developed by Mehedi Hasan-01686489638</span>
+                        <!-- <span class="pull-left">Date:</span> -->
+                        <span class="pull-right">Printed By</span>
+                    </div>
                 </div>
             </div>
         </div>

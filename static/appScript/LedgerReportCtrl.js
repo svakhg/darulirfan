@@ -71,7 +71,7 @@ function LedgerReportCtrl($scope, $http) {
         autoBind: false,
         optionLabel: "Select Ledger...",
         dataTextField: "name",
-        dataValueField: "id",
+        dataValueField: "ledger_id",
         filter: "startswith",
         dataSource: {
             // serverFiltering: true,
