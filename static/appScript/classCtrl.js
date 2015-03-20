@@ -1,6 +1,7 @@
 
 function classCtrl($scope, $http){	
 	$scope.auth=getAuth();
+	console.log($scope.auth);
 	this.init($scope);	
 	
 	//Grid,dropdown data loading

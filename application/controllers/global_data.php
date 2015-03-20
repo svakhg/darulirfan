@@ -69,7 +69,7 @@ public function __construct() {
     }
 
     function acc_group() {
-        $data = $this->db->select('id, group_name as name')->get_where('acc_group', ['group_status' => 1])->result();
+        $data = $this->db->select('id as group_id, group_name as name')->get_where('acc_group', ['group_status' => 1])->result();
         echo json_encode($data);
     }
 
@@ -89,14 +89,16 @@ public function __construct() {
                 // $acc_group_type_id = acc_group_type_id($voucher_type_id)->acc_group_type_id;
                     // var_dump($acc_group_id); 
                     
-                    echo json_encode($this->db->select('ledger_id, name')
+
+                    echo json_encode($this->db->select('id, name, group_id')
                     ->where('group_id', $acc_group_id)
                     ->get('acc_ledger')
                     ->result());
             //}
         } 
         else {
-            echo json_encode($this->db->select('ledger_id, name, acc_group_type_id')->get('acc_ledger')->result());
+
+            echo json_encode($this->db->select('id, name, group_id')->get('acc_ledger')->result());
         }
     }
 

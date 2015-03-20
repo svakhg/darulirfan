@@ -11,6 +11,14 @@ class Std_report_ctrl extends base_ctrl {
         $this->load->model('std_report_model', 'model');
     }
 
+public function testReports() {
+
+        $data['targetPage'] = $this->load->view('std_fee_report_view', '', true);
+
+        $this->load->view('reports/print_view', $data);
+
+    }
+
     function process() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             header('Content-Type: application/json');
@@ -48,8 +56,17 @@ class Std_report_ctrl extends base_ctrl {
     }
 
     public function index() {
-        $this->load->view('std_fee_report_view');
-    }
+
+        if($this->is_authentic($this->auth->RoleId, $this->user->UserId, 'class')){
+            $data['fx']='return '.json_encode(array("insert"=>$this->auth->IsInsert==="1","update"=>$this->auth->IsUpdate==="1","delete"=>$this->auth->IsDelete==="1"));
+            $data['read']=$this->auth->IsRead;
+        $this->load->view('std_fee_report_view', $data);
+        }
+        else
+        {
+            $this->load->view('forbidden');
+        }
+        }
 
     public function process_student() {
         $result = json_decode(file_get_contents('php://input'));

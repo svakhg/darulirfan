@@ -29,6 +29,7 @@ angular.module('project', ['googlechart', 'ui.bootstrap', 'ngGrid', 'kendo.direc
                     when('/transaction', {templateUrl: BASE_URL + 'transaction_ctrl'}).
                     when('/Users', {templateUrl: BASE_URL + 'Users_ctrl'}).
                     when('/student', {templateUrl: BASE_URL + 'std_report_ctrl'}).
+                    when('/student/report', {templateUrl: BASE_URL + 'std_report_ctrl/testReports'}).
                     when('/std_report_kendo', {templateUrl: BASE_URL + 'std_report_kendo_ctrl'}).
                     when('/generate_std_fees', {templateUrl: BASE_URL + 'generate_std_fees'}).
                     when('/voucher', {templateUrl: BASE_URL + 'voucher_ctrl'}).

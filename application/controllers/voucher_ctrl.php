@@ -37,6 +37,7 @@ public function __construct() {
       header('Content-Type: application/json');
       $data = json_decode(file_get_contents('php://input'));
       $result = (array) $data; 
+      // var_dump($result); exit; 
       //thos configuration should come from config item
       $cash_in_hand = $this->config->item('cash_in_hand'); 
 
@@ -46,11 +47,10 @@ public function __construct() {
       $bank_receipt = $this->config->item('bank_receipt'); 
       $journal_voucher = $this->config->item('journal_voucher');
 
-      $result['voucher_type'] = (int) $data->voucher_type;
+      // $result['voucher_type'] = (int) $data->voucher_type;
       $is_valid = GUMP::is_valid($result, array(
           'voucher_type' => 'required',
-          'ledger_id' => 'required',
-          'amount' => 'required'
+          'invoice_items' => 'required'
       ));
 
 //      [{"id":"1","name":"Cash Payment"},
@@ -59,6 +59,11 @@ public function __construct() {
       // {"id":"4","name":"Bank Receipt"},
       // {"id":"5","name":"Journal Voucher"}]
       if($is_valid === true) {
+        foreach ($result['invoice_items'] as $value) {
+          var_dump($value->description); 
+          # code...
+        }
+        exit; 
         $feedback = ['status' => 'error', 'message' => "Dont try to be so smart, Please give me valid data"];
         $voucher_id = random_string('numeric', 6);
           if ($result['voucher_type'] === $cash_payment) {
