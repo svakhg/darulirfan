@@ -31,11 +31,12 @@ class Ledger_report_ctrl extends base_ctrl {
           'enddate' => 'required'
       ));
       if($is_valid === true) {
-        // var_dump($result['ledger_id']); exit; 
-        $data = $this->db->select('*')
+        $query = $this->db->select('*')
                     ->where('ledger_id', $result['ledger_id'])
-                    ->get('transaction')->result();
-        $debit_total = 0;
+                    ->get('transaction');
+        if ($query->num_rows() > 0) {
+          $data = $query->result();
+          $debit_total = 0;
         $credit_total = 0;
         foreach($data as $row) {
             $debit = $row->debit;
@@ -44,6 +45,13 @@ class Ledger_report_ctrl extends base_ctrl {
             $debit_total += $debit;
             $credit_total += $credit;
         }
+
+        } else {
+          $data = null; 
+          $debit_total = null; 
+          $credit_total = null; 
+        }
+        
         $info = ['status' => 'success', 'message' => 'operation successful', 'data' => $data, 'debit_total' => $debit_total, 'credit_total' => $credit_total];
         echo json_encode($info);
       }  else {
