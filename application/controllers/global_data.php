@@ -19,7 +19,7 @@ public function __construct() {
         $data['class_info'] = $this->class_info();
         $data['fee_type'] = $this->fee_type();
         //pls uncomment this fees category
-        // $data['fees_category'] = $this->fees_category(); 
+        $data['fees_category'] = $this->fees_category(); 
         $data['std_type'] = $this->std_type();
         $data['month_info'] = $this->month_info();
         $data['designation'] = $this->designation();
