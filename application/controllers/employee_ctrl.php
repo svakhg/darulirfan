@@ -96,8 +96,7 @@ class Employee_ctrl extends base_ctrl {
             echo json_encode($row);
            }
         }
-    }
-
+    
     public function salary_sheet() {
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -213,31 +212,19 @@ class Employee_ctrl extends base_ctrl {
         <script type="text/javascript"> toastr.'
                     . 'error'
                     . '("'
-                    . 'Please Give a Student ID'
+                    . 'Please Give a Employee ID'
                     . '");'
                     . ' </script>
 ';
             echo $msg;
         }
-        $info = $this->model->get_single_student($id);
+        $info = $this->model->get_single_emp($id);
         $info->gender = ($info->gender == 1) ? "Male" : "Female";
 
         $info->residential_status = ($info->residential_status == 1) ? "Yes" : "No";
-        $info->status = ($info->status == 1) ? "Current Student" : "Previous/Old Student";
-
-        $arr = $this->model->get_fees($id);
-        $subArr = [];
-        foreach ($arr as $key => $value) {
-            $subArr[$key]['name'] = $value->name;
-            $subArr[$key]['amount'] = (int) $value->amount;
-            $subArr[$key]['created'] = $value->created;
-            $subArr[$key]['isSelected'] = (bool) false;
-        }
-        $data['fees'] = $subArr;
-        $data['student'] = $info;
-        $data['total'] = $this->model->get_total_fees($id);
-
-
+        $info->status = ($info->status == 1) ? "Current Employee" : "Previous/Old Employee";
+       
+        $data['employee'] = $info;
         echo json_encode($data);
     }
 

@@ -1,4 +1,4 @@
-<script src="static/appScript/employee/EmployeeEditCtrl.js"></script>
+<!-- <script src="static/appScript/employee/EmployeeEditCtrl.js"></script>
 <div ng-controller = "EmployeeEditCtrl">
     <form kendo-validator="validator" ng-submit="processEmployee(employee)">
         <div class="well clearfix">
@@ -106,7 +106,7 @@
         </div>
 
     </form>
-</div>
+</div> -->
 
  <script src="static/appScript/employee/EmployeeEditCtrl.js"></script>
  <div ng-controller = "EmployeeEditCtrl">

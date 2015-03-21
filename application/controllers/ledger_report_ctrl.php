@@ -24,6 +24,8 @@ class Ledger_report_ctrl extends base_ctrl {
   function show_ledger() {
     header('Content-Type: application/json');
     $data = json_decode(file_get_contents('php://input'));
+          // var_dump($data); exit; 
+    
     $result = (array) $data;
     $is_valid = GUMP::is_valid($result, array(
           'startdate' => 'required',
@@ -36,6 +38,7 @@ class Ledger_report_ctrl extends base_ctrl {
                     ->get('transaction');
         if ($query->num_rows() > 0) {
           $data = $query->result();
+          // var_dump($data); exit; 
           $debit_total = 0;
         $credit_total = 0;
         foreach($data as $row) {

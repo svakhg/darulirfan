@@ -22,6 +22,16 @@
                 }
             }
         }
+
+         $scope.get_ledger_name = function (ledger_id) {
+            arr = data.ledger_info;
+ 
+            for (var idx = 0, length = arr.length; idx < length; idx++) {
+                if (ledger_id === arr[idx].value) {
+                    return arr[idx].text;
+                }
+            }
+        }
     }
 </script>
 <div class="row">
@@ -55,7 +65,7 @@
             <tr ng-repeat="data in datas">
                    <!--  <td>{{data.date}}</td>
                    <td>{{data.voucher_type}}</td> -->
-                   <td><a href="#/ledger_report/view/{{data.ledger_id}}">{{data.ledger_name}}</a></td>
+                   <td><a href="#/ledger_report/view/{{data.ledger_id}}">{{get_ledger_name(data.ledger_id)}}</a></td>
                    <td>{{data.description}}</td>
                    <td>{{data.debit}}</td>
                    <td>{{data.credit}}</td>

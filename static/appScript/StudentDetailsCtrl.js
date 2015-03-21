@@ -1,5 +1,5 @@
 
-function StudentDetailsCtrl($scope, $http, $location) {
+function StudentDetailsCtrl($scope, $http, $location, progressbar) {
     var url = document.URL;
     $scope.student_id = url.substring(url.lastIndexOf('/') + 1);
 
@@ -12,9 +12,11 @@ function StudentDetailsCtrl($scope, $http, $location) {
   })
   .error(function () {
          progressbar.reset();
-
     console.log("error");
   });
+
+  console.log(all_data);
+  return;
   response = JSON.parse(all_data.responseText); 
 
     $scope.student = response.student;

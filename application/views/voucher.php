@@ -1,6 +1,6 @@
 <script src="static/appScript/VoucherCtrl.js"></script>
 
-<div class="container" ng-controller="VoucherCtrl">
+<!-- <div class="container" ng-controller="VoucherCtrl">
     <div id="tickets">
 
         <form kendo-validator="validator" ng-submit="saveVoucher(voucher)" class="k-content">
@@ -10,8 +10,7 @@
                 <li>
                     <label for="voucher_type" class="required">Voucher Type</label>
                     <!-- <input id="voucher_type" ng-model = "voucher.voucher_type" style="width: 200px" /> 
-                    -->
-                    <input ng-model = "voucher.voucher_type" id="voucher_type" name="voucher_type" required style="width: 200px;" /> 
+                            <input ng-model = "voucher.voucher_type" id="voucher_type" name="voucher_type" required style="width: 200px;" /> 
                     <span class="k-invalid-msg" data-for="voucher_type"></span>
                 </li>
                 <li>
@@ -28,7 +27,7 @@
                     <label for="description">Description</label>
                     <textarea name="description" ng-model = "voucher.description" class="k-textbox" required style="width: 200px"></textarea>
                     <!-- <textarea  kendo-textarea style="width: 200px"></textarea>
-                    -->
+               
                     <span class="k-invalid-msg" data-for="description"></span>
                 </li>
                 <li>
@@ -41,7 +40,7 @@
                 <input type="checkbox" name="Accept" required validationMessage="Acceptance is required" /> 
                 I accept the terms of service
             </li>
-                -->
+            
                 <li>
                     <button class="btn btn-large btn-success" type="submit">Save Voucher</button>
                     <a ng-click = "cancelVoucher()" class="btn btn-large btn-danger">Cancel Voucher</a>
@@ -49,7 +48,7 @@
             </ul>
         </form>
     </div>
-</div>
+</div> -->
 
 
  <div class="container" ng-controller="VoucherCtrl">

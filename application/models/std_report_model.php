@@ -23,7 +23,7 @@ class std_report_model extends CI_Model {
         $this->db->where(['id' => $data['id']])
                 ->update('student', $data);
         return $this->db->insert_id();
-
+}
     public function get_all() {
         $query = $this->db->select('*')
         ->from('std_fee_report')
