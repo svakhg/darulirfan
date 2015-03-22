@@ -146,9 +146,10 @@ public function testReports() {
               $debit[$key]['date'] = date ("Y-m-d");
               $debit[$key]['user_ip'] = $this->input->ip_address();
               $debit[$key]['created_by'] = $this->session->userdata('user')->UserId; 
-//              
-              $this->db->insert_batch('transaction', $debit); 
-
+//            
+              // var_dump($debit); exit; 
+              $this->db->insert_batch('transaction', $debit[$key]); 
+              exit; 
               $credit[$key]['ledger_id'] = (string) $student_id;
               $credit[$key]['description'] = (string) $student_id . '- ' .  $value->name . ' (' . $value->id . ')'; 
               $credit[$key]['voucher_type'] = (int) $this->config->item('cash_receipt');
@@ -159,12 +160,15 @@ public function testReports() {
               $credit[$key]['user_ip'] = $this->input->ip_address();
               $credit[$key]['created_by'] = $this->session->userdata('user')->UserId;
 
-//              $this->db->insert('transaction', $credit[$key]); 
+             $this->db->insert_batch('transaction', $credit[$key]); 
               
 //              $this->db->where('id' => )
             }
-            var_dump($debit);
-            var_dump($credit);
+            $res['status'] = 'success'; 
+            $res['message'] = "Insert Successfully"; 
+            echo json_encode($res);
+            // var_dump($debit);
+            // var_dump($credit);
 //            exit; 
         } else {
             $err = error_process($is_valid);

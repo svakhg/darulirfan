@@ -96,7 +96,7 @@ class Employee_ctrl extends base_ctrl {
             echo json_encode($row);
            }
         }
-    
+}
     public function salary_sheet() {
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {

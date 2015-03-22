@@ -44,10 +44,12 @@
 </script>
 
 <div class="row">
-<div class="container" ng-controller="home_viewCtrl">
+
+<div class="container" ng-controller="HomeView_ctrl">
 <div class="well">
 <strong>Welcome to DIHM Information System</strong> <span class="pull-right">by Mehedi Hasan 	</span>
 </div>
+
 <div google-chart chart="chartObject" style="height:600px; width:100%;"></div>
 
 </div>
