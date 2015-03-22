@@ -23,6 +23,7 @@ class std_report_model extends CI_Model {
         $this->db->where(['id' => $data['id']])
                 ->update('student', $data);
         return $this->db->insert_id();
+    }
 
     public function get_all() {
         $query = $this->db->select('*')
@@ -53,19 +54,17 @@ class std_report_model extends CI_Model {
     }
 
 
-    public function get_fees($id) {
-
-        $query = $this->db->select('student.std_id as student_id, std_fee_report.id, std_fee_report.amount, std_fee_report.created, acc_ledger.id as acc_ledger_id, acc_ledger.name')
+   public function get_fees($id) {
+        $query = $this->db->select('student.std_id as student_id, std_fee_report.id, std_fee_report.payable_amount, std_fee_report.concession_amount, std_fee_report.amount, std_fee_report.month, std_fee_report.year, std_fee_report.created, fees_category.id as fee_category_id, fees_category.fee_category')
         ->from('std_fee_report')
         ->where(['std_fee_report.std_id' => $id, 'std_fee_report.is_active' => 1])
         ->join('student', 'std_fee_report.std_id = student.std_id')
-        ->join('acc_ledger', 'acc_ledger.id = std_fee_report.fee_category_id')
+        ->join('fees_category', 'fees_category.id = std_fee_report.fee_category_id')
         ->get();
-
         if ($query->num_rows() > 0) {
-            return $query->result();
+        return $query->result();
         } else {
-            return false;
+        return false;
         }
     }
 

@@ -9,11 +9,7 @@ function LedgerReportCtrl($scope, $http,progressbar,$timeout){
 	 
 	$scope.show_ledger_div = false;
 	
-	function startChange() {
-		var startDate = start.value(),
-		endDate = end.value();
 
-    $scope.show_ledger_div = false;
     function startChange() {
         var startDate = start.value(),
                 endDate = end.value();
@@ -97,34 +93,7 @@ function LedgerReportCtrl($scope, $http,progressbar,$timeout){
         }
     }).data("kendoDropDownList");
 
-		var url = document.URL;
-        var ledger_id_url = url.substring(url.lastIndexOf('/') + 1);
-        // console.log(ledger_id); 
-        if (ledger_id_url !== "ledger_report") {
-        	 progressbar.start();
-        	$scope.data = {startdate : start.value(), enddate: end.value(), ledger_id: ledger_id_url};
-				$http.post(baseurl + "ledger_report_ctrl/show_ledger", $scope.data)
-				.success(function (response){
-					if (response.status == 'success') {
-						ledger_id.value(ledger_id_url);
-						$scope.show_ledger_div = true; 
-						$scope.datas = response.data; 
-						$scope.debit_total = response.debit_total;
-						$scope.credit_total = response.credit_total;
-						 progressbar.complete();
 
-						toastr.success(response.message);
-					} else {
-						$scope.show_ledger_div = false; 
-						 progressbar.reset();
-						toastr.error(response.message);
-					}
-					}).error(function (data){
-						 progressbar.reset();
-
-						console.log(data);
-					});
-				}
 
     var url = document.URL;
     var ledger_id_url = url.substring(url.lastIndexOf('/') + 1);

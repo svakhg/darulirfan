@@ -43,6 +43,7 @@
 <div class="row">
       <div class="container" ng-controller="HomeView_ctrl">
       <h1>WElcome to hell</h1>
+      
 <div google-chart chart="chartObject" style="height:600px; width:100%;"></div>
 
       </div>
