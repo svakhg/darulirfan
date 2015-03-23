@@ -147,8 +147,8 @@ public function testReports() {
               $debit[$key]['user_ip'] = $this->input->ip_address();
               $debit[$key]['created_by'] = $this->session->userdata('user')->UserId; 
 //            
-              // var_dump($debit); exit; 
-              $this->db->insert_batch('transaction', $debit[$key]); 
+              // var_dump($debit[$key]); exit; 
+              $this->db->insert('transaction', $debit[$key]); 
               exit; 
               $credit[$key]['ledger_id'] = (string) $student_id;
               $credit[$key]['description'] = (string) $student_id . '- ' .  $value->name . ' (' . $value->id . ')'; 
@@ -160,7 +160,7 @@ public function testReports() {
               $credit[$key]['user_ip'] = $this->input->ip_address();
               $credit[$key]['created_by'] = $this->session->userdata('user')->UserId;
 
-             $this->db->insert_batch('transaction', $credit[$key]); 
+             $this->db->insert('transaction', $credit[$key]); 
               
 //              $this->db->where('id' => )
             }

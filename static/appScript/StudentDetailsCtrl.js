@@ -15,8 +15,7 @@ function StudentDetailsCtrl($scope, $http, $location, progressbar) {
     console.log("error");
   });
 
-  console.log(all_data);
-  return;
+
   response = JSON.parse(all_data.responseText); 
 
     $scope.student = response.student;
