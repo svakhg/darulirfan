@@ -1,7 +1,7 @@
 
 function StudentEditCtrl($scope, $http, $location, $timeout,progressbar){
          progressbar.start();
-
+          $scope.std_type = "previous";
 	$scope.student = {};
 
         var url = document.URL;
@@ -32,9 +32,9 @@ function StudentEditCtrl($scope, $http, $location, $timeout,progressbar){
         $scope.processStudent = function (student) {
         	if ($scope.validator.validate()) {
         		if (student.id) {
-        			angular.extend(student, {duty_type: 'update'});
+        			angular.extend(student, {duty_type: 'update', std_type: $scope.std_type});
         		} else {
-        			angular.extend(student, {duty_type: 'save'});
+        			angular.extend(student, {duty_type: 'save', std_type: $scope.std_type});
         		}
         		$http.post(baseurl + "std_report_ctrl/process_student", student)
         		.success(function (data) {

@@ -7,6 +7,8 @@ class std_report_model extends CI_Model {
 
     public function add($data) {
         unset($data['duty_type']);
+        unset($data['std_type']);
+
         $ledger['ledger_id'] = $data['std_id']; 
         $ledger['name'] = $data['std_name']; 
         $ledger['group_id'] = 7;//student fees 
@@ -20,6 +22,8 @@ class std_report_model extends CI_Model {
 
     public function update($data) {
         unset($data['duty_type']);
+        unset($data['std_type']);
+        
         $this->db->where(['id' => $data['id']])
                 ->update('student', $data);
         return $this->db->insert_id();

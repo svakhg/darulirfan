@@ -75,20 +75,28 @@ public function testReports() {
 
           'gender' => 'required',
           'residential_status' => 'required',
+          'std_type' => 'required',
+
           'class_id' => 'required'
           ));
         if($is_valid === true) {
             $status = 'error';
             $msg = 'You are not permitted.';
             $id = 0;
-            if ($this->model->check_duplicate_roll($info)) {
-                echo json_encode(array('status' => $status, 'message' => "Roll no duplicate, try with another roll no", 'id' => $id));
-                exit; 
-            }
+            // need to implement is duplicate check
+            // var_dump($info); exit; 
+            // if ($this->model->check_duplicate_roll($info)) {
+            //     echo json_encode(array('status' => $status, 'message' => "Roll no duplicate, try with another roll no", 'id' => $id));
+            //     exit; 
+            // }
             if ($info['duty_type'] === 'save') {
                 if ($this->auth->IsInsert) {
                     $this->load->library('generate');
+                    if ($info['std_type'] === "previous") {
+                    $student_id = $info['std_id']; 
+                    } else {
                     $student_id = $this->generate->student_id($info['gender']);
+                    }
                     $info['std_id'] = $student_id;
                     $info['user_id'] = $this->session->userdata('user')->UserId;
                     $id = $this->model->add($info);

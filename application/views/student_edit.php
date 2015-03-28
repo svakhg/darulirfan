@@ -6,6 +6,12 @@
                  <fieldset>
                      <legend>Basic Information</legend>
                      <div class="form-group">
+                         <label class="control-label col-sm-4"for="name">Student ID</label>
+                         <div class="col-md-6">
+                             <input type="text" ng-model="student.std_id" name="Student_ID" class="k-textbox" required placeholder="" /> 
+                         </div>
+                     </div>
+                     <div class="form-group">
                          <label class="control-label col-sm-4"for="name">Student Name</label>
                          <div class="col-md-6">
                              <input type="text" ng-model="student.std_name" name="Student_Name" class="k-textbox" required placeholder="" /> 
