@@ -41,7 +41,7 @@ function StudentListCtrl($scope, $http, $location,progressbar, $timeout){
 
                     },
                     height: 550,
-                    groupable: true,
+                    // groupable: true,
                     filterable: {
                         mode: "row"
                     },

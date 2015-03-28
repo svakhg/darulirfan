@@ -216,9 +216,16 @@
        <div class="form-group">
            <label class="control-label col-sm-4"for="salary_amount">Salary Amount</label>
            <div class="col-md-6">
-               <input type="text" ng-model="employee.salary_amount" class="k-textbox" placeholder="" /> 
+               <input type="text" ng-model="employee.salary_amount" class="k-textbox" placeholder="" required name="Salary Amount" /> 
            </div>
        </div>
+       <div class="form-group">
+           <label class="control-label col-sm-4"for="national_id">National ID</label>
+           <div class="col-md-6">
+               <input type="text" ng-model="employee.national_id" class="k-textbox" placeholder="" name="national_id" /> 
+           </div>
+       </div>
+
    </fieldset>
 </div>
 <input class="btn btn-success" type="submit" value="Save Employee" /> 

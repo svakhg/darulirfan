@@ -57,7 +57,7 @@ class Employee_ctrl extends base_ctrl {
         $is_valid = GUMP::is_valid($info, array(
                     'designation' => 'required',
                     'salary_amount' => 'required',
-                    'status' => 'required',
+                    // 'status' => 'required',
                     'gender' => 'required'
         ));
         if ($is_valid === true) {

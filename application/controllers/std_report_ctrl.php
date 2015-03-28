@@ -57,7 +57,7 @@ public function testReports() {
 
     public function index() {
 
-        if($this->is_authentic($this->auth->RoleId, $this->user->UserId, 'class')){
+        if($this->is_authentic($this->auth->RoleId, $this->user->UserId, 'student')){
             $data['fx']='return '.json_encode(array("insert"=>$this->auth->IsInsert==="1","update"=>$this->auth->IsUpdate==="1","delete"=>$this->auth->IsDelete==="1"));
             $data['read']=$this->auth->IsRead;
         $this->load->view('std_fee_report_view', $data);

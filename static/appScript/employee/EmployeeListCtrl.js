@@ -37,7 +37,7 @@ function EmployeeListCtrl($scope, $http, $location){
 
                     },
                     height: 550,
-                    groupable: true,
+                    // groupable: true,
                     filterable: {
                         mode: "row"
                     },
