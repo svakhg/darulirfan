@@ -1,3 +1,4 @@
+'use strict';
 var module = angular.module('ngProgress', []);
 
 module.provider('progressbar', function() {

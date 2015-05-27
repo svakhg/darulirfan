@@ -126,8 +126,7 @@ Selectize theme
 -->
 <!-- <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.8.5/css/selectize.bootstrap3.css">
 -->
-<!-- <script src="static/js/angular-datatables.min.js"></script>
--->
+<!-- <script src="static/js/angular-datatables.min.js"></script>-->
 <script src="static/js/angular.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.8/angular-route.min.js"></script>
 
