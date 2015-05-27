@@ -36,13 +36,30 @@
 
                     <td>{{ $index + 1 }}</td>
                     <td>
-                        <select id="ledger_id" kendo-drop-down-list="designationDropdown" ng-model="item.ledger_id"
+                       <!-- <select id="ledger_id" kendo-drop-down-list="designationDropdown" ng-model="item.ledger_id"
                                 k-data-text-field="'name'"
                                 k-data-value-field="'id'"
                                 k-cascade-from="'acc_group_id'"
                                 k-option-label="'Please select'"
                                 k-data-source="designationDataSource">
-                        </select>
+                        </select> -->
+
+                    <select id="ledger_id" kendo-drop-down-list="designationDropdown" ng-model="item.ledger_id"
+                          k-data-text-field="'name'"
+                          k-data-value-field="'id'"
+                          k-cascade-from="'voucher_type'"
+                          k-option-label="'Please select'"
+                          k-data-source="designationDataSource">
+                      </select>
+
+<!-- cascadeFrom: "acc_group_id", -->
+                       <!-- <input ng-model = "item.ledger_id" name="ledger_id" id="ledger_id" name="Account Ledger" required style="width: 200px" />  -->
+
+                        <!-- <input ng-model="item.name" placeholder="Description"></td> -->
+                        <td>
+                           <textarea name="description" ng-model = "item.description" class="k-textbox" required style="width: 200px"></textarea>
+                            
+                        </td>
                     <td>
                         <textarea name="description" ng-model="item.description" class="k-textbox" required
                                   style="width: 200px"></textarea>
