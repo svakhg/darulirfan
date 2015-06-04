@@ -3,15 +3,18 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 require_once('./application/libraries/base_ctrl.php');
 
-class Std_report_ctrl extends base_ctrl {
+class Std_report_ctrl extends base_ctrl
+{
 
-    function __construct() {
+    function __construct()
+    {
         parent::__construct();
         $this->load->helper('utility_helper');
         $this->load->model('std_report_model', 'model');
     }
 
-public function testReports() {
+    public function testReports()
+    {
 
         $data['targetPage'] = $this->load->view('std_fee_report_view', '', true);
 
@@ -19,7 +22,8 @@ public function testReports() {
 
     }
 
-    function process() {
+    function process()
+    {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             header('Content-Type: application/json');
 
@@ -41,45 +45,48 @@ public function testReports() {
         }
     }
 
-    public function single_student() {
+    public function single_student()
+    {
         $student_id = $this->input->get('id');
         $data = $this->model->get_single_student($student_id);
         echo json_encode($data);
     }
 
-    public function edit() {
+    public function edit()
+    {
         $this->load->view('student_edit');
     }
 
-    public function add() {
+    public function add()
+    {
         $this->load->view('student_edit');
     }
 
-    public function index() {
+    public function index()
+    {
 
-        if($this->is_authentic($this->auth->RoleId, $this->user->UserId, 'student')){
-            $data['fx']='return '.json_encode(array("insert"=>$this->auth->IsInsert==="1","update"=>$this->auth->IsUpdate==="1","delete"=>$this->auth->IsDelete==="1"));
-            $data['read']=$this->auth->IsRead;
-        $this->load->view('std_fee_report_view', $data);
-        }
-        else
-        {
+        if ($this->is_authentic($this->auth->RoleId, $this->user->UserId, 'student')) {
+            $data['fx'] = 'return ' . json_encode(array("insert" => $this->auth->IsInsert === "1", "update" => $this->auth->IsUpdate === "1", "delete" => $this->auth->IsDelete === "1"));
+            $data['read'] = $this->auth->IsRead;
+            $this->load->view('std_fee_report_view', $data);
+        } else {
             $this->load->view('forbidden');
         }
-        }
+    }
 
-    public function process_student() {
+    public function process_student()
+    {
         $result = json_decode(file_get_contents('php://input'));
-        $info = (array) $result;
+        $info = (array)$result;
         $is_valid = GUMP::is_valid($info, array(
 
-          'gender' => 'required',
-          'residential_status' => 'required',
-          'std_type' => 'required',
+            'gender' => 'required',
+            'residential_status' => 'required',
+            'std_type' => 'required',
 
-          'class_id' => 'required'
-          ));
-        if($is_valid === true) {
+            'class_id' => 'required'
+        ));
+        if ($is_valid === true) {
             $status = 'error';
             $msg = 'You are not permitted.';
             $id = 0;
@@ -93,9 +100,9 @@ public function testReports() {
                 if ($this->auth->IsInsert) {
                     $this->load->library('generate');
                     if ($info['std_type'] === "previous") {
-                    $student_id = $info['std_id']; 
+                        $student_id = $info['std_id'];
                     } else {
-                    $student_id = $this->generate->student_id($info['gender']);
+                        $student_id = $this->generate->student_id($info['gender']);
                     }
                     $info['std_id'] = $student_id;
                     $info['user_id'] = $this->session->userdata('user')->UserId;
@@ -121,14 +128,34 @@ public function testReports() {
         }
     }
 
-    public function process_fees() {
+    public function process_fees()
+    {
+//        $want = 4;
+//        $arr = [1,2,4,5,6,1,2,4,3,5,7,2,1];
+//        sort($arr);
+//        $result = array();
+//        for ($j = 0; $j < count($arr); $j++)
+//            for ($n = 0; $n < count($arr); $n++) {
+//                $part = array_slice($arr, $j, $n + 1);
+//// var_dump($part);echo '<br>';
+//                $sum = array_sum($part);
+//// echo $sum.'<br>';
+//                if (in_array($want - $sum, $arr) && in_array($want - $sum, array_diff_assoc($arr, $part))) {
+//                    array_push($part, ($want - $sum));
+//                    sort($part);
+//                    $result [] = implode(',', $part);
+//                }
+//            }
+//        foreach (array_unique($result) as $value) {
+//            echo $value . '<br>';
+//        }
+//
+//        exit;
         $result = json_decode(file_get_contents('php://input'));
-        $info = (array) $result;
-//        var_dump($info); exit; 
+        $info = (array)$result;
         $is_valid = GUMP::is_valid($info, array(
-//                    'discount' => 'required',
-                    'items' => 'required',
-                    'student_id' => 'required'
+            'items' => 'required',
+            'student_id' => 'required'
         ));
         if ($is_valid === true) {
             $sum = array();
@@ -138,46 +165,55 @@ public function testReports() {
             $total = array_sum($sum);
             $data['total'] = $total;
             $student_id = $info['student_id'];
-//            $data['grand_total'] = $info['grand_total'];
             $fees = $info['items'];
-//            var_dump($data['fees']); exit; 
-            //it should be randomize inputform codeigniter 
-            $voucher_id = (int) date('dhms'); 
-            
-            foreach ($fees as $value) {
-              $debit[$key]['ledger_id'] = $this->config->item('cash_in_hand'); //1 = cash in hand
-              $debit[$key]['description'] = (string) $student_id . '- ' . $value->name . ' (' . $value->id . ')'; 
-              $debit[$key]['voucher_type'] = $this->config->item('cash_receipt');
-              $debit[$key]['acc_group_id'] = (int) acc_group_id($student_id)->acc_group_id; 
-              $debit[$key]['voucher_id'] = $voucher_id; 
-              $debit[$key]['debit'] = $value->payable_amount - $value->concession_amount;
-              $debit[$key]['date'] = date ("Y-m-d");
-              $debit[$key]['user_ip'] = $this->input->ip_address();
-              $debit[$key]['created_by'] = $this->session->userdata('user')->UserId; 
-//            
-              // var_dump($debit[$key]); exit; 
-              $this->db->insert('transaction', $debit[$key]); 
-              exit; 
-              $credit[$key]['ledger_id'] = (string) $student_id;
-              $credit[$key]['description'] = (string) $student_id . '- ' .  $value->name . ' (' . $value->id . ')'; 
-              $credit[$key]['voucher_type'] = (int) $this->config->item('cash_receipt');
-              $credit[$key]['acc_group_id'] = (int) acc_group_id($student_id)->acc_group_id; 
-              $credit[$key]['voucher_id'] = $voucher_id; 
-              $credit[$key]['credit'] =  $value->payable_amount - $value->concession_amount;
-              $credit[$key]['date'] = date ("Y-m-d");
-              $credit[$key]['user_ip'] = $this->input->ip_address();
-              $credit[$key]['created_by'] = $this->session->userdata('user')->UserId;
+            //it should be randomize inputform codeigniter
+            $voucher_id = (int)date('dhms');
 
-             $this->db->insert('transaction', $credit[$key]); 
-              
-//              $this->db->where('id' => )
+            foreach ($fees as $value) {
+                $this->db->trans_start();
+                $debit[$key]['student_id'] = $student_id;
+                $debit[$key]['ledger_id'] = $this->config->item('cash_in_hand'); //1 = cash in hand
+                $debit[$key]['description'] = (string)$student_id . '- ' . $value->name . ' (' . $value->id . ')';
+                $debit[$key]['voucher_type'] = $this->config->item('cash_receipt');
+                $debit[$key]['acc_group_id'] = (int)acc_group_id($student_id)->acc_group_id;
+                $debit[$key]['voucher_id'] = $voucher_id;
+                $debit[$key]['debit'] = $value->payable_amount - $value->concession_amount;
+                $debit[$key]['date'] = date("Y-m-d");
+                $debit[$key]['user_ip'] = $this->input->ip_address();
+                $debit[$key]['created_by'] = $this->session->userdata('user')->UserId;
+
+                $this->db->insert('transaction', $debit[$key]);
+
+                $credit[$key]['student_id'] = $student_id;
+                $credit[$key]['ledger_id'] = (string)$student_id;
+                $credit[$key]['description'] = (string)$student_id . '- ' . $value->name . ' (' . $value->id . ')';
+                $credit[$key]['voucher_type'] = (int)$this->config->item('cash_receipt');
+                $credit[$key]['acc_group_id'] = (int)acc_group_id($student_id)->acc_group_id;
+                $credit[$key]['voucher_id'] = $voucher_id;
+                $credit[$key]['credit'] = $value->payable_amount - $value->concession_amount;
+                $credit[$key]['date'] = date("Y-m-d");
+                $credit[$key]['user_ip'] = $this->input->ip_address();
+                $credit[$key]['created_by'] = $this->session->userdata('user')->UserId;
+
+                $this->db->insert('transaction', $credit[$key]);
+                $std_fee_report = [
+                    'modified' => date("Y-m-d"),
+                    'concession_amount' => $value->concession_amount,
+                    'amount' => $value->payable_amount - $value->concession_amount,
+                    'is_active' => 0
+                ];
+                $this->db->where(['id' => $value->id])->update('std_fee_report', $std_fee_report);
+                $this->db->trans_complete();
             }
-            $res['status'] = 'success'; 
-            $res['message'] = "Insert Successfully"; 
-            echo json_encode($res);
-            // var_dump($debit);
-            // var_dump($credit);
-//            exit; 
+
+            if ($this->db->trans_status() === FALSE) {
+                $response = ['status' => "error", 'message' => "Data Insert Error, Try again or Contact with Programmer"];
+            } else {
+                $this->db->db_debug = TRUE;
+                $response = ['status' => "success", 'message' => "Student Fees Paid and saved Successfully"];
+            }
+
+            echo json_encode($response);
         } else {
             $err = error_process($is_valid);
             foreach ($err as $value) {
@@ -235,20 +271,22 @@ public function testReports() {
     //     }
     //     msg_display('Fees Payment Successfull', 'success');
 
-    public function details() {
+    public function details()
+    {
         $this->load->view('student_details');
     }
 
-    public function details_info() {
+    public function details_info()
+    {
         $id = $this->input->get('id');
         if (!$id) {
             $msg = '
             <script type="text/javascript"> toastr.'
-                    . 'error'
-                    . '("'
-                    . 'Please Give a Student ID'
-                    . '");'
-                    . ' </script>
+                . 'error'
+                . '("'
+                . 'Please Give a Student ID'
+                . '");'
+                . ' </script>
             ';
             echo $msg;
         }
@@ -264,9 +302,9 @@ public function testReports() {
             foreach ($arr as $key => $value) {
                 $subArr[$key]['id'] = $value->id;
                 $subArr[$key]['name'] = $value->fee_category . ', ' . $value->month . '- ' . $value->year;
-                $subArr[$key]['payable_amount'] = (int) $value->payable_amount;
-                $subArr[$key]['concession_amount'] = (int) $value->concession_amount;
-                $subArr[$key]['amount'] = (int) $value->amount;
+                $subArr[$key]['payable_amount'] = (int)$value->payable_amount;
+                $subArr[$key]['concession_amount'] = (int)$value->concession_amount;
+                $subArr[$key]['amount'] = (int)$value->amount;
                 $subArr[$key]['created'] = $value->created;
             }
             $data['fees'] = $subArr;
@@ -279,5 +317,3 @@ public function testReports() {
     }
 
 }
-
-?>

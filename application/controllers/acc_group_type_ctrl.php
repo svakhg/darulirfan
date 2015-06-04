@@ -65,7 +65,7 @@ class acc_group_type_ctrl extends base_ctrl {
 		print json_encode($this->model->get_all());
 	}
 	public function get_page()
-	{	
+	{
 		$data=$this->post();
 		print json_encode($this->model->get_page($data->size, $data->pageno));
 	}

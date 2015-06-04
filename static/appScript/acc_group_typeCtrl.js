@@ -64,11 +64,14 @@ function acc_group_typeCtrl($scope, $http) {
         var action = isSearch() ? 'get_page_where' : 'get_page', params = {size: pageSize, pageno: (currentPage - 1) * pageSize};
         angular.extend(params, $scope.search);
         loadData(action, params).success(function (res) {
+            console.log(res);
             $scope.list = res.data;
             $scope.totalItems = res.total
         });
     }
     function loadData(action, data) {
+        console.log(data);
+        console.log(action);
         return $http({
             method: 'POST',
             url: BASE_URL + 'acc_group_type_ctrl/' + action,

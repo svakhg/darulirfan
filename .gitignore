@@ -43,4 +43,6 @@ Network Trash Folder
 Temporary Items
 .apdisk
 /nbproject/private/
-/application/config/database-dist.php
+/application/config/database.php
+.idea
+.phpintel
